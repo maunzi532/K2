@@ -66,10 +66,10 @@ public class FloorMovementItem2 implements HexItem
 			{
 				//Land
 				if(res1.dAirState().fall < 0 && tile.type == MapTileType.FLOOR)
-					list.add(new LandingAction2(costTable));
+					list.add(new LandingAction2(costTable, false));
 				//Fall
 				else
-					list.add(new FallAction2(costTable, map, res1.dLocation(), res1.dAirState()));
+					list.add(new FallAction2(costTable, false, map, res1.dLocation(), res1.dAirState()));
 				//Airdash
 				if(res1.dAirState().canAirdash && (res1.dAirState().fall >= 0 || tile.type != MapTileType.FLOOR))
 				{

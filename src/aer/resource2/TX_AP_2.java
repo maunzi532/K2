@@ -3,12 +3,16 @@ package aer.resource2;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
+import aer.resource2.therathicTypes.*;
 import java.util.*;
 
-public class TX_AP_2 implements TherathicHex
+public class TX_AP_2 implements TherathicHex, EActionPoints
 {
 	private CostTable costTable;
 	private HexPather pather;
+	private int actionPoints;
+	private int movePoints;
+	private int reqFall;
 
 	public TX_AP_2(CostTable costTable)
 	{
@@ -46,7 +50,9 @@ public class TX_AP_2 implements TherathicHex
 	@Override
 	public void drawPhase()
 	{
-
+		actionPoints = 100;
+		movePoints = 100;
+		reqFall = 4;
 	}
 
 	@Override
@@ -71,5 +77,35 @@ public class TX_AP_2 implements TherathicHex
 	public NPC_Control npcControl()
 	{
 		return null;
+	}
+
+	@Override
+	public boolean useAP(int amount, boolean real)
+	{
+		boolean ok = actionPoints >= amount;
+		if(ok && real)
+			actionPoints -= amount;
+		return ok;
+	}
+
+	@Override
+	public boolean useMP(int amount, boolean real)
+	{
+		boolean ok = movePoints >= amount;
+		if(ok && real)
+			movePoints -= amount;
+		return ok;
+	}
+
+	@Override
+	public void drainAP(int amount)
+	{
+		actionPoints = Math.max(actionPoints - amount, 0);
+	}
+
+	@Override
+	public void drainMP(int amount)
+	{
+		movePoints = Math.max(movePoints - amount, 0);
 	}
 }

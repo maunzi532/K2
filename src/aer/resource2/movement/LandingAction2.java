@@ -4,15 +4,18 @@ import aer.*;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.resource2.interfaces.*;
+import aer.resource2.therathicTypes.*;
 import java.util.*;
 
 public class LandingAction2 implements TActionOther, IAirStateAction, IAPAction
 {
 	private final CostTable costs;
+	private final boolean forced;
 
-	public LandingAction2(CostTable costs)
+	public LandingAction2(CostTable costs, boolean forced)
 	{
 		this.costs = costs;
+		this.forced = forced;
 	}
 
 	@Override
@@ -60,6 +63,16 @@ public class LandingAction2 implements TActionOther, IAirStateAction, IAPAction
 	@Override
 	public boolean executeEnd(HexPather xec)
 	{
-		return false;
+		if(xec.getTherathicHex() instanceof EActionPoints)
+		{
+			EActionPoints eap = ((EActionPoints) xec.getTherathicHex());
+			if(forced)
+				eap.drainAPMP(this, this);
+			else if(eap.useAPMP(this, this, true))
+				return true;
+			xec.setAirState(AirState.FLOOR);
+			return false;
+		}
+		return true;
 	}
 }

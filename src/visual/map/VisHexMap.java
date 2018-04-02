@@ -76,6 +76,7 @@ public class VisHexMap extends VisualR<IHexMap>
 					}
 	}
 
+	//broken
 	public void lightThese(Collection<HexLocation> locations)
 	{
 		YHexoMeshT hexoMeshFloor1 = new YHexoMeshT(Scale.X_HEX_RADIUS * 0.9f, Scale.X_HEX_RADIUS * 0.8f,
@@ -86,8 +87,9 @@ public class VisHexMap extends VisualR<IHexMap>
 		matFloor1.setColor("Ambient", new ColorRGBA(1, 0, 1, 0.4f));
 		matFloor1.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
 		if(node.getChild("LightThese") != null)
-			((Node) node.getChild("LightThese")).detachAllChildren();
-		else
+			//((Node) node.getChild("LightThese")).detachAllChildren();
+			node.detachChild(node.getChild("LightThese"));
+		//else
 			node.attachChild(new Node("LightThese"));
 		Node lightThese = (Node) node.getChild("LightThese");
 		for(HexLocation loc : locations)

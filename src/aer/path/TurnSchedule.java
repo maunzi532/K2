@@ -137,6 +137,7 @@ public class TurnSchedule extends CommandLink
 	private void initEndPhase()
 	{
 		currentControlled = currentTeam;
+		currentControlled.get(0).setLoc(new HexLocation(3, 4, 0, 0));
 		npcControlled = 0;
 		playerControl = 0;
 		phase = TurnPhase.END;
@@ -212,7 +213,10 @@ public class TurnSchedule extends CommandLink
 			if(action1.executeEnd(currentActionPather))
 				endActionPath();
 			else
+			{
+				targets = null;
 				currentAction++;
+			}
 		}
 		else
 		{

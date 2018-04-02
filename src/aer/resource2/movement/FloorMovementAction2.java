@@ -4,6 +4,7 @@ import aer.*;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.resource2.interfaces.*;
+import aer.resource2.therathicTypes.*;
 import java.util.*;
 
 public class FloorMovementAction2 implements TActionLocation, IMovementAction, IAPAction
@@ -77,6 +78,13 @@ public class FloorMovementAction2 implements TActionLocation, IMovementAction, I
 	@Override
 	public boolean executeEnd(HexPather xec)
 	{
-		return false;
+		if(xec.getTherathicHex() instanceof EActionPoints &&
+				((EActionPoints) xec.getTherathicHex()).useAPMP(this, this, true))
+		{
+			xec.setDirection(mvDir);
+			xec.setLoc(end);
+			return false;
+		}
+		return true;
 	}
 }

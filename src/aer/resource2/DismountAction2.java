@@ -4,6 +4,7 @@ import aer.*;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.resource2.interfaces.*;
+import aer.resource2.therathicTypes.*;
 
 public class DismountAction2 implements TActionOther, IMountAction, IAPAction
 {
@@ -51,6 +52,13 @@ public class DismountAction2 implements TActionOther, IMountAction, IAPAction
 	@Override
 	public boolean executeEnd(HexPather xec)
 	{
-		return false;
+		if(xec.getTherathicHex() instanceof EActionPoints &&
+				((EActionPoints) xec.getTherathicHex()).useAPMP(this, this, true))
+		{
+			xec.setMount(null);
+			xec.setAirState(airState);
+			return false;
+		}
+		return true;
 	}
 }

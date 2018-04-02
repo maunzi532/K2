@@ -4,6 +4,7 @@ import aer.*;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.resource2.interfaces.*;
+import aer.resource2.therathicTypes.*;
 
 public class TurnAction2 implements TActionDirection, IDirectionAction, IMainAction, IAPAction
 {
@@ -45,6 +46,12 @@ public class TurnAction2 implements TActionDirection, IDirectionAction, IMainAct
 	@Override
 	public boolean executeEnd(HexPather xec)
 	{
-		return false;
+		if(xec.getTherathicHex() instanceof EActionPoints &&
+				((EActionPoints) xec.getTherathicHex()).useAPMP(this, this, true))
+		{
+			xec.setDirection(to);
+			return false;
+		}
+		return true;
 	}
 }

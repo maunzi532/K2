@@ -4,6 +4,7 @@ import aer.*;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.resource2.interfaces.*;
+import aer.resource2.therathicTypes.*;
 
 public class AirdashAction2 implements TActionLocation, IMovementAction, IAPAction
 {
@@ -71,6 +72,13 @@ public class AirdashAction2 implements TActionLocation, IMovementAction, IAPActi
 	@Override
 	public boolean executeEnd(HexPather xec)
 	{
-		return false;
+		if(xec.getTherathicHex() instanceof EActionPoints &&
+				((EActionPoints) xec.getTherathicHex()).useAPMP(this, this, true))
+		{
+			xec.setLoc(end2);
+			xec.setAirState(airState);
+			return false;
+		}
+		return true;
 	}
 }

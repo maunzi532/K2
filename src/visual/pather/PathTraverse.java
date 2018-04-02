@@ -33,6 +33,7 @@ public class PathTraverse
 		this.currentAction = currentAction;
 		if(currentAction.deducted instanceof RBasicData)
 			res1 = (RBasicData) currentAction.deducted;
+		updateChoiceOptions();
 	}
 
 	public PathAction exec(Input1 input1, HexLocation tLoc, HexObject tObject)
@@ -52,7 +53,7 @@ public class PathTraverse
 					loc = tLoc;
 					updateChoiceOptions();
 				}
-				else if(choiceNum >= 0)
+				else if(choiceNum >= 0 && choiceOptions != null && choiceOptions.size() > choiceNum)
 				{
 					pathIn((TakeableAction) choiceOptions.get(choiceNum));
 					updateChoiceOptions();

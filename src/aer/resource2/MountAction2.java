@@ -4,6 +4,7 @@ import aer.*;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.resource2.interfaces.*;
+import aer.resource2.therathicTypes.*;
 
 public class MountAction2 implements TActionObject, IMountAction, IAPAction, IMainAction
 {
@@ -70,6 +71,14 @@ public class MountAction2 implements TActionObject, IMountAction, IAPAction, IMa
 	@Override
 	public boolean executeEnd(HexPather xec)
 	{
-		return false;
+		if(xec.getTherathicHex() instanceof EActionPoints &&
+				((EActionPoints) xec.getTherathicHex()).useAPMP(this, this, true))
+		{
+			if(from != null)
+				xec.setDirection(mount.getDirection());
+			xec.setMount(mount);
+			return false;
+		}
+		return true;
 	}
 }

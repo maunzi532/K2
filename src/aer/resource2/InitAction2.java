@@ -3,6 +3,7 @@ package aer.resource2;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.resource2.interfaces.*;
+import aer.resource2.therathicTypes.*;
 
 public class InitAction2 implements TActionOther, IAPAction
 {
@@ -22,6 +23,7 @@ public class InitAction2 implements TActionOther, IAPAction
 	@Override
 	public boolean executeEnd(HexPather xec)
 	{
-		return false;
+		return !(xec.getTherathicHex() instanceof EActionPoints &&
+				((EActionPoints) xec.getTherathicHex()).useAP(this, true));
 	}
 }

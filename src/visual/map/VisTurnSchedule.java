@@ -62,7 +62,10 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 		{
 			PathAction pathAction = pathTraverse.exec(targeting.checkInput(), targeting.targetTile(), targeting.targetObject());
 			if(pathAction != null)
+			{
 				System.out.println("END");
+				linked.importPath(pathAction);
+			}
 			if(pathTraverse.esc || pathAction != null)
 				pathTraverse = null;
 		}
