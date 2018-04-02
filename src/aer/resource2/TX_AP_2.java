@@ -50,6 +50,12 @@ public class TX_AP_2 implements TherathicHex
 	}
 
 	@Override
+	public PathAction endPhase()
+	{
+		return null;
+	}
+
+	@Override
 	public int teamSide()
 	{
 		return 0;
@@ -59,5 +65,11 @@ public class TX_AP_2 implements TherathicHex
 	public boolean playerControlled()
 	{
 		return true;
+	}
+
+	@Override
+	public NPC_Control npcControl()
+	{
+		return null;
 	}
 }

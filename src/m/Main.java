@@ -2,7 +2,6 @@ package m;
 
 import aer.*;
 import aer.path.*;
-import aer.path.team.*;
 import aer.resource2.*;
 import com.jme3.app.*;
 import com.jme3.asset.*;
@@ -18,6 +17,7 @@ import com.jme3.scene.*;
 import com.jme3.scene.shape.*;
 import com.jme3.system.*;
 import java.awt.*;
+import java.util.*;
 import visual.map.*;
 import visual.pather.*;
 
@@ -95,7 +95,7 @@ public class Main extends SimpleApplication
 		VisObject vo = new VisObject(pather);
 		objNode.addControl(vo);
 
-		//Test Path Calculation
+		/*//Test Path Calculation
 		pather.calculatePossiblePaths(TherathicHex.ItemGetType.ACTION, null);
 		//pather.getPossiblePaths().forEach(e -> System.out.println(e.deducted));
 		System.out.println(pather.getPossiblePaths().size());
@@ -103,14 +103,14 @@ public class Main extends SimpleApplication
 		//Test Path Traversal
 		PathTraverse traverse = new PathTraverse(pather.getPossiblePaths());
 		//VisPathTraverse traverse1 = new VisPathTraverse();
-		mapNode.getControl(VisHexMap.class).lightThese(traverse.locations().keySet());
+		mapNode.getControl(VisHexMap.class).lightThese(traverse.locations().keySet());*/
 
 		//Add Targeting
 		CursorTargeting targeting = new CursorTargeting(hexMap);
 		stateManager.attach(targeting);
 
 		//Add TurnSchedule
-		TurnSchedule turnSchedule = new TurnSchedule();
+		TurnSchedule turnSchedule = new TurnSchedule(Collections.singletonList(0), 0, hexMap);
 
 		//Add VisTurnSchedule for TurnSchedule with Targeting
 		VisTurnSchedule visTurnSchedule = new VisTurnSchedule(turnSchedule, targeting);

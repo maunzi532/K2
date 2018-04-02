@@ -15,12 +15,17 @@ public interface TakeableAction
 		return Collections.EMPTY_LIST;
 	}
 
-	default List<String> targetOptions(HexPather xec, HexPather target)
+	default List<Reaction> targetOptions(HexPather xec, HexPather target)
 	{
 		throw new RuntimeException();
 	}
 
-	default boolean executeOn(HexPather xec, HexPather target, String chosenOption)
+	default List<Integer> interruptTeamNumbers(HexPather xec, HexPather target)
+	{
+		return Collections.singletonList(target.getTherathicHex().teamSide());
+	}
+
+	default boolean executeOn(HexPather xec, HexPather target, Reaction chosen)
 	{
 		return false;
 	}

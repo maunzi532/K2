@@ -1,5 +1,6 @@
 package aer;
 
+import aer.path.*;
 import java.util.*;
 import java.util.stream.*;
 import visual.*;
@@ -125,6 +126,12 @@ public class HexMap extends CommandLink implements IHexMap
 	public void addObject(HexObject object)
 	{
 		objects.add(object);
+	}
+
+	@Override
+	public List<HexObject> team(int teamID)
+	{
+		return objects.stream().filter(e -> e instanceof HexPather && ((HexPather) e).getTherathicHex().teamSide() == teamID).collect(Collectors.toList());
 	}
 
 	@Override

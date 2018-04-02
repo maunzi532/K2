@@ -46,13 +46,13 @@ public class LandingAction2 implements TActionOther, IAirStateAction, IAPAction
 	}
 
 	@Override
-	public List<String> targetOptions(HexPather xec, HexPather target)
+	public List<Reaction> targetOptions(HexPather xec, HexPather target)
 	{
 		return null;
 	}
 
 	@Override
-	public boolean executeOn(HexPather xec, HexPather target, String chosenOption)
+	public boolean executeOn(HexPather xec, HexPather target, Reaction chosen)
 	{
 		return false;
 	}

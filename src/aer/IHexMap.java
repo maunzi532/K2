@@ -20,4 +20,6 @@ public interface IHexMap extends VisualLink
 	HexObject objectByID(int id);
 
 	void addObject(HexObject object);
+
+	List<HexObject> team(int teamID);
 }

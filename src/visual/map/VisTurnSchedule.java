@@ -21,6 +21,24 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 	protected void controlUpdate(float tpf)
 	{
 		super.controlUpdate(tpf);
+		switch(linked.playerControl)
+		{
+			case 1:
+				traverse1();
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			default:
+				if(targeting.checkInput() == Input1.ACCEPT)
+					linked.stepForward();
+		}
+		targeting.reset();
+	}
+
+	private void traverse1()
+	{
 		if(pathTraverse == null)
 		{
 			if(targeting.checkInput() == Input1.CHOOSE)
@@ -33,9 +51,12 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 					if(pather.getPossiblePaths() == null)
 						pather.calculatePossiblePaths(TherathicHex.ItemGetType.ACTION, null);
 					pathTraverse = new PathTraverse(pather.getPossiblePaths());
+					node.getParent().getChild("Map").getControl(VisHexMap.class).lightThese(pathTraverse.locations().keySet());
 					System.out.println("WUGU" + pathTraverse.currentAction.action.getClass().getSimpleName());
 				}
 			}
+			else if(targeting.checkInput() == Input1.ACCEPT)
+				linked.stepForward();
 		}
 		else
 		{
@@ -45,7 +66,6 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 			if(pathTraverse.esc || pathAction != null)
 				pathTraverse = null;
 		}
-		targeting.reset();
 	}
 
 	@Override

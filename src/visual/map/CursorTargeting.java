@@ -21,6 +21,8 @@ public class CursorTargeting extends BaseAppState implements Targeting, ActionLi
 	private boolean updated;
 	private IHexMap map;
 	private Input1 input1;
+	private HexLocation targetTile;
+	private HexObject targetObject;
 
 	public CursorTargeting(IHexMap map)
 	{
@@ -91,6 +93,19 @@ public class CursorTargeting extends BaseAppState implements Targeting, ActionLi
 		if(new2 != last2)
 		{
 			last2 = new2;
+			if(last2 != null && last2.getUserData("R") != null)
+			{
+				targetTile = new HexLocation((Integer) last2.getUserData("X"), last2.getUserData("D"),
+						last2.getUserData("H"), last2.getUserData("R"));
+			}
+			else
+				targetTile = null;
+			if(last2 != null && last2.getUserData("ID") != null)
+			{
+				targetObject = map.objectByID(last2.getUserData("ID"));
+			}
+			else
+				targetObject = null;
 			updated = true;
 		}
 	}
@@ -98,22 +113,13 @@ public class CursorTargeting extends BaseAppState implements Targeting, ActionLi
 	@Override
 	public HexLocation targetTile()
 	{
-		if(last2 != null && last2.getUserData("R") != null)
-		{
-			return new HexLocation((Integer) last2.getUserData("X"), last2.getUserData("D"),
-					last2.getUserData("H"), last2.getUserData("R"));
-		}
-		return null;
+		return targetTile;
 	}
 
 	@Override
 	public HexObject targetObject()
 	{
-		if(last2 != null && last2.getUserData("ID") != null)
-		{
-			return map.objectByID(last2.getUserData("ID"));
-		}
-		return null;
+		return targetObject;
 	}
 
 	@Override

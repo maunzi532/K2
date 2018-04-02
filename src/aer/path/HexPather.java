@@ -1,7 +1,6 @@
 package aer.path;
 
 import aer.*;
-import aer.path.takeable.*;
 import aer.path.team.*;
 import java.util.*;
 import java.util.stream.*;

@@ -16,9 +16,13 @@ public interface TherathicHex
 
 	void drawPhase();
 
+	PathAction endPhase();
+
 	int teamSide();
 
 	boolean playerControlled();
+
+	NPC_Control npcControl();
 
 	enum ItemGetType
 	{
