@@ -1,5 +1,6 @@
 package visual;
 
+import aer.commands.*;
 import java.util.*;
 
 public abstract class CommandLink implements VisualLink

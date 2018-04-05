@@ -1,6 +1,7 @@
 package visual.pather;
 
 import aer.*;
+import aer.commands.*;
 import com.jme3.material.*;
 import com.jme3.math.*;
 import com.jme3.scene.*;
@@ -40,6 +41,13 @@ public class VisObject extends VisualR<HexObject>
 	@Override
 	public void execute(VisualCommand command)
 	{
-
+		if(command instanceof CMove)
+		{
+			System.out.println("CMOVE");
+		}
+		else if(command instanceof CTurn)
+		{
+			System.out.println("CTURN");
+		}
 	}
 }

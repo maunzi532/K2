@@ -1,8 +1,8 @@
 package visual.map;
 
+import aer.commands.*;
 import aer.path.*;
 import java.util.*;
-import visual.*;
 
 public class ShowOptionsCommand implements VisualCommand
 {

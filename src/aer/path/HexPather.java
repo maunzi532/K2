@@ -91,6 +91,11 @@ public class HexPather extends HexObject
 		return possiblePaths;
 	}
 
+	public void resetPossiblePaths()
+	{
+		possiblePaths = null;
+	}
+
 	public void calculatePossiblePaths(TherathicHex.ItemGetType type, HexPather target)
 	{
 		possiblePaths = new ArrayList<>();

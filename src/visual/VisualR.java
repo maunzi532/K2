@@ -1,5 +1,6 @@
 package visual;
 
+import aer.commands.*;
 import com.jme3.asset.*;
 import com.jme3.renderer.*;
 import com.jme3.scene.*;

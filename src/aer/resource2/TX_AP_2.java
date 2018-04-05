@@ -43,8 +43,7 @@ public class TX_AP_2 implements TherathicHex, EActionPoints
 	@Override
 	public ActionResource actionResource()
 	{
-		return new BasicAPResource2(100, 100, pather.getDirection(), pather.getAirState(),
-				4, pather.getLoc(), pather.getMount());
+		return new BasicAPResource2(actionPoints, movePoints, pather.getDirection(), pather.getAirState(), reqFall, pather.getLoc(), pather.getMount());
 	}
 
 	@Override

@@ -112,6 +112,7 @@ public class TurnSchedule extends CommandLink
 	private void initExecPhase(boolean player)
 	{
 		currentControlled = currentTeam.stream().filter(e -> e.getTherathicHex().playerControlled() == player).collect(Collectors.toList());
+		resetPaths();
 		npcControlled = 0;
 		phase = player ? TurnPhase.PLAYERACTION : TurnPhase.ALLYACTION;
 		playerControl = player ? 1 : 0;
@@ -137,7 +138,8 @@ public class TurnSchedule extends CommandLink
 	private void initEndPhase()
 	{
 		currentControlled = currentTeam;
-		currentControlled.get(0).setLoc(new HexLocation(3, 4, 0, 0));
+		resetPaths();
+		//currentControlled.get(0).setLoc(new HexLocation(3, 4, 0, 0));
 		npcControlled = 0;
 		playerControl = 0;
 		phase = TurnPhase.END;
@@ -201,8 +203,14 @@ public class TurnSchedule extends CommandLink
 		reactions = null;
 		interrupt = null;
 		playerControl = phase == TurnPhase.PLAYERACTION ? 1 : 0;
+		resetPaths();
 		if(playerControl == 0)
 			npcControlled++;
+	}
+
+	private void resetPaths()
+	{
+		currentControlled.forEach(HexPather::resetPossiblePaths);
 	}
 
 	private void nextTarget()

@@ -1,6 +1,7 @@
 package visual.map;
 
 import aer.*;
+import aer.commands.*;
 import com.jme3.material.*;
 import com.jme3.math.*;
 import com.jme3.renderer.queue.*;
@@ -87,9 +88,8 @@ public class VisHexMap extends VisualR<IHexMap>
 		matFloor1.setColor("Ambient", new ColorRGBA(1, 0, 1, 0.4f));
 		matFloor1.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
 		if(node.getChild("LightThese") != null)
-			//((Node) node.getChild("LightThese")).detachAllChildren();
-			node.detachChild(node.getChild("LightThese"));
-		//else
+			((Node) node.getChild("LightThese")).detachAllChildren();
+		else
 			node.attachChild(new Node("LightThese"));
 		Node lightThese = (Node) node.getChild("LightThese");
 		for(HexLocation loc : locations)

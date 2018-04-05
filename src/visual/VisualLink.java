@@ -1,5 +1,6 @@
 package visual;
 
+import aer.commands.*;
 import java.util.*;
 
 public interface VisualLink

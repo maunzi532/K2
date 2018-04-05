@@ -1,6 +1,7 @@
 package visual.map;
 
 import aer.*;
+import aer.commands.*;
 import aer.path.*;
 import aer.path.team.*;
 import visual.*;

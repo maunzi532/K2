@@ -1,6 +1,7 @@
 package aer.resource2.movement;
 
 import aer.*;
+import aer.commands.*;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.resource2.interfaces.*;
@@ -82,7 +83,9 @@ public class FloorMovementAction2 implements TActionLocation, IMovementAction, I
 				((EActionPoints) xec.getTherathicHex()).useAPMP(this, this, true))
 		{
 			xec.setDirection(mvDir);
+			xec.addCommand(new CTurn(mvDir));
 			xec.setLoc(end);
+			xec.addCommand(new CMove(end));
 			return false;
 		}
 		return true;
