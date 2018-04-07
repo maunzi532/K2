@@ -10,6 +10,7 @@ public class TX_AP_2 implements TherathicHex, EActionPoints
 {
 	private CostTable costTable;
 	private HexPather pather;
+	private NPC_Control npc_control;
 	private int actionPoints;
 	private int movePoints;
 	private int reqFall;
@@ -17,6 +18,7 @@ public class TX_AP_2 implements TherathicHex, EActionPoints
 	public TX_AP_2(CostTable costTable)
 	{
 		this.costTable = costTable;
+		npc_control = new UselessNPC();
 	}
 
 	@Override
@@ -26,7 +28,7 @@ public class TX_AP_2 implements TherathicHex, EActionPoints
 	}
 
 	@Override
-	public List<HexItem> activeItems(ItemGetType type, HexPather toDef)
+	public List<HexItem> activeItems(ItemGetType type, TargetData targetData)
 	{
 		List<HexItem> items = new ArrayList<>();
 		items.add(new MDActionItem2(costTable));
@@ -35,7 +37,7 @@ public class TX_AP_2 implements TherathicHex, EActionPoints
 	}
 
 	@Override
-	public TakeableAction startAction(ItemGetType type, HexPather toDef)
+	public TakeableAction startAction(ItemGetType type)
 	{
 		return new InitAction2(costTable);
 	}
@@ -47,11 +49,12 @@ public class TX_AP_2 implements TherathicHex, EActionPoints
 	}
 
 	@Override
-	public void drawPhase()
+	public boolean drawPhase()
 	{
 		actionPoints = 100;
 		movePoints = 100;
 		reqFall = 4;
+		return true;
 	}
 
 	@Override
@@ -75,7 +78,7 @@ public class TX_AP_2 implements TherathicHex, EActionPoints
 	@Override
 	public NPC_Control npcControl()
 	{
-		return null;
+		return npc_control;
 	}
 
 	@Override

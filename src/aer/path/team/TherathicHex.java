@@ -8,13 +8,13 @@ public interface TherathicHex
 {
 	void linkTo(HexPather pather);
 
-	List<HexItem> activeItems(ItemGetType type, HexPather toDef);
+	List<HexItem> activeItems(ItemGetType type, TargetData targetData);
 
-	TakeableAction startAction(ItemGetType type, HexPather toDef);
+	TakeableAction startAction(ItemGetType type);
 
 	ActionResource actionResource();
 
-	void drawPhase();
+	boolean drawPhase();
 
 	PathAction endPhase();
 

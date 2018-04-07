@@ -96,11 +96,11 @@ public class HexPather extends HexObject
 		possiblePaths = null;
 	}
 
-	public void calculatePossiblePaths(TherathicHex.ItemGetType type, HexPather target)
+
+	public void calculatePossiblePaths(TherathicHex.ItemGetType type, TargetData targetData)
 	{
 		possiblePaths = new ArrayList<>();
-		PathAction start = new PathAction(this, therathicHex.actionResource(),
-				therathicHex.startAction(type, target));
+		PathAction start = new PathAction(this, therathicHex.actionResource(), therathicHex.startAction(type));
 		if(!start.deducted.okay())
 			return;
 		possiblePaths.add(start);
@@ -112,7 +112,7 @@ public class HexPather extends HexObject
 				throw new RuntimeException("Pathcount probably infinite");
 			}
 			PathAction currentPath = possiblePaths.get(i);
-			for(HexItem item : therathicHex.activeItems(type, target))
+			for(HexItem item : therathicHex.activeItems(type, targetData))
 			{
 				currentPath.next.addAll(item.takeableActions(currentPath).stream()
 						.map(action -> new PathAction(this, currentPath.deducted, action, currentPath))
@@ -120,5 +120,11 @@ public class HexPather extends HexObject
 			}
 			possiblePaths.addAll(currentPath.next);
 		}
+	}
+
+	@Override
+	public String name()
+	{
+		return "HexPather ID " + id;
 	}
 }

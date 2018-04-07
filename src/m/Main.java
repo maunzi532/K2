@@ -33,8 +33,10 @@ public class Main extends SimpleApplication
 		int scw = Toolkit.getDefaultToolkit().getScreenSize().width / 400;
 		app.setShowSettings(false);
 		AppSettings settings = new AppSettings(true);
-		settings.put("Width", scw * 400);
-		settings.put("Height", scw * 225);
+		/*settings.put("Width", scw * 400);
+		settings.put("Height", scw * 225);*/
+		settings.put("Width", scw * 320);
+		settings.put("Height", scw * 180);
 		app.setSettings(settings);
 
 		app.start();
