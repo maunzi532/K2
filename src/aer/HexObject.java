@@ -4,14 +4,15 @@ import visual.*;
 
 public class HexObject extends CommandLink
 {
-	public int id;
+	public final int id;
 	public final IHexMap map;
 	protected HexLocation loc;
 	protected HexDirection direction;
 	protected AirState airState;
 
-	public HexObject(IHexMap map, HexLocation loc, HexDirection direction, AirState airState)
+	public HexObject(int id, IHexMap map, HexLocation loc, HexDirection direction, AirState airState)
 	{
+		this.id = id;
 		this.map = map;
 		this.loc = loc;
 		this.direction = direction;

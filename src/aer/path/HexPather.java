@@ -11,9 +11,9 @@ public class HexPather extends HexObject
 	private HexObject mount;
 	private List<PathAction> possiblePaths;
 
-	public HexPather(IHexMap map, HexLocation loc, HexDirection direction, AirState airState, TherathicHex therathicHex)
+	public HexPather(int id, IHexMap map, HexLocation loc, HexDirection direction, AirState airState, TherathicHex therathicHex)
 	{
-		super(map, loc, direction, airState);
+		super(id, map, loc, direction, airState);
 		this.therathicHex = therathicHex;
 		therathicHex.linkTo(this);
 	}

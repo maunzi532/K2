@@ -10,10 +10,9 @@ import com.jme3.input.controls.*;
 import com.jme3.light.*;
 import com.jme3.material.*;
 import com.jme3.math.*;
-import com.jme3.post.*;
-import com.jme3.post.filters.*;
 import com.jme3.renderer.*;
 import com.jme3.scene.*;
+import com.jme3.scene.control.*;
 import com.jme3.scene.shape.*;
 import com.jme3.system.*;
 import java.awt.*;
@@ -53,8 +52,8 @@ public class Main extends SimpleApplication
 		getFlyByCamera().setZoomSpeed(10f);
 		getFlyByCamera().setRotationSpeed(1f);
 		inputManager.addMapping(CameraInput.FLYCAM_LOWER, new KeyTrigger(KeyInput.KEY_E));
-		getCamera().setLocation(new Vector3f(-50, 20, 0));
-		getCamera().setRotation(new Quaternion(0, -0.5f, 0f, -0.5f).normalizeLocal());
+		getCamera().setLocation(new Vector3f(-50, 40, 0));
+		getCamera().setRotation(new Quaternion(-0.3f, -1f, 0.3f, -1f).normalizeLocal());
 
 		//Origin Marker
 		Box b = new Box(1, 1, 1);
@@ -72,55 +71,50 @@ public class Main extends SimpleApplication
 		AmbientLight al = new AmbientLight(new ColorRGBA(0.3f, 0.3f, 0.3f, 1));
 		rootNode.addLight(al);
 
-		//Add Toon Edge
-		//edge();
 
 		//Generate Map
 		IHexMap hexMap = new HexMap("T1", -10, -2, -2, 0, 11, 10, 5, 1);
 		hexMap.setGenerator(new BasicHexGen());
 
 		//Create VisHexMap for HexMap
-		Node mapNode = new Node("Map");
-		rootNode.attachChild(mapNode);
-		mapNode.addControl(new VisHexMap(hexMap, 0));
-		Node objNode = new Node("X");
-		rootNode.attachChild(objNode);
+		attachWithNode(rootNode, "Map", new VisHexMap(hexMap, 0));
 
 		//Create TX_AP_2 HexPather
-		//HexPather pather = new HexPather(hexMap, new HexLocation(0, 0, 0, 0), new HexDirection(0), AirState.FLOOR, new TX_AP_2(new CostTable()));
-		HexPather pather = new HexPather(hexMap, new HexLocation(2, 1, 0, 0), new HexDirection(6), AirState.FLOOR, new TX_AP_2(new CostTable()));
-		pather.id = 10;
+		HexPather pather = new HexPather(10, hexMap, new HexLocation(2, 1, 0, 0),
+				new HexDirection(6), AirState.FLOOR, new TX_AP_2(new CostTable()));
 		hexMap.addObject(pather);
 
 		//Create VisObject for HexPather
-		VisObject vo = new VisObject(pather);
-		objNode.addControl(vo);
-
-		/*//Test Path Calculation
-		pather.calculatePossiblePaths(TherathicHex.ItemGetType.ACTION, null);
-		//pather.getPossiblePaths().forEach(e -> System.out.println(e.deducted));
-		System.out.println(pather.getPossiblePaths().size());
-
-		//Test Path Traversal
-		PathTraverse traverse = new PathTraverse(pather.getPossiblePaths());
-		//VisPathTraverse traverse1 = new VisPathTraverse();
-		mapNode.getControl(VisHexMap.class).lightThese(traverse.locations().keySet());*/
-
-		//Add Targeting
-		CursorTargeting targeting = new CursorTargeting(hexMap);
-		stateManager.attach(targeting);
+		attachWithNode(rootNode, "VisHexPather0", new VisObject(pather));
 
 		//Add TurnSchedule
 		TurnSchedule turnSchedule = new TurnSchedule(Collections.singletonList(0), 0, hexMap);
 
-		//Add VisTurnSchedule for TurnSchedule with Targeting
-		VisTurnSchedule visTurnSchedule = new VisTurnSchedule(turnSchedule, targeting);
-		Node vtsNode = new Node("VTS");
-		rootNode.attachChild(vtsNode);
-		vtsNode.addControl(visTurnSchedule);
+		//Add Targeting and VisTurnSchedule for TurnSchedule
+		CursorTargeting targeting = new CursorTargeting(hexMap);
+		stateManager.attach(targeting);
+		attachWithNode(rootNode, "VTS", new VisTurnSchedule(turnSchedule, targeting));
 	}
 
-	public void edge()
+	public static Node attachWithNode(Node attach, String name, Control control)
+	{
+		Node node = new Node(name);
+		attach.attachChild(node);
+		node.addControl(control);
+		return node;
+	}
+
+	@Override
+	public void simpleUpdate(float tpf)
+	{
+		/*rootNode.getChild("X").getControl(VisObject.class).linked.setDirection(
+				new HexDirection((rootNode.getChild("X").getControl(VisObject.class).linked.getDirection().r + 1) % 12));*/
+	}
+
+	@Override
+	public void simpleRender(RenderManager rm){}
+
+	/*public void edge()
 	{
 		if(renderer.getCaps().contains(Caps.GLSL100))
 		{
@@ -135,15 +129,5 @@ public class Main extends SimpleApplication
 			fpp.addFilter(toon);
 			viewPort.addProcessor(fpp);
 		}
-	}
-
-	@Override
-	public void simpleUpdate(float tpf)
-	{
-		/*rootNode.getChild("X").getControl(VisObject.class).linked.setDirection(
-				new HexDirection((rootNode.getChild("X").getControl(VisObject.class).linked.getDirection().r + 1) % 12));*/
-	}
-
-	@Override
-	public void simpleRender(RenderManager rm){}
+	}*/
 }
