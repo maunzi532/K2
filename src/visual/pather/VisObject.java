@@ -33,8 +33,8 @@ public class VisObject extends VisualR<HexObject>
 		geom.setMaterial(matFloor);
 		geom.setLocalRotation(new Quaternion().fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_Y));
 		node1.attachChild(geom);
-		node1.setLocalTranslation(VisHexMap.conv(loc));
-		node1.setLocalRotation(VisHexMap.conv(linked.getDirection()));
+		node.setLocalTranslation(VisHexMap.conv(loc));
+		node.setLocalRotation(VisHexMap.conv(linked.getDirection()));
 		node.attachChild(node1);
 	}
 
@@ -44,10 +44,12 @@ public class VisObject extends VisualR<HexObject>
 		if(command instanceof CMove)
 		{
 			System.out.println("CMOVE");
+			spatial.addControl(new MoveControl(1, (CMove) command));
 		}
 		else if(command instanceof CTurn)
 		{
 			System.out.println("CTURN");
+			spatial.addControl(new TurnControl(1, (CTurn) command));
 		}
 	}
 }

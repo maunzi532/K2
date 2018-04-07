@@ -87,6 +87,7 @@ public class Main extends SimpleApplication
 		rootNode.attachChild(objNode);
 
 		//Create TX_AP_2 HexPather
+		//HexPather pather = new HexPather(hexMap, new HexLocation(0, 0, 0, 0), new HexDirection(0), AirState.FLOOR, new TX_AP_2(new CostTable()));
 		HexPather pather = new HexPather(hexMap, new HexLocation(2, 1, 0, 0), new HexDirection(6), AirState.FLOOR, new TX_AP_2(new CostTable()));
 		pather.id = 10;
 		hexMap.addObject(pather);

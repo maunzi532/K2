@@ -39,7 +39,6 @@ public class FloorMovementAction2 implements TActionLocation, IMovementAction, I
 		return map.getTile(end).type == MapTileType.FLOOR;
 	}
 
-
 	@Override
 	public int cost()
 	{
