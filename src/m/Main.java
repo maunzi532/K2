@@ -89,6 +89,11 @@ public class Main extends SimpleApplication
 		//Create VisObject for HexPather
 		attachWithNode(rootNode, "VisHexPather0", new VisObject(pather));
 
+		HexPather pather1 = new HexPather(11, hexMap, new HexLocation(4, 1, 0, 0),
+				new HexDirection(3), AirState.FLOOR, new TX_AP_2(new CostTable()));
+		hexMap.addObject(pather1);
+		attachWithNode(rootNode, "VisHexPather1", new VisObject(pather1));
+
 		//Add TurnSchedule
 		TurnSchedule turnSchedule = new TurnSchedule(Collections.singletonList(0), 0, hexMap);
 

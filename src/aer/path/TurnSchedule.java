@@ -157,12 +157,13 @@ public class TurnSchedule extends CommandLink
 			case EXEC:
 				initFlag = false;
 				if(!actions.hasNext())
-					return endActionPath();
+					return endActionPath(true);
 				else
 				{
 					currentAction = actions.next();
+					log(3, "Exec action " + currentAction.getClass().getSimpleName());
 					if(currentAction.executeStart(currentControlled))
-						return endActionPath();
+						return endActionPath(false);
 					else
 					{
 						setPhase(TurnPhase.TARGET);
@@ -179,13 +180,14 @@ public class TurnSchedule extends CommandLink
 				if(!targets.hasNext())
 				{
 					if(currentAction.executeEnd(currentControlled))
-						return endActionPath();
+						return endActionPath(false);
 					innerPhase = TurnPhase.EXEC;
 					return false;
 				}
 				else
 				{
 					targetData = new TargetData(currentControlled, currentAction, targets.next());
+					log(3, "Action " + currentAction.getClass().getSimpleName() + " targeting " + targetData.target.name());
 					setPhase(TurnPhase.ALLYINTERRUPT);
 					return true;
 				}
@@ -252,23 +254,21 @@ public class TurnSchedule extends CommandLink
 
 	public void importPath(PathAction pathAction)
 	{
+		log(1, "Importing path for " + pathAction.pather.name());
 		playerControl = 0;
 		List<TakeableAction> actions1 = new ArrayList<>();
-		importPath1(pathAction, actions1);
+		PathAction.pathToList(pathAction, actions1);
 		actions = actions1.iterator();
 		currentControlled = pathAction.pather;
 		setPhase(TurnPhase.EXEC);
 	}
 
-	private void importPath1(PathAction pathAction, List<TakeableAction> actions1)
+	private boolean endActionPath(boolean finished)
 	{
-		if(pathAction.previous != null)
-			importPath1(pathAction.previous, actions1);
-		actions1.add(pathAction.action);
-	}
-
-	private boolean endActionPath()
-	{
+		if(finished)
+			log(2, "Exec finished");
+		else
+			log(3, "Exec ended prematurely");
 		innerPhase = mainPhase;
 		if(mainPhase == TurnPhase.PLAYERACTION)
 		{
@@ -280,6 +280,7 @@ public class TurnSchedule extends CommandLink
 
 	public void importInterrupt(HexPather xec, TakeableAction action1)
 	{
+		log(3, "Exec interrupt of " + xec.name());
 		action1.executeEnd(xec);
 		if(innerPhase == TurnPhase.PLAYERINTERRUPT)
 			initFlag = true;
@@ -287,9 +288,10 @@ public class TurnSchedule extends CommandLink
 
 	public void importReaction(Reaction reaction)
 	{
+		log(3, "Chosen reaction: " + reaction);
 		playerControl = 0;
 		if(targetData.exec(reaction))
-			endActionPath();
+			endActionPath(false);
 		else
 			innerPhase = TurnPhase.TARGET;
 	}

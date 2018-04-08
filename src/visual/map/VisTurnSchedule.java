@@ -45,7 +45,7 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 			if(targeting.checkInput() == Input1.CHOOSE)
 			{
 				HexObject object = targeting.targetObject();
-				System.out.println(object);
+				//System.out.println(object);
 				if(object != null && object instanceof HexPather)
 				{
 					HexPather pather = (HexPather) object;
@@ -53,7 +53,7 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 						pather.calculatePossiblePaths(TherathicHex.ItemGetType.ACTION, null);
 					pathTraverse = new PathTraverse(pather.getPossiblePaths());
 					node.getParent().getChild("Map").getControl(VisHexMap.class).lightThese(pathTraverse.locations().keySet());
-					System.out.println("WUGU" + pathTraverse.currentAction.action.getClass().getSimpleName());
+					//System.out.println("WUGU" + pathTraverse.currentAction.action.getClass().getSimpleName());
 				}
 			}
 			else if(targeting.checkInput() == Input1.ACCEPT)
@@ -64,8 +64,9 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 			PathAction pathAction = pathTraverse.exec(targeting.checkInput(), targeting.targetTile(), targeting.targetObject());
 			if(pathAction != null)
 			{
-				System.out.println("END");
+				//System.out.println("END");
 				linked.importPath(pathAction);
+				linked.stepForward();
 			}
 			if(pathTraverse.esc || pathAction != null)
 				pathTraverse = null;

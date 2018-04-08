@@ -26,4 +26,11 @@ public class PathAction
 		this.previous = null;
 		deducted = resource.deduct(action);
 	}
+
+	public static void pathToList(PathAction pathAction, List<TakeableAction> actions1)
+	{
+		if(pathAction.previous != null)
+			pathToList(pathAction.previous, actions1);
+		actions1.add(pathAction.action);
+	}
 }

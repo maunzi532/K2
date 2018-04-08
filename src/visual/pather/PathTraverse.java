@@ -43,20 +43,23 @@ public class PathTraverse
 		switch(input1)
 		{
 			case CHOOSE:
-				if(tObject != null && tObject != currentAction.pather && tObject != object)
+				if(tObject != null && tObject != object)
 				{
-					object = tObject;
+					chReset();
+					if(tObject != currentAction.pather)
+						object = tObject;
 					updateChoiceOptions();
 				}
 				else if(tLoc != null && !tLoc.equals(res1.dLocation()) && !tLoc.equals(loc))
 				{
+					chReset();
 					loc = tLoc;
 					updateChoiceOptions();
 				}
 				else if(choiceNum >= 0 && choiceOptions != null && choiceOptions.size() > choiceNum)
 				{
+					chReset();
 					pathIn((TakeableAction) choiceOptions.get(choiceNum));
-					updateChoiceOptions();
 				}
 				break;
 			case CHANGE:
@@ -65,19 +68,31 @@ public class PathTraverse
 					choiceNum = 0;
 				if(choiceOptions.isEmpty())
 					choiceNum = -1;
+				showChoiceOptions();
 				break;
 			case ACCEPT:
+				System.out.println("Chosen path:");
+				System.out.print(steps(currentAction));
 				return currentAction;
 			case BACK:
 				if(currentAction.previous != null)
+				{
+					chReset();
 					setCurrentAction(currentAction.previous);
+				}
 				else
+				{
+					System.out.println("Exiting");
 					esc = true;
+				}
 				break;
 			case ESCAPE:
+				System.out.println("Exiting");
 				esc = true;
 				break;
 			case MINUSD:
+				object = null;
+				loc = null;
 				if(turn == null)
 					turn = new HexDirection(11);
 				else if(turn.r == 1)
@@ -87,6 +102,8 @@ public class PathTraverse
 				updateChoiceOptions();
 				break;
 			case PLUSD:
+				object = null;
+				loc = null;
 				if(turn == null)
 					turn = new HexDirection(1);
 				else if(turn.r == 11)
@@ -97,6 +114,13 @@ public class PathTraverse
 				break;
 		}
 		return null;
+	}
+
+	private void chReset()
+	{
+		object = null;
+		loc = null;
+		turn = null;
 	}
 
 	public void updateChoiceOptions()
@@ -114,13 +138,13 @@ public class PathTraverse
 			choiceOptions = Collections.EMPTY_LIST;
 		if(choiceOptions.isEmpty())
 			choiceNum = -1;
-		System.out.println(choiceOptions);
+		showChoiceOptions();
 	}
 
 	public void pathIn(TakeableAction action)
 	{
 		setCurrentAction(currentAction.next.stream().filter(e -> e.action == action).findFirst().orElse(currentAction));
-		System.out.println("WUGU" + currentAction.action.getClass().getSimpleName());
+		//System.out.println("WUGU" + currentAction.action.getClass().getSimpleName());
 	}
 
 	public Map<HexDirection, List<TActionDirection>> directions()
@@ -144,5 +168,33 @@ public class PathTraverse
 	public List<TActionOther> others()
 	{
 		return currentAction.next.stream().filter(e -> e instanceof TActionOther).map(e -> (TActionOther) e).collect(Collectors.toList());
+	}
+
+	private void showChoiceOptions()
+	{
+		System.out.print(steps(currentAction));
+		System.out.println(object != null ? "Actions targeting object:" :
+				loc != null ? "Actions targeting location:" :
+						turn != null ? "Actions targeting direction:" :
+								"Actions:");
+		if(choiceOptions.isEmpty())
+			System.out.println("None");
+		else
+		{
+			StringBuilder sb = new StringBuilder();
+			for(int i = 0; i < choiceOptions.size(); i++)
+				sb.append(i == choiceNum ? "> " : "| ").append(choiceOptions.get(i).getClass().getSimpleName()).append("\n");
+			System.out.print(sb.toString());
+		}
+	}
+
+	public static String steps(PathAction pathAction)
+	{
+		List<TakeableAction> actions = new ArrayList<>();
+		PathAction.pathToList(pathAction, actions);
+		StringBuilder sb = new StringBuilder();
+		for(TakeableAction action : actions)
+			sb.append("-> ").append(action.getClass().getSimpleName()).append("\n");
+		return sb.toString();
 	}
 }
