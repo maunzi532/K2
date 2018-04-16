@@ -1,5 +1,6 @@
 package aer;
 
+import aer.mapgen.*;
 import aer.path.*;
 import java.util.*;
 import java.util.stream.*;

@@ -1,4 +1,4 @@
-package aer.resource2;
+package aer.resource2.items;
 
 import aer.*;
 import aer.path.*;

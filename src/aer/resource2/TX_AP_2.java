@@ -3,6 +3,8 @@ package aer.resource2;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
+import aer.resource2.items.*;
+import aer.resource2.otheractions.*;
 import aer.resource2.therathicTypes.*;
 import java.util.*;
 
@@ -14,11 +16,16 @@ public class TX_AP_2 implements TherathicHex, EActionPoints
 	private int actionPoints;
 	private int movePoints;
 	private int reqFall;
+	private List<HexItem> items;
 
 	public TX_AP_2(CostTable costTable)
 	{
 		this.costTable = costTable;
 		npc_control = new UselessNPC();
+		items = new ArrayList<>();
+		items.add(new MDActionItem2(costTable));
+		items.add(new FloorMovementItem2(costTable));
+		items.add(new TargetingItem2(costTable));
 	}
 
 	@Override
@@ -30,9 +37,6 @@ public class TX_AP_2 implements TherathicHex, EActionPoints
 	@Override
 	public List<HexItem> activeItems(ItemGetType type, TargetData targetData)
 	{
-		List<HexItem> items = new ArrayList<>();
-		items.add(new MDActionItem2(costTable));
-		items.add(new FloorMovementItem2(costTable));
 		return items;
 	}
 

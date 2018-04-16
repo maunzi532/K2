@@ -11,6 +11,7 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 {
 	public Targeting targeting;
 	public PathTraverse pathTraverse;
+	public ReactionCh reactionCh;
 
 	public VisTurnSchedule(TurnSchedule linked, Targeting targeting)
 	{
@@ -28,8 +29,8 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 				traverse1();
 				break;
 			case 2:
-				break;
 			case 3:
+				traverse2();
 				break;
 			default:
 				if(targeting.checkInput() == Input1.ACCEPT)
@@ -45,15 +46,13 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 			if(targeting.checkInput() == Input1.CHOOSE)
 			{
 				HexObject object = targeting.targetObject();
-				//System.out.println(object);
 				if(object != null && object instanceof HexPather)
 				{
 					HexPather pather = (HexPather) object;
 					if(pather.getPossiblePaths() == null)
 						pather.calculatePossiblePaths(TherathicHex.ItemGetType.ACTION, null);
-					pathTraverse = new PathTraverse(pather.getPossiblePaths());
+					pathTraverse = new PathTraverse(pather.getPossiblePaths(), pather, true);
 					node.getParent().getChild("Map").getControl(VisHexMap.class).lightThese(pathTraverse.locations().keySet());
-					//System.out.println("WUGU" + pathTraverse.currentAction.action.getClass().getSimpleName());
 				}
 			}
 			else if(targeting.checkInput() == Input1.ACCEPT)
@@ -61,11 +60,54 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 		}
 		else
 		{
-			PathAction pathAction = pathTraverse.exec(targeting.checkInput(), targeting.targetTile(), targeting.targetObject());
+			PathAction pathAction = pathTraverse.exec(targeting.checkInput(), targeting.targetTile(), targeting.targetObject(), false);
 			if(pathAction != null)
 			{
-				//System.out.println("END");
 				linked.importPath(pathAction);
+				linked.stepForward();
+			}
+			if(pathTraverse.esc || pathAction != null)
+				pathTraverse = null;
+		}
+	}
+
+	private void traverse2()
+	{
+		if(pathTraverse == null)
+		{
+			if(targeting.checkInput() == Input1.CHOOSE)
+			{
+				HexObject object = targeting.targetObject();
+				if(object != null && object instanceof HexPather)
+				{
+					HexPather pather = (HexPather) object;
+					if(pather.getPossiblePaths() == null)
+						pather.calculatePossiblePaths(TherathicHex.ItemGetType.INTERRUPT, linked.targetData);
+					pathTraverse = new PathTraverse(pather.getPossiblePaths(), pather, false);
+					node.getParent().getChild("Map").getControl(VisHexMap.class).lightThese(pathTraverse.locations().keySet());
+				}
+			}
+			else if(linked.playerControl == 3)
+			{
+				if(reactionCh == null)
+					reactionCh = new ReactionCh(linked.reactions);
+				Reaction reaction = reactionCh.exec(targeting.checkInput());
+				if(reaction != null)
+				{
+					reactionCh = null;
+					linked.importReaction(reaction);
+					linked.stepForward();
+				}
+			}
+			else if(targeting.checkInput() == Input1.ACCEPT)
+				linked.stepForward();
+		}
+		else
+		{
+			PathAction pathAction = pathTraverse.exec(targeting.checkInput(), targeting.targetTile(), targeting.targetObject(), true);
+			if(pathAction != null)
+			{
+				linked.importInterrupt(pathAction.pather, pathAction.action);
 				linked.stepForward();
 			}
 			if(pathTraverse.esc || pathAction != null)

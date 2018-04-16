@@ -36,6 +36,18 @@ public class HexLocation
 		this.r = start.r;
 	}
 
+	public int dim(int dim)
+	{
+		switch(dim)
+		{
+			case 0: return x;
+			case 1: return d;
+			case 2: return h;
+			case 3: return r;
+			default: throw new RuntimeException();
+		}
+	}
+
 	public static int xdzDifference(HexLocation l1, HexLocation l2)
 	{
 		int dx = l2.x - l1.x;
@@ -57,7 +69,7 @@ public class HexLocation
 			else if(dx < 0)
 				return new HexDirection(4);
 			else
-				throw new RuntimeException();
+				return null;
 		}
 		else if(dx == 0)
 		{

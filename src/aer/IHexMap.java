@@ -1,5 +1,6 @@
 package aer;
 
+import aer.mapgen.*;
 import java.util.*;
 import visual.*;
 

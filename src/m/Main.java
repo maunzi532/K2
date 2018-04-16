@@ -1,6 +1,7 @@
 package m;
 
 import aer.*;
+import aer.mapgen.*;
 import aer.path.*;
 import aer.resource2.*;
 import com.jme3.app.*;

@@ -5,6 +5,11 @@ import java.util.*;
 
 public interface TakeableAction
 {
+	default boolean canBeFinalAction()
+	{
+		return true;
+	}
+
 	default boolean executeStart(HexPather xec)
 	{
 		return false;

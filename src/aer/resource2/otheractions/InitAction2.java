@@ -1,4 +1,4 @@
-package aer.resource2;
+package aer.resource2.otheractions;
 
 import aer.path.*;
 import aer.path.takeable.*;
@@ -12,6 +12,12 @@ public class InitAction2 implements TActionOther, IAPAction
 	public InitAction2(CostTable costs)
 	{
 		this.costs = costs;
+	}
+
+	@Override
+	public boolean canBeFinalAction()
+	{
+		return false;
 	}
 
 	@Override

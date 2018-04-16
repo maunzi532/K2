@@ -1,4 +1,4 @@
-package aer.resource2;
+package aer.resource2.otheractions;
 
 import aer.*;
 import aer.path.*;

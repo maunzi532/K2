@@ -1,8 +1,9 @@
-package aer.resource2;
+package aer.resource2.items;
 
 import aer.*;
 import aer.path.*;
 import aer.path.takeable.*;
+import aer.resource2.otheractions.*;
 import aer.resource2.resourceTypes.*;
 import java.util.*;
 

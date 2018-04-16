@@ -1,4 +1,6 @@
-package aer;
+package aer.mapgen;
+
+import aer.*;
 
 public interface IHexGen
 {

@@ -14,6 +14,7 @@ public class PathTraverse
 
 	public final List<PathAction> possibleActions;
 	public PathAction currentAction;
+	public HexPather pather;
 	public RBasicData res1;
 	public HexDirection turn;
 	public HexLocation loc;
@@ -22,21 +23,25 @@ public class PathTraverse
 	public List choiceOptions;
 	public boolean esc = false;
 
-	public PathTraverse(List<PathAction> possibleActions)
+	public PathTraverse(List<PathAction> possibleActions, HexPather pather, boolean initial)
 	{
 		this.possibleActions = possibleActions;
-		setCurrentAction(possibleActions.get(0));
+		this.pather = pather;
+		if(initial)
+			setCurrentAction(possibleActions.get(0));
+		else
+			setCurrentAction(null);
 	}
 
 	public void setCurrentAction(PathAction currentAction)
 	{
 		this.currentAction = currentAction;
-		if(currentAction.deducted instanceof RBasicData)
+		if(currentAction != null && currentAction.deducted instanceof RBasicData)
 			res1 = (RBasicData) currentAction.deducted;
 		updateChoiceOptions();
 	}
 
-	public PathAction exec(Input1 input1, HexLocation tLoc, HexObject tObject)
+	public PathAction exec(Input1 input1, HexLocation tLoc, HexObject tObject, boolean autoTake)
 	{
 		if(input1 == null)
 			return null;
@@ -46,7 +51,7 @@ public class PathTraverse
 				if(tObject != null && tObject != object)
 				{
 					chReset();
-					if(tObject != currentAction.pather)
+					if(tObject != pather)
 						object = tObject;
 					updateChoiceOptions();
 				}
@@ -60,6 +65,13 @@ public class PathTraverse
 				{
 					chReset();
 					pathIn((TakeableAction) choiceOptions.get(choiceNum));
+					if(autoTake)
+					{
+						if(canEnd())
+							return currentAction;
+						else
+							esc = true;
+					}
 				}
 				break;
 			case CHANGE:
@@ -71,11 +83,15 @@ public class PathTraverse
 				showChoiceOptions();
 				break;
 			case ACCEPT:
-				System.out.println("Chosen path:");
-				System.out.print(steps(currentAction));
-				return currentAction;
+				if(canEnd())
+				{
+					System.out.println("Chosen path:");
+					System.out.print(steps(currentAction));
+					return currentAction;
+				}
+				break;
 			case BACK:
-				if(currentAction.previous != null)
+				if(currentAction != null && currentAction.previous != null)
 				{
 					chReset();
 					setCurrentAction(currentAction.previous);
@@ -126,7 +142,12 @@ public class PathTraverse
 	public void updateChoiceOptions()
 	{
 		if(object != null)
+		{
+			System.out.println(object.id);
+			if(!objects().keySet().isEmpty())
+				System.out.println(objects().keySet().iterator().next().id);
 			choiceOptions = objects().get(object);
+		}
 		else if(loc != null)
 			choiceOptions = locations().get(loc);
 		else if(turn != null)
@@ -141,38 +162,53 @@ public class PathTraverse
 		showChoiceOptions();
 	}
 
+	public List<PathAction> nextActions()
+	{
+		if(currentAction == null)
+			return possibleActions;
+		else
+			return currentAction.next;
+	}
+
+	public boolean canEnd()
+	{
+		return currentAction != null && currentAction.action.canBeFinalAction();
+	}
+
 	public void pathIn(TakeableAction action)
 	{
-		setCurrentAction(currentAction.next.stream().filter(e -> e.action == action).findFirst().orElse(currentAction));
+		setCurrentAction(nextActions().stream().filter(e -> e.action == action).findFirst().orElse(currentAction));
 		//System.out.println("WUGU" + currentAction.action.getClass().getSimpleName());
 	}
 
 	public Map<HexDirection, List<TActionDirection>> directions()
 	{
-		return currentAction.next.stream().filter(e -> e instanceof TActionDirection).map(e -> (TActionDirection) e).collect(
+		return nextActions().stream().filter(e -> e.action instanceof TActionDirection).map(e -> (TActionDirection) e.action).collect(
 				Collectors.groupingBy(TActionDirection::direction));
 	}
 
 	public Map<HexLocation, List<TActionLocation>> locations()
 	{
-		return currentAction.next.stream().filter(e -> e.action instanceof TActionLocation).map(e -> (TActionLocation) e.action).collect(
+		return nextActions().stream().filter(e -> e.action instanceof TActionLocation).map(e -> (TActionLocation) e.action).collect(
 				Collectors.groupingBy(TActionLocation::location));
 	}
 
 	public Map<HexObject, List<TActionObject>> objects()
 	{
-		return currentAction.next.stream().filter(e -> e instanceof TActionObject).map(e -> (TActionObject) e).collect(
+		return nextActions().stream().filter(e -> e.action instanceof TActionObject).map(e -> (TActionObject) e.action).collect(
 				Collectors.groupingBy(TActionObject::object));
 	}
 
 	public List<TActionOther> others()
 	{
-		return currentAction.next.stream().filter(e -> e instanceof TActionOther).map(e -> (TActionOther) e).collect(Collectors.toList());
+		return nextActions().stream().filter(e -> e.action instanceof TActionOther).map(e -> (TActionOther) e.action).collect(Collectors.toList());
 	}
 
 	private void showChoiceOptions()
 	{
 		System.out.print(steps(currentAction));
+		if(canEnd())
+			System.out.println("> enter key to take this path");
 		System.out.println(object != null ? "Actions targeting object:" :
 				loc != null ? "Actions targeting location:" :
 						turn != null ? "Actions targeting direction:" :
@@ -190,6 +226,8 @@ public class PathTraverse
 
 	public static String steps(PathAction pathAction)
 	{
+		if(pathAction == null)
+			return "";
 		List<TakeableAction> actions = new ArrayList<>();
 		PathAction.pathToList(pathAction, actions);
 		StringBuilder sb = new StringBuilder();
