@@ -3,10 +3,11 @@ package aer.resource2.otheractions;
 import aer.*;
 import aer.path.*;
 import aer.path.takeable.*;
+import aer.path.team.*;
 import aer.resource2.interfaces.*;
 import aer.resource2.therathicTypes.*;
 
-public class DismountAction2 implements TActionOther, IMountAction, IAPAction
+public class DismountAction2 implements TActionOther, IMountAction, IAPAction, IThAP
 {
 	private final CostTable costs;
 	private final HexObject mount;
@@ -50,13 +51,12 @@ public class DismountAction2 implements TActionOther, IMountAction, IAPAction
 	}
 
 	@Override
-	public boolean executeEnd(HexPather xec)
+	public boolean executeEnd(HexPather xec0, TherathicHex xec1, E_AP_MP xec2)
 	{
-		if(xec.getTherathicHex() instanceof EActionPoints &&
-				((EActionPoints) xec.getTherathicHex()).useAPMP(this, this, true))
+		if(xec2.useAPMP(this, this, E_AP_MP.Use.REAL))
 		{
-			xec.setMount(null);
-			xec.setAirState(airState);
+			xec0.setMount(null);
+			xec0.setAirState(airState);
 			return false;
 		}
 		return true;

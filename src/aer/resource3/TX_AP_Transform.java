@@ -1,31 +1,34 @@
-package aer.resource2;
+package aer.resource3;
 
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
-import aer.resource2.items.*;
+import aer.resource2.*;
 import aer.resource2.otheractions.*;
 import aer.resource2.therathicTypes.*;
 import java.util.*;
 
-public class TX_AP_2 implements TherathicHex, E_AP_MP
+public class TX_AP_Transform implements TherathicHex, E_AP_MP
 {
-	private CostTable costTable;
 	private HexPather pather;
+	private List<Transformation> transforms;
+	private CostTable costTable;
 	private NPC_Control npc_control;
 	private int actionPoints;
 	private int movePoints;
 	private int reqFall;
-	private List<HexItem> items;
+	//private List<HexItem> items;
 
-	public TX_AP_2(CostTable costTable)
+	public TX_AP_Transform(CostTable costTable, Transformation transform0)
 	{
 		this.costTable = costTable;
+		transforms = new ArrayList<>();
+		transforms.add(transform0);
 		npc_control = new UselessNPC();
-		items = new ArrayList<>();
+		/*items = new ArrayList<>();
 		items.add(new MDActionItem2(costTable));
 		items.add(new FloorMovementItem2(costTable));
-		items.add(new TargetingItem2(costTable));
+		items.add(new TargetingItem2(costTable));*/
 	}
 
 	@Override
@@ -43,7 +46,7 @@ public class TX_AP_2 implements TherathicHex, E_AP_MP
 	@Override
 	public List<HexItem> activeItems(ItemGetType type, TargetData targetData)
 	{
-		return items;
+		return null;
 	}
 
 	@Override
@@ -63,7 +66,7 @@ public class TX_AP_2 implements TherathicHex, E_AP_MP
 	{
 		actionPoints = 100;
 		movePoints = 100;
-		reqFall = 4;
+		reqFall = pather.getAirState().isAerial ? 4 : 0;
 		return true;
 	}
 

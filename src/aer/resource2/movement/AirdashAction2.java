@@ -3,10 +3,11 @@ package aer.resource2.movement;
 import aer.*;
 import aer.path.*;
 import aer.path.takeable.*;
+import aer.path.team.*;
 import aer.resource2.interfaces.*;
 import aer.resource2.therathicTypes.*;
 
-public class AirdashAction2 implements TActionLocation, IMovementAction, IAPAction
+public class AirdashAction2 implements TActionLocation, IMovementAction, IAPAction, IThAP
 {
 	private final CostTable costs;
 	private final IHexMap map;
@@ -69,14 +70,26 @@ public class AirdashAction2 implements TActionLocation, IMovementAction, IAPActi
 		return 1;
 	}
 
-	@Override
+	/*@Override
 	public boolean executeEnd(HexPather xec)
 	{
-		if(xec.getTherathicHex() instanceof EActionPoints &&
-				((EActionPoints) xec.getTherathicHex()).useAPMP(this, this, true))
+		if(xec.getTherathicHex() instanceof E_AP_MP &&
+				((E_AP_MP) xec.getTherathicHex()).useAPMP(this, this, E_AP_MP.Use.REAL))
 		{
 			xec.setLoc(end2);
 			xec.setAirState(airState);
+			return false;
+		}
+		return true;
+	}*/
+
+	@Override
+	public boolean executeEnd(HexPather xec0, TherathicHex xec1, E_AP_MP xec2)
+	{
+		if(xec2.useAPMP(this, this, E_AP_MP.Use.REAL))
+		{
+			xec0.setLoc(end2);
+			xec0.setAirState(airState);
 			return false;
 		}
 		return true;

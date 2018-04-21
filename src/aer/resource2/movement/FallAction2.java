@@ -3,10 +3,11 @@ package aer.resource2.movement;
 import aer.*;
 import aer.path.*;
 import aer.path.takeable.*;
+import aer.path.team.*;
 import aer.resource2.interfaces.*;
 import aer.resource2.therathicTypes.*;
 
-public class FallAction2 implements TActionOther, IMovementAction, IAPAction
+public class FallAction2 implements TActionOther, IMovementAction, IAPAction, IThAP
 {
 	private final CostTable costs;
 	private final boolean forced;
@@ -56,19 +57,15 @@ public class FallAction2 implements TActionOther, IMovementAction, IAPAction
 	}
 
 	@Override
-	public boolean executeEnd(HexPather xec)
+	public boolean executeEnd(HexPather xec0, TherathicHex xec1, E_AP_MP xec2)
 	{
-		if(xec.getTherathicHex() instanceof EActionPoints)
+		if(xec2.useAPMP(this, this, E_AP_MP.rd(forced)))
 		{
-			EActionPoints eap = ((EActionPoints) xec.getTherathicHex());
-			if(forced)
-				eap.drainAPMP(this, this);
-			else if(eap.useAPMP(this, this, true))
-				return true;
-			xec.setLoc(fallTo);
-			xec.setAirState(AirState.DOWN2);
+			xec0.setLoc(fallTo);
+			xec0.setAirState(AirState.DOWN2);
 			return false;
 		}
+		System.out.println("Not enough AP or MP");
 		return true;
 	}
 }

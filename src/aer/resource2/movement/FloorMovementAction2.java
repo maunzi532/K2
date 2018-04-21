@@ -4,11 +4,12 @@ import aer.*;
 import aer.commands.*;
 import aer.path.*;
 import aer.path.takeable.*;
+import aer.path.team.*;
 import aer.resource2.interfaces.*;
 import aer.resource2.therathicTypes.*;
 import java.util.*;
 
-public class FloorMovementAction2 implements TActionLocation, IMovementAction, IAPAction
+public class FloorMovementAction2 implements TActionLocation, IMovementAction, IAPAction, IThAP
 {
 	private final CostTable costs;
 	private final IHexMap map;
@@ -76,15 +77,14 @@ public class FloorMovementAction2 implements TActionLocation, IMovementAction, I
 	}
 
 	@Override
-	public boolean executeEnd(HexPather xec)
+	public boolean executeEnd(HexPather xec0, TherathicHex xec1, E_AP_MP xec2)
 	{
-		if(xec.getTherathicHex() instanceof EActionPoints &&
-				((EActionPoints) xec.getTherathicHex()).useAPMP(this, this, true))
+		if(xec2.useAPMP(this, this, E_AP_MP.Use.REAL))
 		{
-			xec.setDirection(mvDir);
-			xec.addCommand(new CTurn(mvDir));
-			xec.setLoc(end);
-			xec.addCommand(new CMove(end));
+			xec0.setDirection(mvDir);
+			xec0.addCommand(new CTurn(mvDir));
+			xec0.setLoc(end);
+			xec0.addCommand(new CMove(end));
 			return false;
 		}
 		return true;

@@ -8,6 +8,8 @@ public interface TherathicHex
 {
 	void linkTo(HexPather pather);
 
+	HexPather pather();
+
 	List<HexItem> activeItems(ItemGetType type, TargetData targetData);
 
 	TakeableAction startAction(ItemGetType type);

@@ -2,10 +2,11 @@ package aer.resource2.otheractions;
 
 import aer.path.*;
 import aer.path.takeable.*;
+import aer.path.team.*;
 import aer.resource2.interfaces.*;
 import aer.resource2.therathicTypes.*;
 
-public class InitAction2 implements TActionOther, IAPAction
+public class InitAction2 implements TActionOther, IAPAction, IThAP
 {
 	private final CostTable costs;
 
@@ -27,9 +28,8 @@ public class InitAction2 implements TActionOther, IAPAction
 	}
 
 	@Override
-	public boolean executeEnd(HexPather xec)
+	public boolean executeEnd(HexPather xec0, TherathicHex xec1, E_AP_MP xec2)
 	{
-		return !(xec.getTherathicHex() instanceof EActionPoints &&
-				((EActionPoints) xec.getTherathicHex()).useAP(this, true));
+		return !xec2.useAP(this, E_AP_MP.Use.REAL);
 	}
 }

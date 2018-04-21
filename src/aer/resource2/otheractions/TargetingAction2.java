@@ -3,10 +3,12 @@ package aer.resource2.otheractions;
 import aer.*;
 import aer.path.*;
 import aer.path.takeable.*;
+import aer.path.team.*;
 import aer.resource2.interfaces.*;
+import aer.resource2.therathicTypes.*;
 import java.util.*;
 
-public class TargetingAction2 implements TActionObject, ITargetedAction, IAPAction, IMainAction
+public class TargetingAction2 implements TActionObject, ITargetedAction, IAPAction, IMainAction, IThAP
 {
 	private final CostTable costs;
 	private final HexLocation start;
@@ -63,13 +65,13 @@ public class TargetingAction2 implements TActionObject, ITargetedAction, IAPActi
 	}
 
 	@Override
-	public boolean executeStart(HexPather xec)
+	public boolean executeStart(HexPather xec0, TherathicHex xec1, E_AP_MP xec2)
 	{
 		return false;
 	}
 
 	@Override
-	public List<HexPather> targets(HexPather xec)
+	public List<HexPather> targets(HexPather xec0, TherathicHex xec1)
 	{
 		if(target instanceof HexPather)
 			return Collections.singletonList((HexPather) target);
@@ -77,25 +79,25 @@ public class TargetingAction2 implements TActionObject, ITargetedAction, IAPActi
 	}
 
 	@Override
-	public List<Reaction> targetOptions(HexPather xec, HexPather target)
+	public List<Reaction> targetOptions(TherathicHex xec1, TherathicHex target1, E_AP_MP target2)
 	{
 		return Collections.singletonList(new Reaction("Wugu", 0, true));
 	}
 
 	@Override
-	public List<Integer> interruptTeamNumbers(HexPather xec, HexPather target)
+	public List<Integer> interruptTeamNumbers(TherathicHex xec1, TherathicHex target1)
 	{
-		return Collections.singletonList(target.getTherathicHex().teamSide());
+		return Collections.singletonList(target1.teamSide());
 	}
 
 	@Override
-	public boolean executeOn(HexPather xec, HexPather target, Reaction chosen)
+	public boolean executeOn(TherathicHex xec1, E_AP_MP xec2, TherathicHex target1, E_AP_MP target2, Reaction chosen)
 	{
 		return chosen == null || chosen.code != 0;
 	}
 
 	@Override
-	public boolean executeEnd(HexPather xec)
+	public boolean executeEnd(HexPather xec0, TherathicHex xec1, E_AP_MP xec2)
 	{
 		return false;
 	}

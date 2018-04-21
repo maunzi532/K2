@@ -3,10 +3,11 @@ package aer.resource2.movement;
 import aer.*;
 import aer.path.*;
 import aer.path.takeable.*;
+import aer.path.team.*;
 import aer.resource2.interfaces.*;
 import aer.resource2.therathicTypes.*;
 
-public class TurnAction2 implements TActionDirection, IDirectionAction, IMainAction, IAPAction
+public class TurnAction2 implements TActionDirection, IDirectionAction, IMainAction, IAPAction, IThAP
 {
 	private final CostTable costs;
 	private final HexDirection from;
@@ -44,12 +45,11 @@ public class TurnAction2 implements TActionDirection, IDirectionAction, IMainAct
 	}
 
 	@Override
-	public boolean executeEnd(HexPather xec)
+	public boolean executeEnd(HexPather xec0, TherathicHex xec1, E_AP_MP xec2)
 	{
-		if(xec.getTherathicHex() instanceof EActionPoints &&
-				((EActionPoints) xec.getTherathicHex()).useAPMP(this, this, true))
+		if(xec2.useAPMP(this, this, E_AP_MP.Use.REAL))
 		{
-			xec.setDirection(to);
+			xec0.setDirection(to);
 			return false;
 		}
 		return true;
