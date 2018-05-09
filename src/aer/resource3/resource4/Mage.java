@@ -2,6 +2,7 @@ package aer.resource3.resource4;
 
 import aer.path.*;
 import aer.resource3.*;
+import java.util.*;
 
 public class Mage extends Transformation
 {
@@ -14,8 +15,8 @@ public class Mage extends Transformation
 	}
 
 	@Override
-	public EndHexItem endItem()
+	public List<EndHexItem> endItems()
 	{
-		return movementItem;
+		return Collections.singletonList(movementItem);
 	}
 }

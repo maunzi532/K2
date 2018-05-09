@@ -1,7 +1,6 @@
 package aer.resource3;
 
 import aer.path.*;
-import aer.path.team.*;
 import java.util.*;
 
 public abstract class Transformation
@@ -29,17 +28,31 @@ public abstract class Transformation
 		return classModifiers;
 	}
 
-	public List<HexItem> activeItems(ItemGetType type, TargetData targetData)
+	public List<HexItem> activeItems()
 	{
 		List<HexItem> modifierItems = new ArrayList<>();
 		for(ItemModifier itemModifier : classModifiers(ItemModifier.class))
 		{
-			HexItem item = itemModifier.item(type, targetData);
+			HexItem item = itemModifier.item();
 			if(item != null)
 				modifierItems.add(item);
 		}
 		return modifierItems;
 	}
+
+	public List<HexItem> interruptItems(TargetData targetData)
+	{
+		List<HexItem> modifierItems = new ArrayList<>();
+		for(ItemModifier itemModifier : classModifiers(ItemModifier.class))
+		{
+			HexItem item = itemModifier.item();
+			if(item != null)
+				modifierItems.add(item);
+		}
+		return modifierItems;
+	}
+
+	public abstract List<EndHexItem> endItems();
 
 	public int stat(TStat stat)
 	{
@@ -61,8 +74,6 @@ public abstract class Transformation
 		}*/
 		return value;
 	}
-
-	public abstract EndHexItem endItem();
 
 	public void drawPhase(){}
 

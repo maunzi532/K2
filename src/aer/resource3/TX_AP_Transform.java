@@ -110,13 +110,25 @@ public class TX_AP_Transform implements TherathicHex, E_AP_MP
 	}
 
 	@Override
-	public List<HexItem> activeItems(ItemGetType type, TargetData targetData)
+	public List<HexItem> activeItems()
 	{
-		return currentTransform().activeItems(type, targetData);
+		return currentTransform().activeItems();
 	}
 
 	@Override
-	public TakeableAction startAction(ItemGetType type)
+	public List<HexItem> InterruptItems(TargetData targetData)
+	{
+		return currentTransform().interruptItems(targetData);
+	}
+
+	@Override
+	public List<EndHexItem> endItems()
+	{
+		return currentTransform().endItems();
+	}
+
+	@Override
+	public TakeableAction startAction()
 	{
 		return new InitAction2(costTable);
 	}
@@ -144,8 +156,8 @@ public class TX_AP_Transform implements TherathicHex, E_AP_MP
 		PathAction ac1 = currentTransform().endPhase();
 		if(ac1 != null)
 			return ac1;
-		HexItem mvItem = currentTransform().endItem();
-		pather.calculatePossiblePaths(ItemGetType.END, null);
+		//HexItem mvItem = currentTransform().endItem();
+		//pather.calculatePossiblePaths(ItemGetType.END, null);
 		return null;
 	}
 

@@ -41,13 +41,25 @@ public class TX_AP_2 implements TherathicHex, E_AP_MP
 	}
 
 	@Override
-	public List<HexItem> activeItems(ItemGetType type, TargetData targetData)
+	public List<HexItem> activeItems()
 	{
 		return items;
 	}
 
 	@Override
-	public TakeableAction startAction(ItemGetType type)
+	public List<HexItem> InterruptItems(TargetData targetData)
+	{
+		return Collections.EMPTY_LIST;
+	}
+
+	@Override
+	public List<EndHexItem> endItems()
+	{
+		return Collections.EMPTY_LIST;
+	}
+
+	@Override
+	public TakeableAction startAction()
 	{
 		return new InitAction2(costTable);
 	}

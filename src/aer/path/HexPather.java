@@ -3,7 +3,6 @@ package aer.path;
 import aer.*;
 import aer.path.team.*;
 import java.util.*;
-import java.util.stream.*;
 
 public class HexPather extends HexObject
 {
@@ -98,7 +97,7 @@ public class HexPather extends HexObject
 
 	public void calculatePossiblePaths(ItemGetType type, TargetData targetData)
 	{
-		possiblePaths = new ArrayList<>();
+		/*possiblePaths = new ArrayList<>();
 		PathAction start = new PathAction(this, therathicHex.actionResource(), therathicHex.startAction(type));
 		if(!start.deducted.okay())
 			return;
@@ -118,6 +117,12 @@ public class HexPather extends HexObject
 						.filter(path -> path.deducted.okay()).collect(Collectors.toList()));
 			}
 			possiblePaths.addAll(currentPath.next);
+		}*/
+		switch(type)
+		{
+			case ACTION:
+				possiblePaths = therathicHex.possibleActivePaths();
+				break;
 		}
 	}
 
