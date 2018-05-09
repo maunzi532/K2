@@ -4,7 +4,7 @@ import aer.path.*;
 import aer.path.team.*;
 import java.util.*;
 
-public class Transformation
+public abstract class Transformation
 {
 	public TX_AP_Transform main;
 	public Map<TStat, Integer> stats;
@@ -13,18 +13,39 @@ public class Transformation
 	public Transformation(TX_AP_Transform main)
 	{
 		this.main = main;
+		stats = new HashMap<>();
 		modifiers = new ArrayList<>();
+	}
+
+	public <T extends Modifier> List<T> classModifiers(Class<T> class0)
+	{
+		ArrayList<T> classModifiers = new ArrayList<>();
+		for(AppliedModifier am : main.modifiers)
+			if(am.modifier.getClass().equals(class0))
+				classModifiers.add((T) am.modifier);
+		for(AppliedModifier am : modifiers)
+			if(am.modifier.getClass().equals(class0))
+				classModifiers.add((T) am.modifier);
+		return classModifiers;
 	}
 
 	public List<HexItem> activeItems(ItemGetType type, TargetData targetData)
 	{
-		return null;
+		List<HexItem> modifierItems = new ArrayList<>();
+		for(ItemModifier itemModifier : classModifiers(ItemModifier.class))
+		{
+			HexItem item = itemModifier.item(type, targetData);
+			if(item != null)
+				modifierItems.add(item);
+		}
+		return modifierItems;
 	}
 
 	public int stat(TStat stat)
 	{
 		int value = stats.get(stat);
-		for(AppliedModifier am : modifiers)
+		value += classModifiers(StatModifier.class).stream().filter(e -> e.modified == stat).mapToInt(e -> e.change).sum();
+		/*for(AppliedModifier am : modifiers)
 		{
 			if(am.modifier instanceof StatModifier && ((StatModifier) am.modifier).modified == stat)
 			{
@@ -37,14 +58,13 @@ public class Transformation
 			{
 				value += ((StatModifier) am.modifier).change;
 			}
-		}
+		}*/
 		return value;
 	}
 
-	public void drawPhase()
-	{
+	public abstract EndHexItem endItem();
 
-	}
+	public void drawPhase(){}
 
 	public PathAction endPhase()
 	{

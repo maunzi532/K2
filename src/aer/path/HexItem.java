@@ -6,4 +6,9 @@ import java.util.*;
 public interface HexItem
 {
 	List<TakeableAction> takeableActions(PathAction pathAction);
+
+	default List<TakeableAction> interrupts(TargetData targetData)
+	{
+		return Collections.EMPTY_LIST;
+	}
 }
