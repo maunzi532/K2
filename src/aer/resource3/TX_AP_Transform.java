@@ -17,18 +17,84 @@ public class TX_AP_Transform implements TherathicHex, E_AP_MP
 	private int actionPoints;
 	private int movePoints;
 	private int reqFall;
-	//private List<HexItem> items;
+	public List<AppliedModifier> modifiers;
 
 	public TX_AP_Transform(CostTable costTable, Transformation transform0)
 	{
 		this.costTable = costTable;
 		transforms = new ArrayList<>();
 		transforms.add(transform0);
+		modifiers = new ArrayList<>();
 		npc_control = new UselessNPC();
-		/*items = new ArrayList<>();
-		items.add(new MDActionItem2(costTable));
-		items.add(new FloorMovementItem2(costTable));
-		items.add(new TargetingItem2(costTable));*/
+	}
+
+	public Transformation currentTransform()
+	{
+		return transforms.get(transforms.size() - 1);
+	}
+
+	public Transformation prevTransform()
+	{
+		if(transforms.size() <= 1)
+			return null;
+		return transforms.get(transforms.size() - 2);
+	}
+
+	public Transformation firstTransform()
+	{
+		return transforms.get(0);
+	}
+
+	public void transformInto(Transformation transformation)
+	{
+		transforms.add(transformation);
+	}
+
+	public void endTransformation(Transformation transformation)
+	{
+		if(!transforms.remove(transformation))
+			throw new RuntimeException();
+	}
+
+	public void applyModifier(Modifier modifier)
+	{
+		AppliedModifier am = new AppliedModifier(modifier, this);
+		if(modifier.affectsTransformationOnly())
+		{
+			currentTransform().modifiers.add(am);
+		}
+		else
+		{
+			modifiers.add(am);
+		}
+	}
+
+	public List<AppliedModifier> activeModifiers()
+	{
+		ArrayList re = new ArrayList<>();
+		re.addAll(modifiers);
+		re.addAll(currentTransform().modifiers);
+		return re;
+	}
+
+	public void tickModifiers()
+	{
+		tickModifierList(modifiers, true);
+		for(int i = 0; i < transforms.size(); i++)
+		{
+			Transformation t0 = transforms.get(i);
+			tickModifierList(t0.modifiers, i == transforms.size() - 1);
+		}
+	}
+
+	private static void tickModifierList(List<AppliedModifier> modifiers1, boolean active)
+	{
+		for(AppliedModifier modifier0 : modifiers1)
+			if(modifier0.tick(active))
+			{
+				modifier0.end(active);
+				modifiers1.remove(modifier0);
+			}
 	}
 
 	@Override
@@ -46,7 +112,7 @@ public class TX_AP_Transform implements TherathicHex, E_AP_MP
 	@Override
 	public List<HexItem> activeItems(ItemGetType type, TargetData targetData)
 	{
-		return null;
+		return currentTransform().activeItems(type, targetData);
 	}
 
 	@Override
@@ -67,12 +133,18 @@ public class TX_AP_Transform implements TherathicHex, E_AP_MP
 		actionPoints = 100;
 		movePoints = 100;
 		reqFall = pather.getAirState().isAerial ? 4 : 0;
+		currentTransform().drawPhase();
 		return true;
 	}
 
 	@Override
 	public PathAction endPhase()
 	{
+		tickModifiers();
+		PathAction ac1 = currentTransform().endPhase();
+		if(ac1 != null)
+			return ac1;
+
 		return null;
 	}
 

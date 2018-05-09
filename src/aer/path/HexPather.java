@@ -96,8 +96,7 @@ public class HexPather extends HexObject
 		possiblePaths = null;
 	}
 
-
-	public void calculatePossiblePaths(TherathicHex.ItemGetType type, TargetData targetData)
+	public void calculatePossiblePaths(ItemGetType type, TargetData targetData)
 	{
 		possiblePaths = new ArrayList<>();
 		PathAction start = new PathAction(this, therathicHex.actionResource(), therathicHex.startAction(type));
@@ -109,7 +108,7 @@ public class HexPather extends HexObject
 			if(i > 5000)
 			{
 				possiblePaths.forEach(e -> System.out.println(e.deducted));
-				throw new RuntimeException("Pathcount probably infinite");
+				throw new RuntimeException("Pathcount > 5000");
 			}
 			PathAction currentPath = possiblePaths.get(i);
 			for(HexItem item : therathicHex.activeItems(type, targetData))

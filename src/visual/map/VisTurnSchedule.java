@@ -50,7 +50,7 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 				{
 					HexPather pather = (HexPather) object;
 					if(pather.getPossiblePaths() == null)
-						pather.calculatePossiblePaths(TherathicHex.ItemGetType.ACTION, null);
+						pather.calculatePossiblePaths(ItemGetType.ACTION, null);
 					pathTraverse = new PathTraverse(pather.getPossiblePaths(), pather, true);
 					node.getParent().getChild("Map").getControl(VisHexMap.class).lightThese(pathTraverse.locations().keySet());
 				}
@@ -82,7 +82,7 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 				{
 					HexPather pather = (HexPather) object;
 					if(pather.getPossiblePaths() == null)
-						pather.calculatePossiblePaths(TherathicHex.ItemGetType.INTERRUPT, linked.targetData);
+						pather.calculatePossiblePaths(ItemGetType.INTERRUPT, linked.targetData);
 					pathTraverse = new PathTraverse(pather.getPossiblePaths(), pather, false);
 					node.getParent().getChild("Map").getControl(VisHexMap.class).lightThese(pathTraverse.locations().keySet());
 				}

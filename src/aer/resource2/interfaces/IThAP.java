@@ -32,7 +32,7 @@ public interface IThAP extends TakeableAction
 
 	default List<HexPather> targets(HexPather xec0, TherathicHex xec1)
 	{
-		return null;
+		return Collections.EMPTY_LIST;
 	}
 
 	@Override

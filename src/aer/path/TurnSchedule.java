@@ -118,7 +118,7 @@ public class TurnSchedule extends CommandLink
 				else
 				{
 					currentControlled = npcControlled.next();
-					currentControlled.calculatePossiblePaths(TherathicHex.ItemGetType.ACTION, null);
+					currentControlled.calculatePossiblePaths(ItemGetType.ACTION, null);
 					PathAction path = currentControlled.getTherathicHex().npcControl().path(currentControlled);
 					if(path != null)
 						importPath(path);
@@ -146,7 +146,7 @@ public class TurnSchedule extends CommandLink
 				else
 				{
 					currentControlled = npcControlled.next();
-					currentControlled.calculatePossiblePaths(TherathicHex.ItemGetType.END, null);
+					currentControlled.calculatePossiblePaths(ItemGetType.END, null);
 					PathAction path = currentControlled.getTherathicHex().endPhase();
 					if(path != null)
 						importPath(path);
@@ -207,7 +207,7 @@ public class TurnSchedule extends CommandLink
 				else
 				{
 					currentInterrupt = npcInterrupt.next();
-					currentInterrupt.calculatePossiblePaths(TherathicHex.ItemGetType.INTERRUPT, targetData);
+					currentInterrupt.calculatePossiblePaths(ItemGetType.INTERRUPT, targetData);
 					TakeableAction intA = currentInterrupt.getTherathicHex().npcControl().interrupt(currentInterrupt, targetData);
 					if(intA != null)
 						importInterrupt(currentInterrupt, intA);

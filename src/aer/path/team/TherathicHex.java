@@ -25,11 +25,4 @@ public interface TherathicHex
 	boolean playerControlled();
 
 	NPC_Control npcControl();
-
-	enum ItemGetType
-	{
-		ACTION,
-		INTERRUPT,
-		END
-	}
 }
