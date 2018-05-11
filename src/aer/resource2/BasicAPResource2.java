@@ -7,7 +7,7 @@ import aer.resource2.interfaces.*;
 import aer.resource2.resourceTypes.*;
 import java.util.*;
 
-public class BasicAPResource2 implements ActionResource, RActionPoints, RBasicData
+public class BasicAPResource2 implements ActionResource, RActionPoints, RBasicData, RFallData
 {
 	private final boolean end;
 	private final int actionPoints;
@@ -175,6 +175,12 @@ public class BasicAPResource2 implements ActionResource, RActionPoints, RBasicDa
 	public boolean dEnd()
 	{
 		return end;
+	}
+
+	@Override
+	public int dRequiredFall()
+	{
+		return requiredFall;
 	}
 
 	@Override

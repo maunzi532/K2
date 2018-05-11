@@ -75,14 +75,19 @@ public interface TherathicHex
 		ActionResource actionResource = actionResource();
 		for(EndHexItem endHexItem : endItems)
 		{
-			TakeableAction endAction = endHexItem.endAction(actionResource);
-			if(endAction != null)
+			while(true)
 			{
-				if(pathAction == null)
-					pathAction = new PathAction(pather(), actionResource, endAction);
+				TakeableAction endAction = endHexItem.endAction(actionResource, this);
+				if(endAction != null)
+				{
+					if(pathAction == null)
+						pathAction = new PathAction(pather(), actionResource, endAction);
+					else
+						pathAction = new PathAction(pather(), actionResource, endAction, pathAction);
+					actionResource = pathAction.deducted;
+				}
 				else
-					pathAction = new PathAction(pather(), actionResource, endAction, pathAction);
-				actionResource = pathAction.deducted;
+					break;
 			}
 		}
 		return pathAction;

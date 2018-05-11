@@ -46,7 +46,7 @@ public class LandingAction2 implements TActionOther, IAirStateAction, IAPAction,
 	@Override
 	public List<HexPather> targets(HexPather xec)
 	{
-		return null;
+		return Collections.EMPTY_LIST;
 	}
 
 	@Override

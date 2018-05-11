@@ -9,9 +9,8 @@ public abstract class Transformation
 	public Map<TStat, Integer> stats;
 	public List<AppliedModifier> modifiers;
 
-	public Transformation(TX_AP_Transform main)
+	public Transformation()
 	{
-		this.main = main;
 		stats = new HashMap<>();
 		modifiers = new ArrayList<>();
 	}

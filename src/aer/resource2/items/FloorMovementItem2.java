@@ -3,12 +3,13 @@ package aer.resource2.items;
 import aer.*;
 import aer.path.*;
 import aer.path.takeable.*;
+import aer.path.team.*;
 import aer.resource2.interfaces.*;
 import aer.resource2.movement.*;
 import aer.resource2.resourceTypes.*;
 import java.util.*;
 
-public class FloorMovementItem2 implements HexItem
+public class FloorMovementItem2 implements EndHexItem
 {
 	private CostTable costTable;
 
@@ -97,5 +98,23 @@ public class FloorMovementItem2 implements HexItem
 	public int maxMovement(int movePoints)
 	{
 		return (movePoints - costTable.initMoveM) / costTable.moveCostM;
+	}
+
+	@Override
+	public TakeableAction endAction(ActionResource resource, TherathicHex therathicHex)
+	{
+		RBasicData res1 = (RBasicData) resource;
+		RFallData res3 = (RFallData) resource;
+		HexPather pather = therathicHex.pather();
+		IHexMap map = pather.map;
+		MapTile tile = pather.map.getTile(res1.dLocation());
+		if(res1.dAirState().isAerial)
+		{
+			if(res1.dAirState().fall < 0 && tile.type == MapTileType.FLOOR)
+				return new LandingAction2(costTable, true);
+			else if(res3.dRequiredFall() > 0)
+				return new FallAction2(costTable, true, map, res1.dLocation(), res1.dAirState());
+		}
+		return null;
 	}
 }

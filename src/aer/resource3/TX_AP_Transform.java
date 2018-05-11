@@ -24,6 +24,7 @@ public class TX_AP_Transform implements TherathicHex, E_AP_MP
 		this.costTable = costTable;
 		transforms = new ArrayList<>();
 		transforms.add(transform0);
+		transform0.main = this;
 		modifiers = new ArrayList<>();
 		npc_control = new UselessNPC();
 	}
@@ -48,6 +49,7 @@ public class TX_AP_Transform implements TherathicHex, E_AP_MP
 	public void transformInto(Transformation transformation)
 	{
 		transforms.add(transformation);
+		transformation.main = this;
 	}
 
 	public void endTransformation(Transformation transformation)

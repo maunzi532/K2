@@ -4,6 +4,8 @@ import aer.*;
 import aer.mapgen.*;
 import aer.path.*;
 import aer.resource2.*;
+import aer.resource3.*;
+import aer.resource3.resource4.*;
 import com.jme3.app.*;
 import com.jme3.asset.*;
 import com.jme3.input.*;
@@ -83,8 +85,11 @@ public class Main extends SimpleApplication
 		attachWithNode(rootNode, "Map", new VisHexMap(hexMap, 0));
 
 		//Create TX_AP_2 HexPather
-		HexPather pather = new HexPather(10, hexMap, new HexLocation(2, 1, 0, 0),
+		/*HexPather pather = new HexPather(10, hexMap, new HexLocation(2, 1, 0, 0),
 				new HexDirection(6), AirState.FLOOR, new TX_AP_2(new CostTable()));
+		hexMap.addObject(pather);*/
+		HexPather pather = new HexPather(10, hexMap, new HexLocation(2, 1, 3, 0),
+				new HexDirection(6), AirState.UP, new TX_AP_Transform(new CostTable(), new Mage()));
 		hexMap.addObject(pather);
 
 		//Create VisObject for HexPather
