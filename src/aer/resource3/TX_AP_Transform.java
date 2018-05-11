@@ -116,7 +116,7 @@ public class TX_AP_Transform implements TherathicHex, E_AP_MP
 	}
 
 	@Override
-	public List<HexItem> InterruptItems(TargetData targetData)
+	public List<HexItem> interruptItems(TargetData targetData)
 	{
 		return currentTransform().interruptItems(targetData);
 	}
@@ -156,9 +156,7 @@ public class TX_AP_Transform implements TherathicHex, E_AP_MP
 		PathAction ac1 = currentTransform().endPhase();
 		if(ac1 != null)
 			return ac1;
-		//HexItem mvItem = currentTransform().endItem();
-		//pather.calculatePossiblePaths(ItemGetType.END, null);
-		return null;
+		return endPath();
 	}
 
 	@Override

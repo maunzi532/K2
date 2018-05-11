@@ -13,7 +13,7 @@ public interface TherathicHex
 
 	List<HexItem> activeItems();
 
-	List<HexItem> InterruptItems(TargetData targetData);
+	List<HexItem> interruptItems(TargetData targetData);
 
 	List<EndHexItem> endItems();
 
@@ -31,7 +31,7 @@ public interface TherathicHex
 
 	NPC_Control npcControl();
 
-	default ArrayList<PathAction> possibleActivePaths()
+	default List<PathAction> possibleActivePaths()
 	{
 		ArrayList<PathAction> possiblePaths = new ArrayList<>();
 		PathAction start = new PathAction(pather(), actionResource(), startAction());
@@ -55,6 +55,37 @@ public interface TherathicHex
 			possiblePaths.addAll(currentPath.next);
 		}
 		return possiblePaths;
+	}
+
+	default List<PathAction> possibleInterrupts(TargetData targetData)
+	{
+		ArrayList<TakeableAction> takeableActions = new ArrayList<>();
+		ActionResource actionResource = actionResource();
+		for(HexItem item : interruptItems(targetData))
+		{
+			item.interrupts(targetData).stream().filter(e -> actionResource.deduct(e).okay()).forEach(takeableActions::add);
+		}
+		return takeableActions.stream().map(e -> new PathAction(pather(), actionResource(), e)).collect(Collectors.toList());
+	}
+
+	default PathAction endPath()
+	{
+		List<EndHexItem> endItems = endItems();
+		PathAction pathAction = null;
+		ActionResource actionResource = actionResource();
+		for(EndHexItem endHexItem : endItems)
+		{
+			TakeableAction endAction = endHexItem.endAction(actionResource);
+			if(endAction != null)
+			{
+				if(pathAction == null)
+					pathAction = new PathAction(pather(), actionResource, endAction);
+				else
+					pathAction = new PathAction(pather(), actionResource, endAction, pathAction);
+				actionResource = pathAction.deducted;
+			}
+		}
+		return pathAction;
 	}
 
 	/*static ArrayList<PathAction> calculatePossiblePaths(ItemGetType type, TargetData targetData, TherathicHex therathicHex, List<HexItem> items)

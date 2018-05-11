@@ -47,7 +47,7 @@ public class TX_AP_2 implements TherathicHex, E_AP_MP
 	}
 
 	@Override
-	public List<HexItem> InterruptItems(TargetData targetData)
+	public List<HexItem> interruptItems(TargetData targetData)
 	{
 		return Collections.EMPTY_LIST;
 	}
@@ -82,7 +82,7 @@ public class TX_AP_2 implements TherathicHex, E_AP_MP
 	@Override
 	public PathAction endPhase()
 	{
-		return null;
+		return endPath();
 	}
 
 	@Override

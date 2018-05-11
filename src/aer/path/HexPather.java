@@ -123,6 +123,12 @@ public class HexPather extends HexObject
 			case ACTION:
 				possiblePaths = therathicHex.possibleActivePaths();
 				break;
+			case INTERRUPT:
+				possiblePaths = therathicHex.possibleInterrupts(targetData);
+				break;
+			case END:
+				possiblePaths = Collections.singletonList(therathicHex.endPath());
+				break;
 		}
 	}
 
