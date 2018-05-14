@@ -88,6 +88,7 @@ public class Main extends SimpleApplication
 		/*HexPather pather = new HexPather(10, hexMap, new HexLocation(2, 1, 0, 0),
 				new HexDirection(6), AirState.FLOOR, new TX_AP_2(new CostTable()));
 		hexMap.addObject(pather);*/
+		//Create TX_AP_Transform HexPather
 		HexPather pather = new HexPather(10, hexMap, new HexLocation(2, 1, 3, 0),
 				new HexDirection(6), AirState.UP, new TX_AP_Transform(new CostTable(), new Mage()));
 		hexMap.addObject(pather);

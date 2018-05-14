@@ -1,6 +1,7 @@
 package aer.resource2.otheractions;
 
 import aer.*;
+import aer.commands.*;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
@@ -75,8 +76,12 @@ public class MountAction2 implements TActionObject, IMountAction, IAPAction, IMa
 		if(xec2.useAPMP(this, this, E_AP_MP.Use.REAL))
 		{
 			if(from != null)
+			{
 				xec0.setDirection(mount.getDirection());
+				CTurn.issueCommand(xec0);
+			}
 			xec0.setMount(mount);
+			CMove.issueCommand(xec0);
 			return false;
 		}
 		return true;

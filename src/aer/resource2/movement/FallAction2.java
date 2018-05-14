@@ -1,6 +1,7 @@
 package aer.resource2.movement;
 
 import aer.*;
+import aer.commands.*;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
@@ -63,6 +64,7 @@ public class FallAction2 implements TActionOther, IMovementAction, IAPAction, IT
 		{
 			xec0.setLoc(fallTo);
 			xec0.setAirState(AirState.DOWN2);
+			CMove.issueCommand(xec0);
 			return false;
 		}
 		System.out.println("Not enough AP or MP");

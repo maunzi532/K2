@@ -77,7 +77,6 @@ public class VisHexMap extends VisualR<IHexMap>
 					}
 	}
 
-	//broken
 	public void lightThese(Collection<HexLocation> locations)
 	{
 		YHexoMeshT hexoMeshFloor1 = new YHexoMeshT(Scale.X_HEX_RADIUS * 0.9f, Scale.X_HEX_RADIUS * 0.8f,
@@ -103,6 +102,12 @@ public class VisHexMap extends VisualR<IHexMap>
 			node1.setLocalTranslation(conv(loc));
 			lightThese.attachChild(node1);
 		}
+	}
+
+	public void endLighting()
+	{
+		if(node.getChild("LightThese") != null)
+			((Node) node.getChild("LightThese")).detachAllChildren();
 	}
 
 	@Override

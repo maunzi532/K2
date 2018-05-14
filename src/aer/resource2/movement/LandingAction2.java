@@ -1,6 +1,7 @@
 package aer.resource2.movement;
 
 import aer.*;
+import aer.commands.*;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
@@ -67,6 +68,7 @@ public class LandingAction2 implements TActionOther, IAirStateAction, IAPAction,
 		if(xec2.useAPMP(this, this, E_AP_MP.rd(forced)))
 		{
 			xec0.setAirState(AirState.FLOOR);
+			CMove.issueCommand(xec0);
 			return false;
 		}
 		System.out.println("Not enough AP or MP");

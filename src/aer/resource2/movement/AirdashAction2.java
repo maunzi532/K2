@@ -1,6 +1,7 @@
 package aer.resource2.movement;
 
 import aer.*;
+import aer.commands.*;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
@@ -90,6 +91,7 @@ public class AirdashAction2 implements TActionLocation, IMovementAction, IAPActi
 		{
 			xec0.setLoc(end2);
 			xec0.setAirState(airState);
+			CMove.issueCommand(xec0);
 			return false;
 		}
 		return true;

@@ -1,6 +1,7 @@
 package aer.resource2.movement;
 
 import aer.*;
+import aer.commands.*;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
@@ -50,6 +51,7 @@ public class TurnAction2 implements TActionDirection, IDirectionAction, IMainAct
 		if(xec2.useAPMP(this, this, E_AP_MP.Use.REAL))
 		{
 			xec0.setDirection(to);
+			CTurn.issueCommand(xec0);
 			return false;
 		}
 		return true;

@@ -6,9 +6,10 @@ public class HexObject extends CommandLink
 {
 	public final int id;
 	public final IHexMap map;
-	protected HexLocation loc;
-	protected HexDirection direction;
-	protected AirState airState;
+	private HexLocation loc;
+	private HexDirection direction;
+	private AirState airState;
+	private HexObject mount;
 
 	public HexObject(int id, IHexMap map, HexLocation loc, HexDirection direction, AirState airState)
 	{
@@ -21,32 +22,68 @@ public class HexObject extends CommandLink
 
 	public HexLocation getLoc()
 	{
+		if(mount != null)
+			return mount.getLoc();
 		return loc;
 	}
 
 	public void setLoc(HexLocation loc)
 	{
+		if(mount != null)
+		{
+			mount.setLoc(loc);
+			return;
+		}
 		this.loc = loc;
 	}
 
 	public HexDirection getDirection()
 	{
+		if(mount != null)
+			return HexDirection.plus(direction, mount.getDirection());
 		return direction;
 	}
 
 	public void setDirection(HexDirection direction)
 	{
+		if(mount != null)
+		{
+			this.direction = HexDirection.minus(direction, mount.getDirection());
+			return;
+		}
 		this.direction = direction;
 	}
 
 	public AirState getAirState()
 	{
+		if(mount != null)
+			return AirState.MOUNT;
 		return airState;
 	}
 
 	public void setAirState(AirState airState)
 	{
 		this.airState = airState;
+	}
+
+	public HexObject getMount()
+	{
+		return mount;
+	}
+
+	public void setMount(HexObject mount)
+	{
+		if(mount == null)
+		{
+			loc = this.mount.getLoc();
+			direction = HexDirection.plus(direction, this.mount.getDirection());
+			this.mount = null;
+		}
+		else
+		{
+			this.mount = mount;
+			direction = HexDirection.minus(direction, this.mount.getDirection());
+		}
 	}
 
 	public MapTile currentTile()

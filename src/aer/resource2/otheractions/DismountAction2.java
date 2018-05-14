@@ -1,6 +1,7 @@
 package aer.resource2.otheractions;
 
 import aer.*;
+import aer.commands.*;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
@@ -57,6 +58,7 @@ public class DismountAction2 implements TActionOther, IMountAction, IAPAction, I
 		{
 			xec0.setMount(null);
 			xec0.setAirState(airState);
+			CMove.issueCommand(xec0);
 			return false;
 		}
 		return true;
