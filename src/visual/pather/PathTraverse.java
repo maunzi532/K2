@@ -87,7 +87,7 @@ public class PathTraverse
 				showChoiceOptions();
 				break;
 			case ACCEPT:
-				if(canEnd())
+				if(!chCheck() && canEnd())
 				{
 					System.out.println("Chosen path:");
 					System.out.print(steps(currentAction));
@@ -106,8 +106,9 @@ public class PathTraverse
 				}
 				break;
 			case BACK:
-				if(chReset())
+				if(chCheck())
 				{
+					chReset();
 					updateChoiceOptions();
 				}
 				else if(currentAction != null && currentAction.previous != null)
@@ -151,14 +152,16 @@ public class PathTraverse
 		return null;
 	}
 
-	private boolean chReset()
+	private boolean chCheck()
 	{
-		if(object == null && loc == null && turn == null)
-			return false;
+		return !(object == null && loc == null && turn == null);
+	}
+
+	private void chReset()
+	{
 		object = null;
 		loc = null;
 		turn = null;
-		return true;
 	}
 
 	public void updateChoiceOptions()
@@ -229,7 +232,7 @@ public class PathTraverse
 	private void showChoiceOptions()
 	{
 		System.out.print(steps(currentAction));
-		if(canEnd())
+		if(!chCheck() && canEnd())
 			System.out.println("> enter key to take this path");
 		System.out.println(object != null ? "Actions targeting object:" :
 				loc != null ? "Actions targeting location:" :

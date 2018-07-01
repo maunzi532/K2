@@ -192,7 +192,8 @@ public class TurnSchedule extends CommandLink
 				{
 					targetData = new TargetData(currentControlled, currentAction, targets.next());
 					log(3, "Action " + currentAction.getClass().getSimpleName() + " targeting " + targetData.target.name());
-					setPhase(TurnPhase.ALLYINTERRUPT);
+					if(targetData.reactionOptions() != null)
+						setPhase(TurnPhase.ALLYINTERRUPT);
 					return true;
 				}
 			case ALLYINTERRUPT:
@@ -296,7 +297,7 @@ public class TurnSchedule extends CommandLink
 
 	public void importReaction(Reaction reaction)
 	{
-		log(3, "Chosen reaction: " + reaction);
+		log(3, "Chosen reaction: " + reaction.text);
 		playerControl = 0;
 		if(targetData.exec(reaction))
 			endActionPath(false);

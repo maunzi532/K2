@@ -22,7 +22,7 @@ public interface TakeableAction
 
 	default List<Reaction> targetOptions(HexPather xec, HexPather target)
 	{
-		throw new RuntimeException();
+		return null;
 	}
 
 	default List<Integer> interruptTeamNumbers(HexPather xec, HexPather target)

@@ -27,15 +27,30 @@ public class ReactionCh
 				num++;
 				if(num >= reactions.size())
 					num = 0;
+				showChoiceOptions();
 				break;
 			case MINUSD:
 				num--;
 				if(num < 0)
 					num = reactions.size() - 1;
+				showChoiceOptions();
 				break;
 			case ACCEPT:
-				return reactions.get(num);
+				if(num == 0 || reactions.get(num).available)
+					return reactions.get(num);
+				break;
 		}
 		return null;
+	}
+
+	public void showChoiceOptions()
+	{
+		System.out.println("Choose Reaction with enter key");
+		System.out.println("Reactions:");
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0; i < reactions.size(); i++)
+			sb.append(i == num ? "> " : "| ").append(reactions.get(i).text)
+					.append(i == 0 || reactions.get(i).available ? "" : " (Not available)").append("\n");
+		System.out.print(sb.toString());
 	}
 }

@@ -101,7 +101,10 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 			else if(linked.playerControl == 3)
 			{
 				if(reactionCh == null)
+				{
 					reactionCh = new ReactionCh(linked.reactions);
+					reactionCh.showChoiceOptions();
+				}
 				Reaction reaction = reactionCh.exec(targeting.checkInput());
 				if(reaction != null)
 				{
@@ -124,7 +127,12 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 				linked.stepForward(false);
 			}
 			if(pathTraverse.esc || pathAction != null)
+			{
 				pathTraverse = null;
+				if(reactionCh == null)
+					reactionCh = new ReactionCh(linked.reactions);
+				reactionCh.showChoiceOptions();
+			}
 		}
 	}
 

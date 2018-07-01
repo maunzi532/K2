@@ -81,7 +81,8 @@ public class TargetingAction2 implements TActionObject, ITargetedAction, IAPActi
 	@Override
 	public List<Reaction> targetOptions(TherathicHex xec1, TherathicHex target1, E_AP_MP target2)
 	{
-		return Collections.singletonList(new Reaction("Wugu", 0, true));
+		return Arrays.asList(new Reaction("Wugu0", 0, true),
+				new Reaction("Wugu1", 1, true));
 	}
 
 	@Override
