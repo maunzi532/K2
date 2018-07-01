@@ -108,6 +108,7 @@ public class Main extends SimpleApplication
 		CursorTargeting targeting = new CursorTargeting(hexMap);
 		stateManager.attach(targeting);
 		attachWithNode(rootNode, "VTS", new VisTurnSchedule(turnSchedule, targeting));
+		rootNode.getChild("VTS").getControl(VisTurnSchedule.class).stepToPlayerPhase();
 	}
 
 	public static Node attachWithNode(Node attach, String name, Control control)

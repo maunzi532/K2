@@ -52,13 +52,13 @@ public class TurnSchedule extends CommandLink
 		System.out.println(message);
 	}
 
-	public void stepForward()
+	public void stepForward(boolean skipToPlayerControl)
 	{
 		//noinspection StatementWithEmptyBody
-		while(stepForwardNoSkip());
+		while(stepForwardNoSkip(skipToPlayerControl) || skipToPlayerControl && playerControl <= 0);
 	}
 
-	private boolean stepForwardNoSkip()
+	private boolean stepForwardNoSkip(boolean endPlayerPhase)
 	{
 		switch(innerPhase)
 		{
@@ -96,10 +96,14 @@ public class TurnSchedule extends CommandLink
 				}
 				else
 				{
-					log(0, "Ending player phase");
-					playerControl = 0;
-					setPhase(TurnPhase.ALLYACTION);
-					return true;
+					if(endPlayerPhase)
+					{
+						log(0, "Ending player phase");
+						playerControl = 0;
+						setPhase(TurnPhase.ALLYACTION);
+						return true;
+					}
+					return false;
 				}
 			case ALLYACTION:
 				if(initFlag)
@@ -233,12 +237,16 @@ public class TurnSchedule extends CommandLink
 				}
 				else
 				{
-					log(0, "Ending player interrupt phase");
-					if(playerControl == 3)
-						importReaction(reactions.get(0));
-					else
-						importReaction(targetData.target.getTherathicHex().npcControl().reaction(targetData));
-					return true;
+					if(endPlayerPhase)
+					{
+						log(0, "Ending player interrupt phase");
+						if(playerControl == 3)
+							importReaction(reactions.get(0));
+						else
+							importReaction(targetData.target.getTherathicHex().npcControl().reaction(targetData));
+						return true;
+					}
+					return false;
 				}
 		}
 		return false;

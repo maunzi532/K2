@@ -34,7 +34,9 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 				break;
 			default:
 				if(targeting.checkInput() == Input1.ACCEPT)
-					linked.stepForward();
+					linked.stepForward(true);
+				if(targeting.checkInput() == Input1.CHOOSE)
+					linked.stepForward(false);
 		}
 		targeting.reset();
 	}
@@ -43,7 +45,7 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 	{
 		if(pathTraverse == null)
 		{
-			if(targeting.checkInput() == Input1.CHOOSE)
+			if(targeting.checkInput() == Input1.TARGET)
 			{
 				HexObject object = targeting.targetObject();
 				if(object != null && object instanceof HexPather)
@@ -56,7 +58,9 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 				}
 			}
 			else if(targeting.checkInput() == Input1.ACCEPT)
-				linked.stepForward();
+				linked.stepForward(true);
+			else if(targeting.checkInput() == Input1.CHOOSE)
+				linked.stepForward(false);
 		}
 		else
 		{
@@ -64,10 +68,17 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 			if(pathAction != null)
 			{
 				linked.importPath(pathAction);
-				linked.stepForward();
+				linked.stepForward(false);
 			}
 			if(pathTraverse.esc || pathAction != null)
+			{
+				node.getParent().getChild("Map").getControl(VisHexMap.class).endLighting();
 				pathTraverse = null;
+			}
+			else if(pathTraverse.pathed)
+			{
+				node.getParent().getChild("Map").getControl(VisHexMap.class).lightThese(pathTraverse.locations().keySet());
+			}
 		}
 	}
 
@@ -75,7 +86,7 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 	{
 		if(pathTraverse == null)
 		{
-			if(targeting.checkInput() == Input1.CHOOSE)
+			if(targeting.checkInput() == Input1.TARGET)
 			{
 				HexObject object = targeting.targetObject();
 				if(object != null && object instanceof HexPather)
@@ -96,11 +107,13 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 				{
 					reactionCh = null;
 					linked.importReaction(reaction);
-					linked.stepForward();
+					linked.stepForward(false);
 				}
 			}
 			else if(targeting.checkInput() == Input1.ACCEPT)
-				linked.stepForward();
+				linked.stepForward(true);
+			else if(targeting.checkInput() == Input1.CHOOSE)
+				linked.stepForward(false);
 		}
 		else
 		{
@@ -108,11 +121,16 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 			if(pathAction != null)
 			{
 				linked.importInterrupt(pathAction.pather, pathAction.action);
-				linked.stepForward();
+				linked.stepForward(false);
 			}
 			if(pathTraverse.esc || pathAction != null)
 				pathTraverse = null;
 		}
+	}
+
+	public void stepToPlayerPhase()
+	{
+		linked.stepForward(true);
 	}
 
 	@Override

@@ -40,6 +40,7 @@ public class CursorTargeting extends BaseAppState implements Targeting, ActionLi
 		q.setMaterial(new Material(app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md"));
 		q.setLocalTranslation(app.getContext().getSettings().getWidth() / 2f, app.getContext().getSettings().getHeight() / 2f, 0);
 		((SimpleApplication) app).getGuiNode().attachChild(q);*/
+		inputManager.addMapping("TARGET", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
 		inputManager.addMapping("CHOOSE", new KeyTrigger(KeyInput.KEY_SPACE));
 		inputManager.addMapping("CHANGE", new KeyTrigger(KeyInput.KEY_TAB));
 		inputManager.addMapping("ACCEPT", new KeyTrigger(KeyInput.KEY_RETURN));
@@ -147,7 +148,7 @@ public class CursorTargeting extends BaseAppState implements Targeting, ActionLi
 		if(isPressed)
 		{
 			input1 = Input1.valueOf(name);
-			System.out.println(input1.name());
+			//System.out.println(input1.name());
 		}
 	}
 }

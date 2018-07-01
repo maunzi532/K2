@@ -22,6 +22,7 @@ public class PathTraverse
 	public int choiceNum;
 	public List choiceOptions;
 	public boolean esc = false;
+	public boolean pathed = false;
 
 	public PathTraverse(List<PathAction> possibleActions, HexPather pather, boolean initial)
 	{
@@ -43,11 +44,12 @@ public class PathTraverse
 
 	public PathAction exec(Input1 input1, HexLocation tLoc, HexObject tObject, boolean autoTake)
 	{
+		pathed = false;
 		if(input1 == null)
 			return null;
 		switch(input1)
 		{
-			case CHOOSE:
+			case TARGET:
 				if(tObject != null && tObject != object)
 				{
 					chReset();
@@ -61,7 +63,9 @@ public class PathTraverse
 					loc = tLoc;
 					updateChoiceOptions();
 				}
-				else if(choiceNum >= 0 && choiceOptions != null && choiceOptions.size() > choiceNum)
+				break;
+			case CHOOSE:
+				if(choiceNum >= 0 && choiceOptions != null && choiceOptions.size() > choiceNum)
 				{
 					chReset();
 					pathIn((TakeableAction) choiceOptions.get(choiceNum));
@@ -89,12 +93,27 @@ public class PathTraverse
 					System.out.print(steps(currentAction));
 					return currentAction;
 				}
-				break;
-			case BACK:
-				if(currentAction != null && currentAction.previous != null)
+				else if(choiceNum >= 0 && choiceOptions != null && choiceOptions.size() > choiceNum)
 				{
 					chReset();
+					pathIn((TakeableAction) choiceOptions.get(choiceNum));
+					if(canEnd())
+					{
+						System.out.println("Chosen path:");
+						System.out.print(steps(currentAction));
+						return currentAction;
+					}
+				}
+				break;
+			case BACK:
+				if(chReset())
+				{
+					updateChoiceOptions();
+				}
+				else if(currentAction != null && currentAction.previous != null)
+				{
 					setCurrentAction(currentAction.previous);
+					pathed = true;
 				}
 				else
 				{
@@ -132,11 +151,14 @@ public class PathTraverse
 		return null;
 	}
 
-	private void chReset()
+	private boolean chReset()
 	{
+		if(object == null && loc == null && turn == null)
+			return false;
 		object = null;
 		loc = null;
 		turn = null;
+		return true;
 	}
 
 	public void updateChoiceOptions()
@@ -178,7 +200,7 @@ public class PathTraverse
 	public void pathIn(TakeableAction action)
 	{
 		setCurrentAction(nextActions().stream().filter(e -> e.action == action).findFirst().orElse(currentAction));
-		//System.out.println("WUGU" + currentAction.action.getClass().getSimpleName());
+		pathed = true;
 	}
 
 	public Map<HexDirection, List<TActionDirection>> directions()
