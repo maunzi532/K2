@@ -2,17 +2,18 @@ package visual.map;
 
 import aer.*;
 import aer.commands.*;
-import com.jme3.material.*;
 import com.jme3.math.*;
 import com.jme3.renderer.queue.*;
 import com.jme3.scene.*;
-import java.util.*;
 import visual.*;
 import visual.pather.*;
 
 public class VisHexMap extends VisualR<IHexMap>
 {
 	public int rLayer;
+	private Node lightLocations;
+	private Node lightDirections;
+	private Node lightObjects;
 
 	public VisHexMap(IHexMap linked, int rLayer)
 	{
@@ -24,17 +25,13 @@ public class VisHexMap extends VisualR<IHexMap>
 	public void setSpatial(Spatial spatial)
 	{
 		super.setSpatial(spatial);
+		lightLocations = new Node("lightLocations");
+		node.attachChild(lightLocations);
+		lightDirections = new Node("lightDirections");
+		node.attachChild(lightDirections);
+		lightObjects = new Node("lightObjects");
+		node.attachChild(lightObjects);
 		int[] bounds = linked.getBounds();
-		YHexoMesh hexoMeshFloor = new YHexoMesh(Scale.X_HEX_RADIUS * 0.9f, Scale.FLOOR_DOWN, 0f, 6);
-		Material matFloor = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
-		matFloor.setBoolean("UseMaterialColors",true);
-		matFloor.setColor("Diffuse", ColorRGBA.Green);
-		matFloor.setColor("Ambient", ColorRGBA.Green);
-		YHexoMesh hexoMeshBlock = new YHexoMesh(Scale.X_HEX_RADIUS, Scale.FLOOR_DOWN, Scale.CELLAR_UP, 6);
-		Material matBlock = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
-		matBlock.setBoolean("UseMaterialColors",true);
-		matBlock.setColor("Diffuse", ColorRGBA.Brown);
-		matBlock.setColor("Ambient", ColorRGBA.Brown);
 		if(rLayer >= bounds[3] && rLayer < bounds[7])
 			for(int ix = bounds[0]; ix < bounds[4]; ix++)
 				for(int id = bounds[1]; id < bounds[5]; id++)
@@ -47,19 +44,15 @@ public class VisHexMap extends VisualR<IHexMap>
 						{
 							case FLOOR:
 							{
-								Geometry geom = new Geometry(loc.toString(), hexoMeshFloor);
-								geom.setMaterial(matFloor);
+								Geometry geom = new Geometry(loc.toString(), Lager1.floorMesh);
+								geom.setMaterial(Lager1.floorMat);
 								node1.attachChild(geom);
-								/*Geometry geom1 = new Geometry(loc.toString(), hexoMeshFloor1);
-								geom1.setMaterial(matFloor1);
-								geom1.setQueueBucket(RenderQueue.Bucket.Translucent);
-								node1.attachChild(geom1);*/
 								break;
 							}
 							case BLOCKED:
 							{
-								Geometry geom = new Geometry(loc.toString(), hexoMeshBlock);
-								geom.setMaterial(matBlock);
+								Geometry geom = new Geometry(loc.toString(), Lager1.blockedMesh);
+								geom.setMaterial(Lager1.blockedMat);
 								node1.attachChild(geom);
 								break;
 							}
@@ -77,37 +70,52 @@ public class VisHexMap extends VisualR<IHexMap>
 					}
 	}
 
-	public void lightThese(Collection<HexLocation> locations)
+	public void lightThese(PathTraverse pathTraverse)
 	{
-		YHexoMeshT hexoMeshFloor1 = new YHexoMeshT(Scale.X_HEX_RADIUS * 0.9f, Scale.X_HEX_RADIUS * 0.8f,
-				Scale.X_HEX_RADIUS * 0.75f, 0f, -Scale.FLOOR_DOWN * 0.6f, 6);
-		Material matFloor1 = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
-		matFloor1.setBoolean("UseMaterialColors",true);
-		matFloor1.setColor("Diffuse", new ColorRGBA(1, 0, 1, 0.4f));
-		matFloor1.setColor("Ambient", new ColorRGBA(1, 0, 1, 0.4f));
-		matFloor1.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
-		if(node.getChild("LightThese") != null)
-			((Node) node.getChild("LightThese")).detachAllChildren();
-		else
-			node.attachChild(new Node("LightThese"));
-		Node lightThese = (Node) node.getChild("LightThese");
-		for(HexLocation loc : locations)
+		lightLocations.detachAllChildren();
+		lightDirections.detachAllChildren();
+		lightObjects.detachAllChildren();
+		for(HexLocation loc : pathTraverse.locations().keySet())
 		{
-			//MapTile mapTile = linked.getTile(loc);
 			Node node1 = new Node();
-			Geometry geom1 = new Geometry(loc.toString(), hexoMeshFloor1);
-			geom1.setMaterial(matFloor1);
+			Geometry geom1 = new Geometry(loc.toString(), Lager1.possibleActionMesh);
+			geom1.setMaterial(Lager1.possibleActionMat);
 			geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
 			node1.attachChild(geom1);
 			node1.setLocalTranslation(conv(loc));
-			lightThese.attachChild(node1);
+			lightLocations.attachChild(node1);
+		}
+		for(HexDirection dir : pathTraverse.directions().keySet())
+		{
+			/*Node node1 = new Node();
+			Geometry geom1 = new Geometry(loc.toString(), Lager1.possibleActionMesh);
+			geom1.setMaterial(Lager1.possibleActionMat);
+			geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
+			node1.attachChild(geom1);
+			node1.setLocalTranslation(conv(loc));
+			lightDirections.attachChild(node1);*/
+		}
+		for(HexObject obj : pathTraverse.objects().keySet())
+		{
+			Node node1 = new Node();
+			Geometry geom1 = new Geometry(obj.name(), Lager1.possibleActionMesh);
+			geom1.setMaterial(Lager1.possibleActionMat);
+			geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
+			node1.attachChild(geom1);
+			node1.setLocalTranslation(conv(obj.getLoc()));
+			lightObjects.attachChild(node1);
+		}
+		if(pathTraverse.others().size() > 0)
+		{
+
 		}
 	}
 
 	public void endLighting()
 	{
-		if(node.getChild("LightThese") != null)
-			((Node) node.getChild("LightThese")).detachAllChildren();
+		lightLocations.detachAllChildren();
+		lightDirections.detachAllChildren();
+		lightObjects.detachAllChildren();
 	}
 
 	@Override

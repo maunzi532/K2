@@ -1,12 +1,10 @@
 package visual;
 
 import aer.commands.*;
-import com.jme3.asset.*;
 import com.jme3.renderer.*;
 import com.jme3.scene.*;
 import com.jme3.scene.control.*;
 import java.util.*;
-import m.*;
 
 public abstract class VisualR<T extends VisualLink> extends AbstractControl
 {
@@ -14,7 +12,6 @@ public abstract class VisualR<T extends VisualLink> extends AbstractControl
 	public ArrayList<VisualCommand> commands = new ArrayList<>();
 	public ArrayList<VisualCommand> blocking = new ArrayList<>();
 	public Node node;
-	public AssetManager assetManager;
 
 	public VisualR(T linked)
 	{
@@ -27,7 +24,6 @@ public abstract class VisualR<T extends VisualLink> extends AbstractControl
 		super.setSpatial(spatial);
 		assert spatial instanceof Node;
 		node = (Node) spatial;
-		assetManager = Main.assetManager1;
 	}
 
 	public boolean finished()

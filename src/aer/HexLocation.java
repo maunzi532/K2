@@ -1,37 +1,33 @@
 package aer;
 
-public class HexLocation
+public class HexLocation extends AxialHex
 {
-	public final int x, d, h, r;
+	public final int h, r;
 
 	public HexLocation(int x, int d, int h, int r)
 	{
-		this.x = x;
-		this.d = d;
+		super(x, d);
 		this.h = h;
 		this.r = r;
 	}
 
 	public HexLocation(HexLocation copy)
 	{
-		x = copy.x;
-		d = copy.d;
+		super(copy);
 		h = copy.h;
 		r = copy.r;
 	}
 
 	public HexLocation(HexLocation start, int x, int d, int h, int r)
 	{
-		this.x = start.x + x;
-		this.d = start.d + d;
+		super(start.x + x, start.d + d);
 		this.h = start.h + h;
 		this.r = start.r + r;
 	}
 
-	public HexLocation(HexLocation start, int x, int d, int z)
+	private HexLocation(HexLocation start, int x, int d, int z)
 	{
-		this.x = start.x + x - z;
-		this.d = start.d + d + z;
+		super(start.x + x - z, start.d + d + z);
 		this.h = start.h;
 		this.r = start.r;
 	}

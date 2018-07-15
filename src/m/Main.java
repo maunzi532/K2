@@ -7,7 +7,6 @@ import aer.resource2.*;
 import aer.resource3.*;
 import aer.resource3.resource4.*;
 import com.jme3.app.*;
-import com.jme3.asset.*;
 import com.jme3.input.*;
 import com.jme3.input.controls.*;
 import com.jme3.light.*;
@@ -20,14 +19,12 @@ import com.jme3.scene.shape.*;
 import com.jme3.system.*;
 import java.awt.*;
 import java.util.*;
+import visual.*;
 import visual.map.*;
 import visual.pather.*;
 
 public class Main extends SimpleApplication
 {
-	//HAX
-	public static AssetManager assetManager1;
-
 	public static void main(String[] args)
 	{
 		Main app = new Main();
@@ -48,9 +45,6 @@ public class Main extends SimpleApplication
 	@Override
 	public void simpleInitApp()
 	{
-		//HAX
-		assetManager1 = assetManager;
-
 		//Fix Camera
 		getFlyByCamera().setDragToRotate(true);
 		getFlyByCamera().setMoveSpeed(40f);
@@ -81,14 +75,13 @@ public class Main extends SimpleApplication
 		IHexMap hexMap = new HexMap("T1", -10, -2, -2, 0, 11, 10, 5, 1);
 		hexMap.setGenerator(new BasicHexGen());
 
+		//Create Meshes and Materials
+		Lager1.init(assetManager);
+
 		//Create VisHexMap for HexMap
 		attachWithNode(rootNode, "Map", new VisHexMap(hexMap, 0));
 
-		//Create TX_AP_2 HexPather
-		/*HexPather pather = new HexPather(10, hexMap, new HexLocation(2, 1, 0, 0),
-				new HexDirection(6), AirState.FLOOR, new TX_AP_2(new CostTable()));
-		hexMap.addObject(pather);*/
-		//Create TX_AP_Transform HexPather
+		//Create TX_AP_Transform (Mage) HexPather
 		HexPather pather = new HexPather(10, hexMap, new HexLocation(2, 1, 3, 0),
 				new HexDirection(6), AirState.UP, new TX_AP_Transform(new CostTable(), new Mage()));
 		hexMap.addObject(pather);
@@ -96,6 +89,7 @@ public class Main extends SimpleApplication
 		//Create VisObject for HexPather
 		attachWithNode(rootNode, "VisHexPather0", new VisObject(pather));
 
+		//Create TX_AP_2 HexPather
 		HexPather pather1 = new HexPather(11, hexMap, new HexLocation(4, 1, 0, 0),
 				new HexDirection(3), AirState.FLOOR, new TX_AP_2(new CostTable()));
 		hexMap.addObject(pather1);
