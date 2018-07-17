@@ -13,34 +13,39 @@ public class Lager1
 	public static Material floorMat;
 	public static Mesh blockedMesh;
 	public static Material blockedMat;
-	public static Mesh possibleActionMesh;
-	public static Material possibleActionMat;
+	public static Mesh possibleActionMeshLoc;
+	public static Mesh possibleActionMeshObj;
+	public static Material possibleActionMatLoc;
+	public static Material possibleActionMatObj;
+	public static Material possibleActionMatOth;
 	public static Mesh objectMesh;
 	public static Material objectMat;
 
 	public static void init(AssetManager assetManager)
 	{
 		floorMesh = new YHexoMesh1(Scale.X_HEX_RADIUS, Scale.X_HEX_RADIUS * 0.9f, Scale.FLOOR_DOWN, 0f, 6);
-		floorMat = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
-		floorMat.setBoolean("UseMaterialColors",true);
-		floorMat.setColor("Diffuse", ColorRGBA.Green);
-		floorMat.setColor("Ambient", ColorRGBA.Green);
+		floorMat = material(assetManager, ColorRGBA.Green);
 		blockedMesh = new YHexoMesh(Scale.X_HEX_RADIUS, Scale.FLOOR_DOWN, Scale.CELLAR_UP, 6);
-		blockedMat = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
-		blockedMat.setBoolean("UseMaterialColors",true);
-		blockedMat.setColor("Diffuse", ColorRGBA.Brown);
-		blockedMat.setColor("Ambient", ColorRGBA.Brown);
-		possibleActionMesh = new YHexoMeshT(Scale.X_HEX_RADIUS * 0.9f, Scale.X_HEX_RADIUS * 0.8f,
+		blockedMat = material(assetManager, ColorRGBA.Brown);
+		possibleActionMeshLoc = new YHexoMeshT(Scale.X_HEX_RADIUS * 0.9f, Scale.X_HEX_RADIUS * 0.8f,
 				Scale.X_HEX_RADIUS * 0.75f, 0f, -Scale.FLOOR_DOWN * 0.6f, 6);
-		possibleActionMat = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
-		possibleActionMat.setBoolean("UseMaterialColors",true);
-		possibleActionMat.setColor("Diffuse", new ColorRGBA(1, 0, 1, 0.4f));
-		possibleActionMat.setColor("Ambient", new ColorRGBA(1, 0, 1, 0.4f));
-		possibleActionMat.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
+		possibleActionMatLoc = material(assetManager, new ColorRGBA(1, 0, 1, 0.4f));
+		possibleActionMeshObj = new YHexoMesh2(Scale.X_HEX_RADIUS * 0.9f, Scale.X_HEX_RADIUS * 0.6f, Scale.X_HEX_RADIUS * 0.9f,
+				Scale.FLOOR_DOWN * -0.4f, Scale.FLOOR_DOWN * -1f, Scale.FLOOR_DOWN * -1.6f, 12);
+		possibleActionMatObj = material(assetManager, new ColorRGBA(1f, 0f, 0.4f, 0.7f));
+		possibleActionMatOth = material(assetManager, new ColorRGBA(1f, 0.4f, 0f, 0.7f));
 		objectMesh = new YHexoMesh(Scale.X_HEX_RADIUS * 0.5f, 0f, Scale.CELLAR_HEIGHT / 4f, 3);
-		objectMat = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
-		objectMat.setBoolean("UseMaterialColors",true);
-		objectMat.setColor("Diffuse", ColorRGBA.Red);
-		objectMat.setColor("Ambient", ColorRGBA.Red);
+		objectMat = material(assetManager, ColorRGBA.Red);
+	}
+
+	private static Material material(AssetManager assetManager, ColorRGBA color)
+	{
+		Material material = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
+		material.setBoolean("UseMaterialColors",true);
+		material.setColor("Diffuse", color);
+		material.setColor("Ambient", color);
+		if(color.a < 1)
+			material.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
+		return material;
 	}
 }

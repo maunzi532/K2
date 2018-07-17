@@ -78,8 +78,8 @@ public class VisHexMap extends VisualR<IHexMap>
 		for(HexLocation loc : pathTraverse.locations().keySet())
 		{
 			Node node1 = new Node();
-			Geometry geom1 = new Geometry(loc.toString(), Lager1.possibleActionMesh);
-			geom1.setMaterial(Lager1.possibleActionMat);
+			Geometry geom1 = new Geometry(loc.toString(), Lager1.possibleActionMeshLoc);
+			geom1.setMaterial(Lager1.possibleActionMatLoc);
 			geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
 			node1.attachChild(geom1);
 			node1.setLocalTranslation(conv(loc));
@@ -88,8 +88,8 @@ public class VisHexMap extends VisualR<IHexMap>
 		for(HexDirection dir : pathTraverse.directions().keySet())
 		{
 			/*Node node1 = new Node();
-			Geometry geom1 = new Geometry(loc.toString(), Lager1.possibleActionMesh);
-			geom1.setMaterial(Lager1.possibleActionMat);
+			Geometry geom1 = new Geometry(loc.toString(), Lager1.possibleActionMeshLoc);
+			geom1.setMaterial(Lager1.possibleActionMatLoc);
 			geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
 			node1.attachChild(geom1);
 			node1.setLocalTranslation(conv(loc));
@@ -98,8 +98,8 @@ public class VisHexMap extends VisualR<IHexMap>
 		for(HexObject obj : pathTraverse.objects().keySet())
 		{
 			Node node1 = new Node();
-			Geometry geom1 = new Geometry(obj.name(), Lager1.possibleActionMesh);
-			geom1.setMaterial(Lager1.possibleActionMat);
+			Geometry geom1 = new Geometry(obj.name(), Lager1.possibleActionMeshObj);
+			geom1.setMaterial(Lager1.possibleActionMatObj);
 			geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
 			node1.attachChild(geom1);
 			node1.setLocalTranslation(conv(obj.getLoc()));
@@ -107,7 +107,13 @@ public class VisHexMap extends VisualR<IHexMap>
 		}
 		if(pathTraverse.others().size() > 0)
 		{
-
+			Node node1 = new Node();
+			Geometry geom1 = new Geometry(pathTraverse.pather.name(), Lager1.possibleActionMeshObj);
+			geom1.setMaterial(Lager1.possibleActionMatOth);
+			geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
+			node1.attachChild(geom1);
+			node1.setLocalTranslation(conv(pathTraverse.pather.getLoc()));
+			lightObjects.attachChild(node1);
 		}
 	}
 
