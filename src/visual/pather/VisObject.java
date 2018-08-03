@@ -6,6 +6,7 @@ import com.jme3.math.*;
 import com.jme3.scene.*;
 import visual.*;
 import visual.map.*;
+import visual.mesh.*;
 
 public class VisObject extends VisualR<HexObject>
 {
@@ -22,8 +23,8 @@ public class VisObject extends VisualR<HexObject>
 		node1.setUserData("ID", linked.id);
 		node1.setUserData("Target", true);
 		HexLocation loc = linked.getLoc();
-		Geometry geom = new Geometry(loc.toString(), Lager1.objectMesh);
-		geom.setMaterial(Lager1.objectMat);
+		Geometry geom = new Geometry(loc.toString(), MeshLager.objectMesh);
+		geom.setMaterial(MeshLager.objectMat);
 		geom.setLocalRotation(new Quaternion().fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_Y));
 		node1.attachChild(geom);
 		node.setLocalTranslation(VisHexMap.conv(loc));

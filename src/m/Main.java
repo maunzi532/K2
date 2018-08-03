@@ -19,8 +19,8 @@ import com.jme3.scene.shape.*;
 import com.jme3.system.*;
 import java.awt.*;
 import java.util.*;
-import visual.*;
 import visual.map.*;
+import visual.mesh.*;
 import visual.pather.*;
 
 public class Main extends SimpleApplication
@@ -76,7 +76,7 @@ public class Main extends SimpleApplication
 		hexMap.setGenerator(new BasicHexGen());
 
 		//Create Meshes and Materials
-		Lager1.init(assetManager);
+		MeshLager.init(assetManager);
 
 		//Create VisHexMap for HexMap
 		attachWithNode(rootNode, "Map", new VisHexMap(hexMap, 0));

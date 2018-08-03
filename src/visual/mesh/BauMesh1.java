@@ -1,4 +1,4 @@
-package visual.map;
+package visual.mesh;
 
 import com.jme3.math.*;
 import com.jme3.scene.*;

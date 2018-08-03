@@ -6,6 +6,7 @@ import com.jme3.math.*;
 import com.jme3.renderer.queue.*;
 import com.jme3.scene.*;
 import visual.*;
+import visual.mesh.*;
 import visual.pather.*;
 
 public class VisHexMap extends VisualR<IHexMap>
@@ -44,15 +45,15 @@ public class VisHexMap extends VisualR<IHexMap>
 						{
 							case FLOOR:
 							{
-								Geometry geom = new Geometry(loc.toString(), Lager1.floorMesh);
-								geom.setMaterial(Lager1.floorMat);
+								Geometry geom = new Geometry(loc.toString(), MeshLager.floorMesh);
+								geom.setMaterial(MeshLager.floorMat);
 								node1.attachChild(geom);
 								break;
 							}
 							case BLOCKED:
 							{
-								Geometry geom = new Geometry(loc.toString(), Lager1.blockedMesh);
-								geom.setMaterial(Lager1.blockedMat);
+								Geometry geom = new Geometry(loc.toString(), MeshLager.blockedMesh);
+								geom.setMaterial(MeshLager.blockedMat);
 								node1.attachChild(geom);
 								break;
 							}
@@ -78,8 +79,8 @@ public class VisHexMap extends VisualR<IHexMap>
 		for(HexLocation loc : pathTraverse.locations().keySet())
 		{
 			Node node1 = new Node();
-			Geometry geom1 = new Geometry(loc.toString(), Lager1.possibleActionMeshLoc);
-			geom1.setMaterial(Lager1.possibleActionMatLoc);
+			Geometry geom1 = new Geometry(loc.toString(), MeshLager.possibleActionMeshLoc);
+			geom1.setMaterial(MeshLager.possibleActionMatLoc);
 			geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
 			node1.attachChild(geom1);
 			node1.setLocalTranslation(conv(loc));
@@ -98,8 +99,8 @@ public class VisHexMap extends VisualR<IHexMap>
 		for(HexObject obj : pathTraverse.objects().keySet())
 		{
 			Node node1 = new Node();
-			Geometry geom1 = new Geometry(obj.name(), Lager1.possibleActionMeshObj);
-			geom1.setMaterial(Lager1.possibleActionMatObj);
+			Geometry geom1 = new Geometry(obj.name(), MeshLager.possibleActionMeshObj);
+			geom1.setMaterial(MeshLager.possibleActionMatObj);
 			geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
 			node1.attachChild(geom1);
 			node1.setLocalTranslation(conv(obj.getLoc()));
@@ -108,8 +109,8 @@ public class VisHexMap extends VisualR<IHexMap>
 		if(pathTraverse.others().size() > 0)
 		{
 			Node node1 = new Node();
-			Geometry geom1 = new Geometry(pathTraverse.pather.name(), Lager1.possibleActionMeshObj);
-			geom1.setMaterial(Lager1.possibleActionMatOth);
+			Geometry geom1 = new Geometry(pathTraverse.pather.name(), MeshLager.possibleActionMeshObj);
+			geom1.setMaterial(MeshLager.possibleActionMatOth);
 			geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
 			node1.attachChild(geom1);
 			node1.setLocalTranslation(conv(pathTraverse.pather.getLoc()));

@@ -1,10 +1,15 @@
-package visual.map;
+package visual.mesh;
 
 import com.jme3.math.*;
 
-public class YHexoMesh1 extends BauMesh1
+public class YSolidPrism extends BauMesh1
 {
-	public YHexoMesh1(float s0, float s1, float l, float h, int edgc)
+	public YSolidPrism(float s0, float l, float h, int edgc)
+	{
+		this(s0, s0, l, h, edgc);
+	}
+
+	public YSolidPrism(float s0, float s1, float l, float h, int edgc)
 	{
 		//oben
 		circle(false, Vector3f.UNIT_Y, new Vector3f(0, h, 0), new Vector3f(0, h, s1), edgc);
