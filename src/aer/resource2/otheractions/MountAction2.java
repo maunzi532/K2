@@ -31,13 +31,13 @@ public class MountAction2 implements TActionObject, IMountAction, IAPAction, IMa
 	@Override
 	public int cost()
 	{
-		return costs.mountCost + (from == null ? 0 : HexDirection.turnCost(from, mount.getDirection()) * costs.tcm);
+		return costs.mountCost;
 	}
 
 	@Override
 	public int mCost()
 	{
-		return costs.mountCostM + (from == null ? 0 : HexDirection.turnCost(from, mount.getDirection()) * costs.tcmM);
+		return costs.mountCostM + costs.turnCost(from, mount.getDirection());
 	}
 
 	@Override

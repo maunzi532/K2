@@ -51,5 +51,24 @@ public interface EWithStats
 	 * Magic Power      3       4       3       2       3           4       3       3
 	 * Attack Power     2       2       -       3       -           3       4       2
 	 * Defend Power     2       1       3       4       2           3       3       4
+	 *
+	 *
+	 *
+	 * Stats v3         LYellow Orange  Flower  Blue    LGreen      Fire    Air     Dark
+	 * Class1           Mage    Mage    Mage    Mage    Mage        CMage   Air     Summoner
+	 * Class2           Hero                    Hero
+	 *
+	 * Height           2       3       2       3       3           3       4       3
+	 * Weight           2       2       2       2       2           2       3       3
+	 * Movement         4       3       3       3       3           3       4       2
+	 * Agile            2       3       3       4       4           3       4       2
+	 *
+	 * Luck affected    +1      +2      -1      0       +1          -       -       -
+	 * Order / Chaos    +2      -1      -2      +1      +1          +1      0       -1
+	 *
+	 * Magic Power      3       4       3       2       3           4       2       3
+	 * Attack Power     2       2       1       3       1           3       3       2
+	 * Defend Power     2       1       3       4       2           3       3       4
+	 * Avoid Power      2       2       4       3       2           2       4       3
 	 */
 }

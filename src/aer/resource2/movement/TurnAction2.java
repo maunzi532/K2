@@ -24,13 +24,13 @@ public class TurnAction2 implements TActionDirection, IDirectionAction, IMainAct
 	@Override
 	public int cost()
 	{
-		return HexDirection.turnCost(from, to) * costs.tcm;
+		return 0;
 	}
 
 	@Override
 	public int mCost()
 	{
-		return HexDirection.turnCost(from, to) * costs.tcmM;
+		return costs.turnCost(from, to);
 	}
 
 	@Override

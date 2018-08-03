@@ -43,7 +43,7 @@ public class FloorMovementItem2 implements EndHexItem
 					freelyMovingA = ((IMovementAction) pathAction.action).freelyMovingN();
 				if(freelyMovingA == null)
 					freelyMovingN = new ArrayList<>();
-				int maxM = maxMovement(res2.dMovementPoints());
+				int maxM = costTable.maxMovement(res2.dMovementPoints());
 				for(int ix = -maxM; ix <= maxM; ix++)
 				{
 					int maxD = Math.min(maxM, maxM - ix);
@@ -74,7 +74,7 @@ public class FloorMovementItem2 implements EndHexItem
 				//Airdash
 				if(res1.dAirState().canAirdash && (res1.dAirState().fall >= 0 || tile.type != MapTileType.FLOOR))
 				{
-					int maxA = maxAirdash();
+					int maxA = costTable.maxAirdash(res2.dMovementPoints());
 					for(int i = 1; i < maxA; i++)
 						if(res1.dDirection().primary() || i % 2 == 0)
 						{
@@ -88,16 +88,6 @@ public class FloorMovementItem2 implements EndHexItem
 			}
 		}
 		return list;
-	}
-
-	public int maxAirdash()
-	{
-		return 2;
-	}
-
-	public int maxMovement(int movePoints)
-	{
-		return (movePoints - costTable.initMoveM) / costTable.moveCostM;
 	}
 
 	@Override

@@ -37,13 +37,13 @@ public class TargetingAction2 implements TActionObject, ITargetedAction, IAPActi
 	@Override
 	public int cost()
 	{
-		return lookDir != null ? HexDirection.turnCost(from, lookDir) * costs.tcm : 0;
+		return costs.turnCost(from, lookDir);
 	}
 
 	@Override
 	public int mCost()
 	{
-		return lookDir != null ? HexDirection.turnCost(from, lookDir) * costs.tcmM : 0;
+		return costs.turnCost(from, lookDir);
 	}
 
 	@Override

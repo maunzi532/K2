@@ -38,13 +38,13 @@ public class AirdashAction2 implements TActionLocation, IMovementAction, IAPActi
 	@Override
 	public int cost()
 	{
-		return costs.initAD + HexLocation.xdzDifference(start, end1) * costs.adMove;
+		return costs.initAirdash;
 	}
 
 	@Override
 	public int mCost()
 	{
-		return costs.initADM + HexLocation.xdzDifference(start, end1) * costs.adMoveM;
+		return costs.airdashCost(start, end1);
 	}
 
 	@Override

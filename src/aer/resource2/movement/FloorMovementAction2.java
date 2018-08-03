@@ -43,13 +43,13 @@ public class FloorMovementAction2 implements TActionLocation, IMovementAction, I
 	@Override
 	public int cost()
 	{
-		return costs.initMove + HexDirection.turnCost(from, mvDir) * costs.tcm + HexLocation.xdzDifference(start, end) * costs.moveCost;
+		return costs.initMove;
 	}
 
 	@Override
 	public int mCost()
 	{
-		return costs.initMoveM + HexDirection.turnCost(from, mvDir) * costs.tcmM + HexLocation.xdzDifference(start, end) * costs.moveCostM;
+		return costs.moveCost(start, end) + costs.turnCost(from, mvDir);
 	}
 
 	@Override
