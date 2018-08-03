@@ -17,6 +17,8 @@ public class MeshLager
 	public static Material possibleActionMatLoc;
 	public static Material possibleActionMatObj;
 	public static Material possibleActionMatOth;
+	public static Mesh directionArrowMesh;
+	public static Material directionArrowMat;
 	public static Mesh objectMesh;
 	public static Material objectMat;
 
@@ -26,6 +28,7 @@ public class MeshLager
 		blocked(assetManager);
 		possibleActionLoc(assetManager);
 		possibleActionObj(assetManager);
+		directionArrow(assetManager);
 		object(assetManager);
 	}
 
@@ -66,6 +69,14 @@ public class MeshLager
 				Scale.FLOOR_DOWN * -0.4f, Scale.FLOOR_DOWN * -1f, Scale.FLOOR_DOWN * -1.6f, false, true, 12);
 		possibleActionMatObj = material(assetManager, new ColorRGBA(1f, 0f, 0.4f, 0.7f));
 		possibleActionMatOth = material(assetManager, new ColorRGBA(1f, 0.4f, 0f, 0.7f));
+	}
+
+	private static void directionArrow(AssetManager assetManager)
+	{
+		directionArrowMesh = new YArrow(Scale.FLOOR_DOWN * -0.5f, Scale.FLOOR_DOWN * -0.7f,
+				Scale.X_HEX_RADIUS * 1.1f, Scale.X_HEX_RADIUS * 1.5f, Scale.X_HEX_RADIUS * 1.7f,
+				Scale.X_HEX_RADIUS * 0.05f, Scale.X_HEX_RADIUS * 0.15f);
+		directionArrowMat = material(assetManager, ColorRGBA.Brown);
 	}
 
 	private static void object(AssetManager assetManager)
