@@ -4,6 +4,7 @@ import aer.*;
 
 public class CostTable
 {
+	public int startingAP;
 	public int init;
 	public int mountCost;
 	public int dismountCost;
@@ -11,6 +12,8 @@ public class CostTable
 	public int fallCost;
 	public int landingCost;
 	public int initAirdash;
+	public int requiredFall;
+	public int startingM;
 	protected int turnCostM;
 	public int mountCostM;
 	public int dismountCostM;
@@ -23,11 +26,13 @@ public class CostTable
 	protected int turn1;
 	protected int turn2;
 
-	public CostTable(int init, int mountCost, int dismountCost, int initMove, int fallCost,
-			int landingCost, int initAirdash, int turnCostM, int mountCostM, int dismountCostM,
+	public CostTable(int startingAP, int init, int mountCost, int dismountCost, int initMove, int fallCost,
+			int landingCost, int initAirdash, int requiredFall, int startingM, int turnCostM, int mountCostM,
+			int dismountCostM,
 			int initMoveM, int moveCostM, int fallCostM, int landingCostM, int initAirdashM, int airdashMoveM,
 			int turn1, int turn2)
 	{
+		this.startingAP = startingAP;
 		this.init = init;
 		this.mountCost = mountCost;
 		this.dismountCost = dismountCost;
@@ -35,6 +40,8 @@ public class CostTable
 		this.fallCost = fallCost;
 		this.landingCost = landingCost;
 		this.initAirdash = initAirdash;
+		this.requiredFall = requiredFall;
+		this.startingM = startingM;
 		this.turnCostM = turnCostM;
 		this.mountCostM = mountCostM;
 		this.dismountCostM = dismountCostM;
@@ -50,14 +57,14 @@ public class CostTable
 
 	public CostTable()
 	{
-		this(5, 30, 20, 5, 5, 2, 10,
-				8, 0, 0, 20, 12, 20, 0, 10, 25, 2, 4);
+		this(100, 5, 30, 20, 5, 5, 2,
+				10, 4, 100, 8, 0, 0, 20, 12, 20, 0, 10, 25, 2, 4);
 	}
 
 	public static CostTable v1()
 	{
-		return new CostTable(5, 30, 20, 0, 0, 20, 0,
-				1, 0, 0, 1, 1, 1, 0, 1, 2, 2, 4);
+		return new CostTable(100, 5, 30, 20, 0, 0, 20,
+				0, 4, 6, 1, 0, 0, 1, 1, 1, 0, 1, 2, 2, 4);
 	}
 
 	public int turnCost(HexDirection d0, HexDirection d1)

@@ -5,6 +5,7 @@ import java.util.*;
 
 public abstract class Transformation
 {
+	public CostTable costTable;
 	public TX_AP_Transform main;
 	public Map<TStat, Integer> stats;
 	public List<AppliedModifier> modifiers;

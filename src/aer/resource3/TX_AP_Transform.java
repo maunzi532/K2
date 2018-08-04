@@ -19,12 +19,10 @@ public class TX_AP_Transform implements TherathicHex, E_AP_MP
 	private int reqFall;
 	public List<AppliedModifier> modifiers;
 
-	public TX_AP_Transform(CostTable costTable, Transformation transform0)
+	public TX_AP_Transform(Transformation transform0)
 	{
-		this.costTable = costTable;
 		transforms = new ArrayList<>();
-		transforms.add(transform0);
-		transform0.main = this;
+		transformInto(transform0);
 		modifiers = new ArrayList<>();
 		npc_control = new UselessNPC();
 	}
@@ -50,12 +48,14 @@ public class TX_AP_Transform implements TherathicHex, E_AP_MP
 	{
 		transforms.add(transformation);
 		transformation.main = this;
+		costTable = transformation.costTable;
 	}
 
 	public void endTransformation(Transformation transformation)
 	{
 		if(!transforms.remove(transformation))
 			throw new RuntimeException();
+		costTable = currentTransform().costTable;
 	}
 
 	public void applyModifier(Modifier modifier)
@@ -144,9 +144,9 @@ public class TX_AP_Transform implements TherathicHex, E_AP_MP
 	@Override
 	public boolean drawPhase()
 	{
-		actionPoints = 100;
-		movePoints = 100;
-		reqFall = pather.getAirState().isAerial ? 4 : 0;
+		actionPoints = costTable.startingAP;
+		movePoints = costTable.startingM;
+		reqFall = pather.getAirState().isAerial ? costTable.requiredFall : 0;
 		currentTransform().drawPhase();
 		return true;
 	}

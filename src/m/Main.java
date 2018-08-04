@@ -83,7 +83,7 @@ public class Main extends SimpleApplication
 
 		//Create TX_AP_Transform (Mage) HexPather
 		HexPather pather = new HexPather(10, hexMap, new HexLocation(2, 1, 3, 0),
-				new HexDirection(6), AirState.UP, new TX_AP_Transform(new CostTable(), new Mage()));
+				new HexDirection(6), AirState.UP, new TX_AP_Transform(new Mage()));
 		hexMap.addObject(pather);
 
 		//Create VisObject for HexPather

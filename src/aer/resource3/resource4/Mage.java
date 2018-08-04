@@ -12,7 +12,8 @@ public class Mage extends Transformation
 
 	public Mage()
 	{
-		movementItem = new FloorMovementItem2(new CostTable());
+		costTable = CostTable.v1();
+		movementItem = new FloorMovementItem2(costTable);
 	}
 
 	@Override
