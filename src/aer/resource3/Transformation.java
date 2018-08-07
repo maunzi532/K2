@@ -28,9 +28,9 @@ public abstract class Transformation
 		return classModifiers;
 	}
 
-	public List<HexItem> activeItems()
+	public ArrayList<HexItem> activeItems()
 	{
-		List<HexItem> modifierItems = new ArrayList<>();
+		ArrayList<HexItem> modifierItems = new ArrayList<>();
 		for(ItemModifier itemModifier : classModifiers(ItemModifier.class))
 		{
 			HexItem item = itemModifier.item();
@@ -40,9 +40,9 @@ public abstract class Transformation
 		return modifierItems;
 	}
 
-	public List<HexItem> interruptItems(TargetData targetData)
+	public ArrayList<HexItem> interruptItems(TargetData targetData)
 	{
-		List<HexItem> modifierItems = new ArrayList<>();
+		ArrayList<HexItem> modifierItems = new ArrayList<>();
 		for(ItemModifier itemModifier : classModifiers(ItemModifier.class))
 		{
 			HexItem item = itemModifier.item();
@@ -58,20 +58,6 @@ public abstract class Transformation
 	{
 		int value = stats.get(stat);
 		value += classModifiers(StatModifier.class).stream().filter(e -> e.modified == stat).mapToInt(e -> e.change).sum();
-		/*for(AppliedModifier am : modifiers)
-		{
-			if(am.modifier instanceof StatModifier && ((StatModifier) am.modifier).modified == stat)
-			{
-				value += ((StatModifier) am.modifier).change;
-			}
-		}
-		for(AppliedModifier am : main.modifiers)
-		{
-			if(am.modifier instanceof StatModifier && ((StatModifier) am.modifier).modified == stat)
-			{
-				value += ((StatModifier) am.modifier).change;
-			}
-		}*/
 		return value;
 	}
 

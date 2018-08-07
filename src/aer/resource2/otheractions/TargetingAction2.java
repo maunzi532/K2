@@ -37,7 +37,7 @@ public class TargetingAction2 implements TActionObject, ITargetedAction, IAPActi
 	@Override
 	public int cost()
 	{
-		return costs.turnCost(from, lookDir);
+		return 0;
 	}
 
 	@Override

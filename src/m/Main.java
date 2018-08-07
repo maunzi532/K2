@@ -95,13 +95,16 @@ public class Main extends SimpleApplication
 		hexMap.addObject(pather1);
 		attachWithNode(rootNode, "VisHexPather1", new VisObject(pather1));
 
+		//Add HUD
+		VisHUD visHUD = new VisHUD(guiNode, guiFont, getContext().getSettings());
+
 		//Add TurnSchedule
 		TurnSchedule turnSchedule = new TurnSchedule(Collections.singletonList(0), 0, hexMap);
 
 		//Add Targeting and VisTurnSchedule for TurnSchedule
 		CursorTargeting targeting = new CursorTargeting(hexMap);
 		stateManager.attach(targeting);
-		attachWithNode(rootNode, "VTS", new VisTurnSchedule(turnSchedule, targeting));
+		attachWithNode(rootNode, "VTS", new VisTurnSchedule(turnSchedule, targeting, visHUD));
 		rootNode.getChild("VTS").getControl(VisTurnSchedule.class).stepToPlayerPhase();
 	}
 

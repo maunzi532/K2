@@ -9,6 +9,7 @@ public class Mage extends Transformation
 {
 	public EndHexItem movementItem;
 	public HexItem personalWand;
+	public boolean wandDrawn;
 
 	public Mage()
 	{
@@ -17,20 +18,22 @@ public class Mage extends Transformation
 	}
 
 	@Override
-	public List<HexItem> activeItems()
+	public ArrayList<HexItem> activeItems()
 	{
-		ArrayList<HexItem> items = new ArrayList<>();
+		ArrayList<HexItem> items = super.activeItems();
 		items.add(movementItem);
-		items.addAll(super.activeItems());
+		if(wandDrawn)
+			items.add(personalWand);
 		return items;
 	}
 
 	@Override
-	public List<HexItem> interruptItems(TargetData targetData)
+	public ArrayList<HexItem> interruptItems(TargetData targetData)
 	{
-		ArrayList<HexItem> items = new ArrayList<>();
+		ArrayList<HexItem> items = super.interruptItems(targetData);
 		items.add(movementItem);
-		items.addAll(super.interruptItems(targetData));
+		if(wandDrawn)
+			items.add(personalWand);
 		return items;
 	}
 

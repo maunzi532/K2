@@ -3,6 +3,7 @@ package visual.pather;
 import aer.*;
 import aer.path.*;
 import aer.path.takeable.*;
+import aer.resource2.*;
 import aer.resource2.resourceTypes.*;
 import java.util.*;
 import java.util.stream.*;
@@ -12,6 +13,7 @@ public class PathTraverse
 {
 	private static final HexDirection eins = new HexDirection(1);
 
+	public VisHUD visHUD;
 	public final List<PathAction> possibleActions;
 	public PathAction currentAction;
 	public HexPather pather;
@@ -24,8 +26,9 @@ public class PathTraverse
 	public boolean esc = false;
 	public boolean pathed = false;
 
-	public PathTraverse(List<PathAction> possibleActions, HexPather pather, boolean initial)
+	public PathTraverse(List<PathAction> possibleActions, HexPather pather, boolean initial, VisHUD visHUD)
 	{
+		this.visHUD = visHUD;
 		this.possibleActions = possibleActions;
 		this.pather = pather;
 		if(initial)
@@ -168,9 +171,9 @@ public class PathTraverse
 	{
 		if(object != null)
 		{
-			System.out.println(object.id);
+			/*System.out.println(object.id);
 			if(!objects().keySet().isEmpty())
-				System.out.println(objects().keySet().iterator().next().id);
+				System.out.println(objects().keySet().iterator().next().id);*/
 			choiceOptions = objects().get(object);
 		}
 		else if(loc != null)
@@ -247,6 +250,10 @@ public class PathTraverse
 				sb.append(i == choiceNum ? "> " : "| ").append(choiceOptions.get(i).getClass().getSimpleName()).append("\n");
 			System.out.print(sb.toString());
 		}
+
+		visHUD.updateText(HUDMode.ACTION, "AP", String.valueOf(((BasicAPResource2) currentAction.deducted).dActionPoints()));
+		visHUD.updateText(HUDMode.ACTION, "MP", String.valueOf(((BasicAPResource2) currentAction.deducted).dMovementPoints()));
+		visHUD.changeMode(HUDMode.ACTION);
 	}
 
 	public static String steps(PathAction pathAction)
