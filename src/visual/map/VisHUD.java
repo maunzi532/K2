@@ -41,8 +41,12 @@ public class VisHUD
 		}
 		{
 			Node node = addNode(HUDMode.ACTION);
-			createText(node, "AP", "AP", true, 0.98f, 0.02f, true, true);
-			createText(node, "MP", "Movement", true, 0.98f, 0.06f, true, true);
+			createText(node, "AP", 0.02f, 0.98f, false);
+			createText(node, "MP", 0.02f, 0.94f, false);
+			createText(node, "Take", 0.02f, 0.90f, false);
+			createText(node, "Path", 0.02f, 0.86f, false);
+			createText(node, "Target", 0.02f, 0.60f, false);
+			createText(node, "Options", 0.02f, 0.56f, false);
 		}
 	}
 
@@ -55,15 +59,15 @@ public class VisHUD
 		return node;
 	}
 
-	private void createText(Node node, String name, String initialContent, boolean bg, float xs, float ys, boolean l, boolean u)
+	private void createText(Node node, String name, float xs, float ys, boolean u)
 	{
 		BitmapText text = new BitmapText(guiFont, false);
 		text.setName(name);
 		text.setQueueBucket(RenderQueue.Bucket.Gui);
 		text.setSize(guiFont.getCharSet().getRenderedSize());
 		text.setColor(ColorRGBA.Red);
-		text.setText(initialContent);
-		text.setLocalTranslation(xs * settings.getWidth() - (l ? text.getLineWidth() : 0),
+		text.setText("");
+		text.setLocalTranslation(xs * settings.getWidth(),
 				ys * settings.getHeight() + (u ? text.getHeight() : 0), 0);
 		node.attachChild(text);
 	}

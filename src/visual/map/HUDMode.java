@@ -5,6 +5,5 @@ public enum HUDMode
 	NONE,
 	CHARACTER,
 	ACTION,
-	ACTIONLOC,
 	EXEC
 }

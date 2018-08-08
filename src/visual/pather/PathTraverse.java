@@ -253,6 +253,19 @@ public class PathTraverse
 
 		visHUD.updateText(HUDMode.ACTION, "AP", String.valueOf(((BasicAPResource2) currentAction.deducted).dActionPoints()));
 		visHUD.updateText(HUDMode.ACTION, "MP", String.valueOf(((BasicAPResource2) currentAction.deducted).dMovementPoints()));
+		visHUD.updateText(HUDMode.ACTION, "Path", steps(currentAction));
+		visHUD.updateText(HUDMode.ACTION, "Take", !chCheck() && canEnd() ? "Press enter key to take this Path" : "");
+		visHUD.updateText(HUDMode.ACTION, "Target", object != null ? "Actions targeting object:" :
+				loc != null ? "Actions targeting location:" : turn != null ? "Actions targeting direction:" : "Actions:");
+		if(choiceOptions.isEmpty())
+			visHUD.updateText(HUDMode.ACTION, "Options", "None");
+		else
+		{
+			StringBuilder sb = new StringBuilder();
+			for(int i = 0; i < choiceOptions.size(); i++)
+				sb.append(i == choiceNum ? "> " : "| ").append(choiceOptions.get(i).getClass().getSimpleName()).append("\n");
+			visHUD.updateText(HUDMode.ACTION, "Options", sb.toString());
+		}
 		visHUD.changeMode(HUDMode.ACTION);
 	}
 
