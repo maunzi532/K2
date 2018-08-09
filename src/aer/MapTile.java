@@ -2,12 +2,12 @@ package aer;
 
 public class MapTile
 {
-	public final IHexMap map;
+	public final ITiledMap map;
 	public final HexLocation loc;
 	public MapTileType type;
 	public final boolean outofbounds;
 
-	public MapTile(IHexMap map, HexLocation loc)
+	public MapTile(ITiledMap map, HexLocation loc)
 	{
 		this.map = map;
 		this.loc = loc;
@@ -15,7 +15,7 @@ public class MapTile
 		outofbounds = true;
 	}
 
-	public MapTile(IHexMap map, HexLocation loc, MapTileType type)
+	public MapTile(ITiledMap map, HexLocation loc, MapTileType type)
 	{
 		this.map = map;
 		this.loc = loc;

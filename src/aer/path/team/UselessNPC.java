@@ -6,13 +6,13 @@ import aer.path.takeable.*;
 public class UselessNPC implements NPC_Control
 {
 	@Override
-	public PathAction path(HexPather xec)
+	public PathAction path(Pather xec)
 	{
 		return null;
 	}
 
 	@Override
-	public TakeableAction interrupt(HexPather xec, TargetData targetData)
+	public TakeableAction interrupt(Pather xec, TargetData targetData)
 	{
 		return null;
 	}

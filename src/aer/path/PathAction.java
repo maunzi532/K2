@@ -5,13 +5,13 @@ import java.util.*;
 
 public class PathAction
 {
-	public final HexPather pather;
+	public final Pather pather;
 	public final TakeableAction action;
 	public final PathAction previous;
 	public final ActionResource deducted;
 	public final ArrayList<PathAction> next = new ArrayList<>();
 
-	public PathAction(HexPather pather, ActionResource resource, TakeableAction action, PathAction previous)
+	public PathAction(Pather pather, ActionResource resource, TakeableAction action, PathAction previous)
 	{
 		this.pather = pather;
 		this.action = action;
@@ -19,7 +19,7 @@ public class PathAction
 		deducted = resource.deduct(action);
 	}
 
-	public PathAction(HexPather pather, ActionResource resource, TakeableAction action)
+	public PathAction(Pather pather, ActionResource resource, TakeableAction action)
 	{
 		this.pather = pather;
 		this.action = action;

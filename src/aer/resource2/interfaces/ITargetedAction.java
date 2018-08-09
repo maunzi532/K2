@@ -4,7 +4,7 @@ import aer.*;
 
 public interface ITargetedAction extends IDirectionAction
 {
-	default HexObject target()
+	default Relocatable target()
 	{
 		return null;
 	}

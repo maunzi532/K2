@@ -19,12 +19,12 @@ public class CursorTargeting extends BaseAppState implements Targeting, ActionLi
 	private InputManager inputManager;
 	private Node last2;
 	private boolean updated;
-	private IHexMap map;
+	private ITiledMap map;
 	private Input1 input1;
 	private HexLocation targetTile;
-	private HexObject targetObject;
+	private Relocatable targetObject;
 
-	public CursorTargeting(IHexMap map)
+	public CursorTargeting(ITiledMap map)
 	{
 		this.map = map;
 	}
@@ -96,7 +96,7 @@ public class CursorTargeting extends BaseAppState implements Targeting, ActionLi
 			last2 = new2;
 			if(last2 != null && last2.getUserData("R") != null)
 			{
-				targetTile = new HexLocation((Integer) last2.getUserData("X"), last2.getUserData("D"),
+				targetTile = new HexLocation(last2.getUserData("X"), last2.getUserData("D"),
 						last2.getUserData("H"), last2.getUserData("R"));
 			}
 			else
@@ -118,7 +118,7 @@ public class CursorTargeting extends BaseAppState implements Targeting, ActionLi
 	}
 
 	@Override
-	public HexObject targetObject()
+	public Relocatable targetObject()
 	{
 		return targetObject;
 	}

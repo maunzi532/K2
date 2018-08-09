@@ -3,14 +3,13 @@ package aer.resource3;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
-import aer.resource2.*;
-import aer.resource2.otheractions.*;
-import aer.resource2.therathicTypes.*;
+import aer.resource2.resource.*;
+import aer.resource2.therathicType.*;
 import java.util.*;
 
-public class TX_AP_Transform implements TherathicHex, E_AP_MP
+public class TX_AP_Transform implements Therathic, E_AP_MP
 {
-	private HexPather pather;
+	private Pather pather;
 	private List<Transformation> transforms;
 	private CostTable costTable;
 	private NPC_Control npc_control;
@@ -100,31 +99,31 @@ public class TX_AP_Transform implements TherathicHex, E_AP_MP
 	}
 
 	@Override
-	public void linkTo(HexPather pather)
+	public void linkTo(Pather pather)
 	{
 		this.pather = pather;
 	}
 
 	@Override
-	public HexPather pather()
+	public Pather pather()
 	{
 		return pather;
 	}
 
 	@Override
-	public List<HexItem> activeItems()
+	public List<PatherItem> activeItems()
 	{
 		return currentTransform().activeItems();
 	}
 
 	@Override
-	public List<HexItem> interruptItems(TargetData targetData)
+	public List<PatherItem> interruptItems(TargetData targetData)
 	{
 		return currentTransform().interruptItems(targetData);
 	}
 
 	@Override
-	public List<EndHexItem> endItems()
+	public List<EndPatherItem> endItems()
 	{
 		return currentTransform().endItems();
 	}
@@ -132,13 +131,13 @@ public class TX_AP_Transform implements TherathicHex, E_AP_MP
 	@Override
 	public TakeableAction startAction()
 	{
-		return new InitAction2(costTable);
+		return new InitAction(costTable);
 	}
 
 	@Override
 	public ActionResource actionResource()
 	{
-		return new BasicAPResource2(actionPoints, movePoints, pather.getDirection(), pather.getAirState(), reqFall, pather.getLoc(), pather.getMount());
+		return new Resource_AP_MP(actionPoints, movePoints, pather.getDirection(), pather.getAirState(), reqFall, pather.getLoc(), pather.getMount());
 	}
 
 	@Override

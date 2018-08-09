@@ -7,12 +7,12 @@ import aer.path.team.*;
 import visual.*;
 import visual.pather.*;
 
-public class VisTurnSchedule extends VisualR<TurnSchedule>
+public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 {
 	public Targeting targeting;
 	public PathTraverse pathTraverse;
 	public VisHUD visHUD;
-	public ReactionCh reactionCh;
+	public ReactionChooser reactionChooser;
 
 	public VisTurnSchedule(TurnSchedule linked, Targeting targeting, VisHUD visHUD)
 	{
@@ -49,14 +49,14 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 		{
 			if(targeting.checkInput() == Input1.TARGET)
 			{
-				HexObject object = targeting.targetObject();
-				if(object != null && object instanceof HexPather)
+				Relocatable object = targeting.targetObject();
+				if(object != null && object instanceof Pather)
 				{
-					HexPather pather = (HexPather) object;
+					Pather pather = (Pather) object;
 					if(pather.getPossiblePaths() == null)
 						pather.calculatePossiblePaths(ItemGetType.ACTION, null);
 					pathTraverse = new PathTraverse(pather.getPossiblePaths(), pather, true, visHUD);
-					node.getParent().getChild("Map").getControl(VisHexMap.class).lightThese(pathTraverse);
+					node.getParent().getChild("Map").getControl(VisTiledMap.class).lightThese(pathTraverse);
 				}
 			}
 			else if(targeting.checkInput() == Input1.ACCEPT)
@@ -74,13 +74,13 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 			}
 			if(pathTraverse.esc || pathAction != null)
 			{
-				node.getParent().getChild("Map").getControl(VisHexMap.class).endLighting();
+				node.getParent().getChild("Map").getControl(VisTiledMap.class).endLighting();
 				visHUD.changeMode(HUDMode.NONE);
 				pathTraverse = null;
 			}
 			else if(pathTraverse.visualUpdateRequired)
 			{
-				node.getParent().getChild("Map").getControl(VisHexMap.class).lightThese(pathTraverse);
+				node.getParent().getChild("Map").getControl(VisTiledMap.class).lightThese(pathTraverse);
 			}
 		}
 	}
@@ -91,27 +91,27 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 		{
 			if(targeting.checkInput() == Input1.TARGET)
 			{
-				HexObject object = targeting.targetObject();
-				if(object != null && object instanceof HexPather)
+				Relocatable object = targeting.targetObject();
+				if(object != null && object instanceof Pather)
 				{
-					HexPather pather = (HexPather) object;
+					Pather pather = (Pather) object;
 					if(pather.getPossiblePaths() == null)
 						pather.calculatePossiblePaths(ItemGetType.INTERRUPT, linked.targetData);
 					pathTraverse = new PathTraverse(pather.getPossiblePaths(), pather, false, visHUD);
-					node.getParent().getChild("Map").getControl(VisHexMap.class).lightThese(pathTraverse);
+					node.getParent().getChild("Map").getControl(VisTiledMap.class).lightThese(pathTraverse);
 				}
 			}
 			else if(linked.playerControl == 3)
 			{
-				if(reactionCh == null)
+				if(reactionChooser == null)
 				{
-					reactionCh = new ReactionCh(linked.reactions);
-					reactionCh.showChoiceOptions();
+					reactionChooser = new ReactionChooser(linked.reactions);
+					reactionChooser.showChoiceOptions();
 				}
-				Reaction reaction = reactionCh.exec(targeting.checkInput());
+				Reaction reaction = reactionChooser.exec(targeting.checkInput());
 				if(reaction != null)
 				{
-					reactionCh = null;
+					reactionChooser = null;
 					linked.importReaction(reaction);
 					linked.stepForward(false);
 				}
@@ -133,9 +133,9 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 			{
 				visHUD.changeMode(HUDMode.NONE);
 				pathTraverse = null;
-				if(reactionCh == null)
-					reactionCh = new ReactionCh(linked.reactions);
-				reactionCh.showChoiceOptions();
+				if(reactionChooser == null)
+					reactionChooser = new ReactionChooser(linked.reactions);
+				reactionChooser.showChoiceOptions();
 			}
 		}
 	}
@@ -146,7 +146,7 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 	}
 
 	@Override
-	public void execute(VisualCommand command)
+	public void execute(ICommand command)
 	{
 
 	}

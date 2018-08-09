@@ -1,14 +1,14 @@
 package aer.resource3.resource4;
 
 import aer.path.*;
-import aer.resource2.items.*;
+import aer.resource2.items.item2.*;
 import aer.resource3.*;
 import java.util.*;
 
 public class Mage extends Transformation
 {
-	public EndHexItem movementItem;
-	public HexItem personalWand;
+	public EndPatherItem movementItem;
+	public PatherItem personalWand;
 	public boolean wandDrawn;
 
 	public Mage()
@@ -18,9 +18,9 @@ public class Mage extends Transformation
 	}
 
 	@Override
-	public ArrayList<HexItem> activeItems()
+	public ArrayList<PatherItem> activeItems()
 	{
-		ArrayList<HexItem> items = super.activeItems();
+		ArrayList<PatherItem> items = super.activeItems();
 		items.add(movementItem);
 		if(wandDrawn)
 			items.add(personalWand);
@@ -28,9 +28,9 @@ public class Mage extends Transformation
 	}
 
 	@Override
-	public ArrayList<HexItem> interruptItems(TargetData targetData)
+	public ArrayList<PatherItem> interruptItems(TargetData targetData)
 	{
-		ArrayList<HexItem> items = super.interruptItems(targetData);
+		ArrayList<PatherItem> items = super.interruptItems(targetData);
 		items.add(movementItem);
 		if(wandDrawn)
 			items.add(personalWand);
@@ -38,7 +38,7 @@ public class Mage extends Transformation
 	}
 
 	@Override
-	public List<EndHexItem> endItems()
+	public List<EndPatherItem> endItems()
 	{
 		return Collections.singletonList(movementItem);
 	}

@@ -3,8 +3,7 @@ package visual.pather;
 import aer.*;
 import aer.path.*;
 import aer.path.takeable.*;
-import aer.resource2.*;
-import aer.resource2.resourceTypes.*;
+import aer.resource2.resource.*;
 import java.util.*;
 import java.util.stream.*;
 import visual.map.*;
@@ -16,17 +15,17 @@ public class PathTraverse
 	public VisHUD visHUD;
 	public final List<PathAction> possibleActions;
 	public PathAction currentAction;
-	public HexPather pather;
-	public RBasicData res1;
+	public Pather pather;
+	public R_Relocatable res1;
 	public HexDirection turn;
 	public HexLocation loc;
-	public HexObject object;
+	public Relocatable object;
 	public int choiceNum;
 	public List choiceOptions;
 	public boolean esc = false;
 	public boolean visualUpdateRequired = false;
 
-	public PathTraverse(List<PathAction> possibleActions, HexPather pather, boolean initial, VisHUD visHUD)
+	public PathTraverse(List<PathAction> possibleActions, Pather pather, boolean initial, VisHUD visHUD)
 	{
 		this.visHUD = visHUD;
 		this.possibleActions = possibleActions;
@@ -40,12 +39,12 @@ public class PathTraverse
 	public void setCurrentAction(PathAction currentAction)
 	{
 		this.currentAction = currentAction;
-		if(currentAction != null && currentAction.deducted instanceof RBasicData)
-			res1 = (RBasicData) currentAction.deducted;
+		if(currentAction != null && currentAction.deducted instanceof R_Relocatable)
+			res1 = (R_Relocatable) currentAction.deducted;
 		updateChoiceOptions();
 	}
 
-	public PathAction exec(Input1 input1, HexLocation tLoc, HexObject tObject, boolean autoTake)
+	public PathAction exec(Input1 input1, HexLocation tLoc, Relocatable tObject, boolean autoTake)
 	{
 		visualUpdateRequired = false;
 		if(input1 == null)
@@ -227,7 +226,7 @@ public class PathTraverse
 				Collectors.groupingBy(TActionLocation::location));
 	}
 
-	public Map<HexObject, List<TActionObject>> objects()
+	public Map<Relocatable, List<TActionObject>> objects()
 	{
 		return nextActions().stream().filter(e -> e.action instanceof TActionObject).map(e -> (TActionObject) e.action).collect(
 				Collectors.groupingBy(TActionObject::object));
@@ -257,8 +256,8 @@ public class PathTraverse
 			System.out.print(sb.toString());
 		}*/
 
-		visHUD.updateText(HUDMode.ACTION, "AP", String.valueOf(((BasicAPResource2) currentAction.deducted).dActionPoints()));
-		visHUD.updateText(HUDMode.ACTION, "MP", String.valueOf(((BasicAPResource2) currentAction.deducted).dMovementPoints()));
+		visHUD.updateText(HUDMode.ACTION, "AP", String.valueOf(((Resource_AP_MP) currentAction.deducted).dActionPoints()));
+		visHUD.updateText(HUDMode.ACTION, "MP", String.valueOf(((Resource_AP_MP) currentAction.deducted).dMovementPoints()));
 		visHUD.updateText(HUDMode.ACTION, "Path", steps(currentAction));
 		visHUD.updateText(HUDMode.ACTION, "Take", !chCheck() && canEnd() ? "Press enter key to take this Path" : "");
 		visHUD.updateText(HUDMode.ACTION, "Target", object != null ? "Actions targeting object:" :

@@ -4,5 +4,5 @@ import aer.path.*;
 
 public interface ItemModifier extends Modifier
 {
-	HexItem item();
+	PatherItem item();
 }

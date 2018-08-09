@@ -2,12 +2,12 @@ package aer.commands;
 
 import aer.*;
 
-public class CMove implements VisualCommand
+public class CMove implements ICommand
 {
 	public final HexLocation targetL;
 	public final AirState airState;
 
-	public CMove(HexObject x1)
+	public CMove(Relocatable x1)
 	{
 		targetL = x1.getLoc();
 		airState = x1.getAirState();
@@ -19,7 +19,7 @@ public class CMove implements VisualCommand
 		this.airState = airState;
 	}
 
-	public static void issueCommand(HexObject x1)
+	public static void issueCommand(Relocatable x1)
 	{
 		x1.addCommand(new CMove(x1));
 	}

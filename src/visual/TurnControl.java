@@ -20,7 +20,7 @@ public class TurnControl extends AbstractControl
 		this.cTurn = cTurn;
 		this.time = time;
 		timeLeft = time;
-		localEnd = VisHexMap.conv(cTurn.targetD);
+		localEnd = VisTiledMap.conv(cTurn.targetD);
 	}
 
 	@Override

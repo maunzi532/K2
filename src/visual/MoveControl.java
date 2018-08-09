@@ -20,7 +20,7 @@ public class MoveControl extends AbstractControl
 		this.cMove = cMove;
 		this.time = time;
 		timeLeft = time;
-		localEnd = VisHexMap.conv(cMove.targetL);
+		localEnd = VisTiledMap.conv(cMove.targetL);
 	}
 
 	@Override

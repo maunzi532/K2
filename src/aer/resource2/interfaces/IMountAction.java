@@ -4,7 +4,7 @@ import aer.*;
 
 public interface IMountAction extends IAirStateAction
 {
-	default HexObject mounting()
+	default Relocatable mounting()
 	{
 		return null;
 	}

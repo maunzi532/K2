@@ -37,7 +37,7 @@ public class VisHUD
 	public void setup()
 	{
 		{
-			Node node = addNode(HUDMode.NONE);
+			addNode(HUDMode.NONE);
 		}
 		{
 			Node node = addNode(HUDMode.ACTION);

@@ -11,32 +11,32 @@ public class TurnSchedule extends CommandLink
 {
 	public List<Integer> controlledTeams;
 	public int inActionLNum;
-	public IHexMap map;
+	public ITiledMap map;
 
 	public TurnPhase mainPhase;
 	public TurnPhase innerPhase;
 	public boolean initFlag;
-	public List<HexPather> currentTeam;
+	public List<Pather> currentTeam;
 
-	public List<HexPather> playerControlled;
-	public Iterator<HexPather> npcControlled;
-	public HexPather currentControlled;
+	public List<Pather> playerControlled;
+	public Iterator<Pather> npcControlled;
+	public Pather currentControlled;
 
 	public Iterator<TakeableAction> actions;
 	public TakeableAction currentAction;
 
-	public Iterator<HexPather> targets;
+	public Iterator<Pather> targets;
 	public TargetData targetData;
 
 	public List<Reaction> reactions;
-	public List<HexPather> interrupt;
-	public List<HexPather> playerInterrupt;
-	public Iterator<HexPather> npcInterrupt;
-	public HexPather currentInterrupt;
+	public List<Pather> interrupt;
+	public List<Pather> playerInterrupt;
+	public Iterator<Pather> npcInterrupt;
+	public Pather currentInterrupt;
 
 	public int playerControl;
 
-	public TurnSchedule(List<Integer> controlledTeams, int startingTeamCode, IHexMap map)
+	public TurnSchedule(List<Integer> controlledTeams, int startingTeamCode, ITiledMap map)
 	{
 		this.controlledTeams = controlledTeams;
 		inActionLNum = controlledTeams.indexOf(startingTeamCode);
@@ -67,7 +67,7 @@ public class TurnSchedule extends CommandLink
 				{
 					log(2, "Initiating draw phase for team " + controlledTeams.get(inActionLNum));
 					currentTeam = new ArrayList<>();
-					map.team(controlledTeams.get(inActionLNum)).forEach(e -> currentTeam.add((HexPather) e));
+					map.team(controlledTeams.get(inActionLNum)).forEach(e -> currentTeam.add((Pather) e));
 					npcControlled = currentTeam.iterator();
 					initFlag = false;
 					return true;
@@ -82,14 +82,14 @@ public class TurnSchedule extends CommandLink
 				{
 					currentControlled = npcControlled.next();
 					log(2, currentControlled.name() + " executes draw phase");
-					return currentControlled.getTherathicHex().drawPhase();
+					return currentControlled.getTherathic().drawPhase();
 				}
 			case PLAYERACTION:
 				if(initFlag)
 				{
 					log(3, "Ready for player control");
-					playerControlled = currentTeam.stream().filter(e -> e.getTherathicHex().playerControlled()).collect(Collectors.toList());
-					playerControlled.forEach(HexPather::resetPossiblePaths);
+					playerControlled = currentTeam.stream().filter(e -> e.getTherathic().playerControlled()).collect(Collectors.toList());
+					playerControlled.forEach(Pather::resetPossiblePaths);
 					playerControl = 1;
 					initFlag = false;
 					return false;
@@ -109,7 +109,7 @@ public class TurnSchedule extends CommandLink
 				if(initFlag)
 				{
 					log(1, "Initiating ally phase");
-					npcControlled = currentTeam.stream().filter(e -> !e.getTherathicHex().playerControlled()).iterator();
+					npcControlled = currentTeam.stream().filter(e -> !e.getTherathic().playerControlled()).iterator();
 					initFlag = false;
 					return true;
 				}
@@ -123,7 +123,7 @@ public class TurnSchedule extends CommandLink
 				{
 					currentControlled = npcControlled.next();
 					currentControlled.calculatePossiblePaths(ItemGetType.ACTION, null);
-					PathAction path = currentControlled.getTherathicHex().npcControl().path(currentControlled);
+					PathAction path = currentControlled.getTherathic().npcControl().path(currentControlled);
 					if(path != null)
 						importPath(path);
 					else
@@ -151,7 +151,7 @@ public class TurnSchedule extends CommandLink
 				{
 					currentControlled = npcControlled.next();
 					currentControlled.calculatePossiblePaths(ItemGetType.END, null);
-					PathAction path = currentControlled.getTherathicHex().endPhase();
+					PathAction path = currentControlled.getTherathic().endPhase();
 					if(path != null)
 						importPath(path);
 					else
@@ -200,7 +200,7 @@ public class TurnSchedule extends CommandLink
 				if(initFlag)
 				{
 					interrupt = targetData.canInterrupt(map);
-					npcInterrupt = interrupt.stream().filter(e -> !e.getTherathicHex().playerControlled()).iterator();
+					npcInterrupt = interrupt.stream().filter(e -> !e.getTherathic().playerControlled()).iterator();
 					initFlag = false;
 					return true;
 				}
@@ -213,7 +213,7 @@ public class TurnSchedule extends CommandLink
 				{
 					currentInterrupt = npcInterrupt.next();
 					currentInterrupt.calculatePossiblePaths(ItemGetType.INTERRUPT, targetData);
-					TakeableAction intA = currentInterrupt.getTherathicHex().npcControl().interrupt(currentInterrupt, targetData);
+					TakeableAction intA = currentInterrupt.getTherathic().npcControl().interrupt(currentInterrupt, targetData);
 					if(intA != null)
 						importInterrupt(currentInterrupt, intA);
 					else
@@ -224,9 +224,9 @@ public class TurnSchedule extends CommandLink
 				if(initFlag)
 				{
 					log(3, "Ready for player interrupts");
-					playerInterrupt = interrupt.stream().filter(e -> e.getTherathicHex().playerControlled()).collect(Collectors.toList());
-					playerInterrupt.forEach(HexPather::resetPossiblePaths);
-					if(targetData.target.getTherathicHex().playerControlled())
+					playerInterrupt = interrupt.stream().filter(e -> e.getTherathic().playerControlled()).collect(Collectors.toList());
+					playerInterrupt.forEach(Pather::resetPossiblePaths);
+					if(targetData.target.getTherathic().playerControlled())
 					{
 						playerControl = 3;
 						reactions = targetData.reactionOptions();
@@ -244,7 +244,7 @@ public class TurnSchedule extends CommandLink
 						if(playerControl == 3)
 							importReaction(reactions.get(0));
 						else
-							importReaction(targetData.target.getTherathicHex().npcControl().reaction(targetData));
+							importReaction(targetData.target.getTherathic().npcControl().reaction(targetData));
 						return true;
 					}
 					return false;
@@ -287,7 +287,7 @@ public class TurnSchedule extends CommandLink
 		return false;
 	}
 
-	public void importInterrupt(HexPather xec, TakeableAction action1)
+	public void importInterrupt(Pather xec, TakeableAction action1)
 	{
 		log(3, "Exec interrupt of " + xec.name());
 		action1.executeEnd(xec);

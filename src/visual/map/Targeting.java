@@ -6,7 +6,7 @@ public interface Targeting
 {
 	HexLocation targetTile();
 
-	HexObject targetObject();
+	Relocatable targetObject();
 
 	Input1 checkInput();
 

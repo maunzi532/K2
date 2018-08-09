@@ -28,31 +28,31 @@ public abstract class Transformation
 		return classModifiers;
 	}
 
-	public ArrayList<HexItem> activeItems()
+	public ArrayList<PatherItem> activeItems()
 	{
-		ArrayList<HexItem> modifierItems = new ArrayList<>();
+		ArrayList<PatherItem> modifierItems = new ArrayList<>();
 		for(ItemModifier itemModifier : classModifiers(ItemModifier.class))
 		{
-			HexItem item = itemModifier.item();
+			PatherItem item = itemModifier.item();
 			if(item != null)
 				modifierItems.add(item);
 		}
 		return modifierItems;
 	}
 
-	public ArrayList<HexItem> interruptItems(TargetData targetData)
+	public ArrayList<PatherItem> interruptItems(TargetData targetData)
 	{
-		ArrayList<HexItem> modifierItems = new ArrayList<>();
+		ArrayList<PatherItem> modifierItems = new ArrayList<>();
 		for(ItemModifier itemModifier : classModifiers(ItemModifier.class))
 		{
-			HexItem item = itemModifier.item();
+			PatherItem item = itemModifier.item();
 			if(item != null)
 				modifierItems.add(item);
 		}
 		return modifierItems;
 	}
 
-	public abstract List<EndHexItem> endItems();
+	public abstract List<EndPatherItem> endItems();
 
 	public int stat(TStat stat)
 	{

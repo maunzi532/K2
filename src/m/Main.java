@@ -3,7 +3,7 @@ package m;
 import aer.*;
 import aer.mapgen.*;
 import aer.path.*;
-import aer.resource2.*;
+import aer.resource2.therathicType.*;
 import aer.resource3.*;
 import aer.resource3.resource4.*;
 import com.jme3.app.*;
@@ -72,28 +72,28 @@ public class Main extends SimpleApplication
 
 
 		//Generate Map
-		IHexMap hexMap = new HexMap("T1", -10, -2, -2, 0, 11, 10, 5, 1);
-		hexMap.setGenerator(new BasicHexGen());
+		ITiledMap hexMap = new HexTiledMap("T1", -10, -2, -2, 0, 11, 10, 5, 1);
+		hexMap.setGenerator(new BasicHexMapGen());
 
 		//Create Meshes and Materials
 		MeshLager.init(assetManager);
 
 		//Create VisHexMap for HexMap
-		attachWithNode(rootNode, "Map", new VisHexMap(hexMap, 0));
+		attachWithNode(rootNode, "Map", new VisTiledMap(hexMap, 0));
 
 		//Create TX_AP_Transform (Mage) HexPather
-		HexPather pather = new HexPather(10, hexMap, new HexLocation(2, 1, 3, 0),
+		Pather pather = new Pather(10, hexMap, new HexLocation(2, 1, 3, 0),
 				new HexDirection(6), AirState.UP, new TX_AP_Transform(new Mage()));
 		hexMap.addObject(pather);
 
 		//Create VisObject for HexPather
-		attachWithNode(rootNode, "VisHexPather0", new VisObject(pather));
+		attachWithNode(rootNode, "VisHexPather0", new VisRelocatable(pather));
 
 		//Create TX_AP_2 HexPather
-		HexPather pather1 = new HexPather(11, hexMap, new HexLocation(4, 1, 0, 0),
+		Pather pather1 = new Pather(11, hexMap, new HexLocation(4, 1, 0, 0),
 				new HexDirection(3), AirState.FLOOR, new TX_AP_2(new CostTable()));
 		hexMap.addObject(pather1);
-		attachWithNode(rootNode, "VisHexPather1", new VisObject(pather1));
+		attachWithNode(rootNode, "VisHexPather1", new VisRelocatable(pather1));
 
 		//Add HUD
 		VisHUD visHUD = new VisHUD(guiNode, guiFont, getContext().getSettings());

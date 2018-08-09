@@ -6,11 +6,11 @@ import java.util.*;
 
 public class TargetData
 {
-	public final HexPather caster;
+	public final Pather caster;
 	public final TakeableAction spell;
-	public final HexPather target;
+	public final Pather target;
 
-	public TargetData(HexPather caster, TakeableAction spell, HexPather target)
+	public TargetData(Pather caster, TakeableAction spell, Pather target)
 	{
 		this.caster = caster;
 		this.spell = spell;
@@ -22,11 +22,11 @@ public class TargetData
 		return spell.targetOptions(caster, target);
 	}
 
-	public List<HexPather> canInterrupt(IHexMap map)
+	public List<Pather> canInterrupt(ITiledMap map)
 	{
-		List<HexPather> interrupt = new ArrayList<>();
+		List<Pather> interrupt = new ArrayList<>();
 		for(Integer tn : spell.interruptTeamNumbers(caster, target))
-			map.team(tn).forEach(e -> interrupt.add((HexPather) e));
+			map.team(tn).forEach(e -> interrupt.add((Pather) e));
 		return interrupt;
 	}
 

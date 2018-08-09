@@ -4,5 +4,5 @@ import aer.*;
 
 public interface TActionObject extends TakeableAction
 {
-	HexObject object();
+	Relocatable object();
 }

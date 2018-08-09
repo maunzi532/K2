@@ -10,32 +10,32 @@ public interface TakeableAction
 		return true;
 	}
 
-	default boolean executeStart(HexPather xec)
+	default boolean executeStart(Pather xec)
 	{
 		return false;
 	}
 
-	default List<HexPather> targets(HexPather xec)
+	default List<Pather> targets(Pather xec)
 	{
 		return Collections.EMPTY_LIST;
 	}
 
-	default List<Reaction> targetOptions(HexPather xec, HexPather target)
+	default List<Reaction> targetOptions(Pather xec, Pather target)
 	{
 		return null;
 	}
 
-	default List<Integer> interruptTeamNumbers(HexPather xec, HexPather target)
+	default List<Integer> interruptTeamNumbers(Pather xec, Pather target)
 	{
-		return Collections.singletonList(target.getTherathicHex().teamSide());
+		return Collections.singletonList(target.getTherathic().teamSide());
 	}
 
-	default boolean executeOn(HexPather xec, HexPather target, Reaction chosen)
+	default boolean executeOn(Pather xec, Pather target, Reaction chosen)
 	{
 		return false;
 	}
 
-	default boolean executeEnd(HexPather xec)
+	default boolean executeEnd(Pather xec)
 	{
 		return false;
 	}
