@@ -29,7 +29,7 @@ public class FloorMovementItem2 implements EndPatherItem
 		if(!res1.dEnd())
 		{
 			//Turn
-			if(res1.dAirState().canTurn)
+			if(res1.dAirState().cheapTurn)
 				for(int i = 0; i < 12; i++)
 					if(i != res1.dDirection().r)
 						list.add(new Turn2(costTable, res1.dDirection(), new HexDirection(i)));
@@ -51,17 +51,19 @@ public class FloorMovementItem2 implements EndPatherItem
 						HexLocation end = new HexLocation(res1.dLocation(), ix, id, 0, 0);
 						if(!res1.dLocation().equals(end))
 						{
-							if(freelyMovingA == null)
-								freelyMovingN.add(end);
 							FloorMovement2 mv = new FloorMovement2(costTable, res1.dDirection(), map,
 									res1.dLocation(), end, freelyMovingA, freelyMovingN);
 							if(mv.possible())
+							{
 								list.add(mv);
+								if(freelyMovingA == null)
+									freelyMovingN.add(end);
+							}
 						}
 					}
 				}
 			}
-			//Land
+			//Aerial
 			if(res1.dAirState().isAerial)
 			{
 				//Land

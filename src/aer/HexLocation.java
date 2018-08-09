@@ -1,6 +1,6 @@
 package aer;
 
-public class HexLocation extends AxialHex
+public class HexLocation extends TAxialHex
 {
 	public final int h, r;
 

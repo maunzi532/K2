@@ -1,16 +1,16 @@
 package aer;
 
-public class AxialHex
+public class TAxialHex
 {
 	public final int x, d;
 
-	public AxialHex(int x, int d)
+	public TAxialHex(int x, int d)
 	{
 		this.x = x;
 		this.d = d;
 	}
 
-	public AxialHex(AxialHex copy)
+	public TAxialHex(TAxialHex copy)
 	{
 		x = copy.x;
 		d = copy.d;
