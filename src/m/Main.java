@@ -117,11 +117,7 @@ public class Main extends SimpleApplication
 	}
 
 	@Override
-	public void simpleUpdate(float tpf)
-	{
-		/*rootNode.getChild("X").getControl(VisObject.class).linked.setDirection(
-				new HexDirection((rootNode.getChild("X").getControl(VisObject.class).linked.getDirection().r + 1) % 12));*/
-	}
+	public void simpleUpdate(float tpf){}
 
 	@Override
 	public void simpleRender(RenderManager rm){}
@@ -142,4 +138,14 @@ public class Main extends SimpleApplication
 			viewPort.addProcessor(fpp);
 		}
 	}*/
+
+	/*
+	TODO: HexDirection Angle Axis Mode
+	TODO: TargetingAction Reach
+	TODO: Reaction/Interrupt HUD
+	TODO: AerialMovementItem
+	TODO: Scatter Objects on the same Hex
+	TODO: Fix Camera
+	TODO: View Layers
+	 */
 }

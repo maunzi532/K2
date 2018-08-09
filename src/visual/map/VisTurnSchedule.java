@@ -70,14 +70,15 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 			if(pathAction != null)
 			{
 				linked.importPath(pathAction);
-				linked.stepForward(false);
+				linked.stepForward(true);
 			}
 			if(pathTraverse.esc || pathAction != null)
 			{
 				node.getParent().getChild("Map").getControl(VisHexMap.class).endLighting();
+				visHUD.changeMode(HUDMode.NONE);
 				pathTraverse = null;
 			}
-			else if(pathTraverse.pathed)
+			else if(pathTraverse.visualUpdateRequired)
 			{
 				node.getParent().getChild("Map").getControl(VisHexMap.class).lightThese(pathTraverse);
 			}
@@ -130,6 +131,7 @@ public class VisTurnSchedule extends VisualR<TurnSchedule>
 			}
 			if(pathTraverse.esc || pathAction != null)
 			{
+				visHUD.changeMode(HUDMode.NONE);
 				pathTraverse = null;
 				if(reactionCh == null)
 					reactionCh = new ReactionCh(linked.reactions);

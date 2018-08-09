@@ -24,7 +24,7 @@ public class PathTraverse
 	public int choiceNum;
 	public List choiceOptions;
 	public boolean esc = false;
-	public boolean pathed = false;
+	public boolean visualUpdateRequired = false;
 
 	public PathTraverse(List<PathAction> possibleActions, HexPather pather, boolean initial, VisHUD visHUD)
 	{
@@ -47,7 +47,7 @@ public class PathTraverse
 
 	public PathAction exec(Input1 input1, HexLocation tLoc, HexObject tObject, boolean autoTake)
 	{
-		pathed = false;
+		visualUpdateRequired = false;
 		if(input1 == null)
 			return null;
 		switch(input1)
@@ -59,12 +59,14 @@ public class PathTraverse
 					if(tObject != pather)
 						object = tObject;
 					updateChoiceOptions();
+					visualUpdateRequired = true;
 				}
 				else if(tLoc != null && !tLoc.equals(res1.dLocation()) && !tLoc.equals(loc))
 				{
 					chReset();
 					loc = tLoc;
 					updateChoiceOptions();
+					visualUpdateRequired = true;
 				}
 				break;
 			case CHOOSE:
@@ -92,8 +94,8 @@ public class PathTraverse
 			case ACCEPT:
 				if(!chCheck() && canEnd())
 				{
-					System.out.println("Chosen path:");
-					System.out.print(steps(currentAction));
+					/*System.out.println("Chosen path:");
+					System.out.print(steps(currentAction));*/
 					return currentAction;
 				}
 				else if(choiceNum >= 0 && choiceOptions != null && choiceOptions.size() > choiceNum)
@@ -102,8 +104,8 @@ public class PathTraverse
 					pathIn((TakeableAction) choiceOptions.get(choiceNum));
 					if(canEnd())
 					{
-						System.out.println("Chosen path:");
-						System.out.print(steps(currentAction));
+						/*System.out.println("Chosen path:");
+						System.out.print(steps(currentAction));*/
 						return currentAction;
 					}
 				}
@@ -117,16 +119,16 @@ public class PathTraverse
 				else if(currentAction != null && currentAction.previous != null)
 				{
 					setCurrentAction(currentAction.previous);
-					pathed = true;
+					visualUpdateRequired = true;
 				}
 				else
 				{
-					System.out.println("Exiting");
+					//System.out.println("Exiting");
 					esc = true;
 				}
 				break;
 			case ESCAPE:
-				System.out.println("Exiting");
+				//System.out.println("Exiting");
 				esc = true;
 				break;
 			case MINUSD:
@@ -139,6 +141,7 @@ public class PathTraverse
 				else
 					turn = HexDirection.minus(turn, eins);
 				updateChoiceOptions();
+				visualUpdateRequired = true;
 				break;
 			case PLUSD:
 				object = null;
@@ -150,6 +153,7 @@ public class PathTraverse
 				else
 					turn = HexDirection.plus(turn, eins);
 				updateChoiceOptions();
+				visualUpdateRequired = true;
 				break;
 		}
 		return null;
@@ -162,6 +166,8 @@ public class PathTraverse
 
 	private void chReset()
 	{
+		if(chCheck())
+			visualUpdateRequired = true;
 		object = null;
 		loc = null;
 		turn = null;
@@ -206,7 +212,7 @@ public class PathTraverse
 	public void pathIn(TakeableAction action)
 	{
 		setCurrentAction(nextActions().stream().filter(e -> e.action == action).findFirst().orElse(currentAction));
-		pathed = true;
+		visualUpdateRequired = true;
 	}
 
 	public Map<HexDirection, List<TActionDirection>> directions()
@@ -234,7 +240,7 @@ public class PathTraverse
 
 	private void showChoiceOptions()
 	{
-		System.out.print(steps(currentAction));
+		/*System.out.print(steps(currentAction));
 		if(!chCheck() && canEnd())
 			System.out.println("> enter key to take this path");
 		System.out.println(object != null ? "Actions targeting object:" :
@@ -249,7 +255,7 @@ public class PathTraverse
 			for(int i = 0; i < choiceOptions.size(); i++)
 				sb.append(i == choiceNum ? "> " : "| ").append(choiceOptions.get(i).getClass().getSimpleName()).append("\n");
 			System.out.print(sb.toString());
-		}
+		}*/
 
 		visHUD.updateText(HUDMode.ACTION, "AP", String.valueOf(((BasicAPResource2) currentAction.deducted).dActionPoints()));
 		visHUD.updateText(HUDMode.ACTION, "MP", String.valueOf(((BasicAPResource2) currentAction.deducted).dMovementPoints()));

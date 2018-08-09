@@ -15,10 +15,14 @@ public class MeshLager
 	public static Mesh possibleActionMeshLoc;
 	public static Mesh possibleActionMeshObj;
 	public static Material possibleActionMatLoc;
+	public static Material activeLocMat;
 	public static Material possibleActionMatObj;
-	public static Material possibleActionMatOth;
+	public static Material activeObjMat;
+	public static Material activeOtherMat;
+	public static Material pathLocMat;
 	public static Mesh directionArrowMesh;
 	public static Material directionArrowMat;
+	public static Material activeArrowMat;
 	public static Mesh objectMesh;
 	public static Material objectMat;
 
@@ -38,7 +42,7 @@ public class MeshLager
 		material.setBoolean("UseMaterialColors",true);
 		material.setColor("Diffuse", color);
 		material.setColor("Ambient", color);
-		if(color.a < 1)
+		if(color.a < 1f)
 			material.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
 		return material;
 	}
@@ -46,20 +50,21 @@ public class MeshLager
 	private static void floor(AssetManager assetManager)
 	{
 		floorMesh = new YSolidPrism(Scale.X_HEX_RADIUS, Scale.X_HEX_RADIUS * 0.9f, Scale.FLOOR_DOWN, 0f, 6);
-		floorMat = material(assetManager, ColorRGBA.Green);
+		floorMat = material(assetManager, new ColorRGBA(0f, 1f, 0f, 1f));
 	}
 
 	private static void blocked(AssetManager assetManager)
 	{
 		blockedMesh = new YSolidPrism(Scale.X_HEX_RADIUS, Scale.FLOOR_DOWN, Scale.CELLAR_UP, 6);
-		blockedMat = material(assetManager, ColorRGBA.Brown);
+		blockedMat = material(assetManager, new ColorRGBA(65f / 255f, 40f / 255f, 25f / 255f, 1f));
 	}
 
 	private static void possibleActionLoc(AssetManager assetManager)
 	{
 		possibleActionMeshLoc = new YHollowDoublePrism(Scale.X_HEX_RADIUS * 0.9f, Scale.X_HEX_RADIUS * 0.8f,
 				Scale.X_HEX_RADIUS * 0.75f, 0f, -Scale.FLOOR_DOWN * 0.6f, 0f, false, false, 6);
-		possibleActionMatLoc = material(assetManager, new ColorRGBA(1, 0, 1, 0.4f));
+		possibleActionMatLoc = material(assetManager, new ColorRGBA(1f, 0f, 1f, 0.4f));
+		activeLocMat = material(assetManager, new ColorRGBA(1f, 0.4f, 0f, 0.8f));
 	}
 
 	private static void possibleActionObj(AssetManager assetManager)
@@ -68,7 +73,8 @@ public class MeshLager
 				Scale.X_HEX_RADIUS * 0.9f, Scale.X_HEX_RADIUS * 0.6f, Scale.X_HEX_RADIUS * 0.9f,
 				Scale.FLOOR_DOWN * -0.4f, Scale.FLOOR_DOWN * -1f, Scale.FLOOR_DOWN * -1.6f, false, true, 12);
 		possibleActionMatObj = material(assetManager, new ColorRGBA(1f, 0f, 0.4f, 0.7f));
-		possibleActionMatOth = material(assetManager, new ColorRGBA(1f, 0.4f, 0f, 0.7f));
+		activeObjMat = material(assetManager, new ColorRGBA(1f, 0.4f, 0.4f, 0.8f));
+		activeOtherMat = material(assetManager, new ColorRGBA(1f, 0.4f, 0f, 0.7f));
 	}
 
 	private static void directionArrow(AssetManager assetManager)
@@ -76,12 +82,14 @@ public class MeshLager
 		directionArrowMesh = new YArrow(Scale.FLOOR_DOWN * -0.5f, Scale.FLOOR_DOWN * -0.7f,
 				Scale.X_HEX_RADIUS * 1.1f, Scale.X_HEX_RADIUS * 1.5f, Scale.X_HEX_RADIUS * 1.7f,
 				Scale.X_HEX_RADIUS * 0.05f, Scale.X_HEX_RADIUS * 0.15f);
-		directionArrowMat = material(assetManager, ColorRGBA.Brown);
+		directionArrowMat = material(assetManager, new ColorRGBA(65f / 255f, 40f / 255f, 25f / 255f, 1f));
+		activeArrowMat = material(assetManager, new ColorRGBA(1f, 1f, 0f, 1f));
 	}
 
 	private static void object(AssetManager assetManager)
 	{
-		objectMesh = new YSolidPrism(Scale.X_HEX_RADIUS * 0.5f, 0f, Scale.CELLAR_HEIGHT / 4f, 3);
-		objectMat = material(assetManager, ColorRGBA.Red);
+		objectMesh = new YSolidPrismX(Scale.X_HEX_RADIUS * 0.5f, 0f, Scale.CELLAR_HEIGHT / 4f, 3);
+		objectMat = material(assetManager, new ColorRGBA(1f, 0f, 0f, 1f));
+		pathLocMat = material(assetManager, new ColorRGBA(1f, 0.4f, 0f, 0.7f));
 	}
 }

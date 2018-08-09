@@ -2,6 +2,7 @@ package visual.map;
 
 import aer.*;
 import aer.commands.*;
+import aer.resource2.*;
 import com.jme3.math.*;
 import com.jme3.renderer.queue.*;
 import com.jme3.scene.*;
@@ -76,11 +77,15 @@ public class VisHexMap extends VisualR<IHexMap>
 		lightLocations.detachAllChildren();
 		lightDirections.detachAllChildren();
 		lightObjects.detachAllChildren();
+		BasicAPResource2 currentState = (BasicAPResource2) pathTraverse.currentAction.deducted;
 		for(HexLocation loc : pathTraverse.locations().keySet())
 		{
 			Node node1 = new Node();
 			Geometry geom1 = new Geometry(loc.toString(), MeshLager.possibleActionMeshLoc);
-			geom1.setMaterial(MeshLager.possibleActionMatLoc);
+			if(loc.equals(pathTraverse.loc))
+				geom1.setMaterial(MeshLager.activeLocMat);
+			else
+				geom1.setMaterial(MeshLager.possibleActionMatLoc);
 			geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
 			node1.attachChild(geom1);
 			node1.setLocalTranslation(conv(loc));
@@ -90,31 +95,49 @@ public class VisHexMap extends VisualR<IHexMap>
 		{
 			Node node1 = new Node();
 			Geometry geom1 = new Geometry(dir.toString(), MeshLager.directionArrowMesh);
-			geom1.setMaterial(MeshLager.directionArrowMat);
+			if(pathTraverse.turn != null && HexDirection.plus(currentState.dDirection(), pathTraverse.turn).equals(dir))
+				geom1.setMaterial(MeshLager.activeArrowMat);
+			else
+				geom1.setMaterial(MeshLager.directionArrowMat);
 			geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
-			geom1.setLocalRotation(new Quaternion().fromAngleAxis(FastMath.TWO_PI * dir.r / -12, Vector3f.UNIT_Y));
+			geom1.setLocalRotation(conv(dir));
 			node1.attachChild(geom1);
-			node1.setLocalTranslation(conv(pathTraverse.pather.getLoc()));
+			node1.setLocalTranslation(conv(((BasicAPResource2) pathTraverse.currentAction.deducted).dLocation()));
 			lightDirections.attachChild(node1);
 		}
 		for(HexObject obj : pathTraverse.objects().keySet())
 		{
 			Node node1 = new Node();
 			Geometry geom1 = new Geometry(obj.name(), MeshLager.possibleActionMeshObj);
-			geom1.setMaterial(MeshLager.possibleActionMatObj);
+			if(obj.equals(pathTraverse.object))
+				geom1.setMaterial(MeshLager.activeObjMat);
+			else
+				geom1.setMaterial(MeshLager.possibleActionMatObj);
 			geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
 			node1.attachChild(geom1);
 			node1.setLocalTranslation(conv(obj.getLoc()));
 			lightObjects.attachChild(node1);
 		}
+		if(!currentState.dLocation().equals(pathTraverse.pather.getLoc())
+				|| !currentState.dDirection().equals(pathTraverse.pather.getDirection()))
+		{
+			Node node1 = new Node();
+			Geometry geom1 = new Geometry("Copy", MeshLager.objectMesh);
+			geom1.setMaterial(MeshLager.pathLocMat);
+			geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
+			geom1.setLocalRotation(conv(currentState.dDirection()));
+			node1.attachChild(geom1);
+			node1.setLocalTranslation(conv(currentState.dLocation()));
+			lightObjects.attachChild(node1);
+		}
 		if(pathTraverse.others().size() > 0)
 		{
 			Node node1 = new Node();
-			Geometry geom1 = new Geometry(pathTraverse.pather.name(), MeshLager.possibleActionMeshObj);
-			geom1.setMaterial(MeshLager.possibleActionMatOth);
+			Geometry geom1 = new Geometry("Other", MeshLager.possibleActionMeshObj);
+			geom1.setMaterial(MeshLager.activeOtherMat);
 			geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
 			node1.attachChild(geom1);
-			node1.setLocalTranslation(conv(pathTraverse.pather.getLoc()));
+			node1.setLocalTranslation(conv(currentState.dLocation()));
 			lightObjects.attachChild(node1);
 		}
 	}

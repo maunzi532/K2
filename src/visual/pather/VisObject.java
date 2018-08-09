@@ -2,7 +2,6 @@ package visual.pather;
 
 import aer.*;
 import aer.commands.*;
-import com.jme3.math.*;
 import com.jme3.scene.*;
 import visual.*;
 import visual.map.*;
@@ -25,7 +24,7 @@ public class VisObject extends VisualR<HexObject>
 		HexLocation loc = linked.getLoc();
 		Geometry geom = new Geometry(loc.toString(), MeshLager.objectMesh);
 		geom.setMaterial(MeshLager.objectMat);
-		geom.setLocalRotation(new Quaternion().fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_Y));
+		//geom.setLocalRotation(new Quaternion().fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_Y));
 		node1.attachChild(geom);
 		node.setLocalTranslation(VisHexMap.conv(loc));
 		node.setLocalRotation(VisHexMap.conv(linked.getDirection()));
