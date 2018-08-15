@@ -14,6 +14,7 @@ public class MeshLager
 	public static Material blockedMat;
 	public static Mesh locationMesh;
 	public static Material locationMat;
+	public static Material locationMatDisabled;
 	public static Mesh possibleActionMeshLoc;
 	public static Mesh possibleActionMeshObj;
 	public static Material possibleActionMatLoc;
@@ -65,7 +66,8 @@ public class MeshLager
 	private static void location(AssetManager assetManager)
 	{
 		locationMesh = new YSolidPrism(Scale.X_HEX_RADIUS, -Scale.CELLAR_HEIGHT, Scale.FLOOR_DOWN * -0.2f, 6);
-		locationMat = material(assetManager, new ColorRGBA(0.8f, 0.8f, 1f, 0.2f));
+		locationMat = material(assetManager, new ColorRGBA(0.8f, 0.8f, 1f, 0.3f));
+		locationMatDisabled = material(assetManager, new ColorRGBA(1f, 0.8f, 0.8f, 0.2f));
 	}
 
 	private static void possibleActionLoc(AssetManager assetManager)

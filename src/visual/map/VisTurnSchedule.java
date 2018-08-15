@@ -29,12 +29,12 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 		super.controlUpdate(tpf);
 		if(targeting.updated())
 		{
-			if(targeting.targetObject() == null && targeting.targetTile() != null)
+			if(targeting.targetTile() != null)
 			{
-				visTiledMap.markCurrentTargetLocation(targeting.targetTile());
+				visTiledMap.markCurrentTargetLocation(targeting.targetTile(), targeting.targetObject() == null);
 			}
 			else
-				visTiledMap.markCurrentTargetLocation(null);
+				visTiledMap.markCurrentTargetLocation(null, false);
 		}
 		switch(linked.playerControl)
 		{

@@ -17,7 +17,8 @@ public class CursorTargeting extends BaseAppState implements Targeting, ActionLi
 	private Node mainNode;
 	private Camera cam;
 	private InputManager inputManager;
-	private Node last2;
+	private Node nodeTile;
+	private Node nodeObject;
 	private boolean updated;
 	private ITiledMap map;
 	private Input1 input1;
@@ -81,33 +82,41 @@ public class CursorTargeting extends BaseAppState implements Targeting, ActionLi
 		//Ray ray = new Ray(cam.getLocation(), cam.getDirection());
 		CollisionResults results = new CollisionResults();
 		mainNode.collideWith(ray, results);
-		//results.getClosestCollision()
-		Node new2 = null;
+		Node newTile = null;
+		Node newObject = null;
 		for(CollisionResult result : results)
 		{
-			if(result.getGeometry().getParent().getUserData("Target") != null)
+			if(newTile == null && result.getGeometry().getParent().getUserData("Tile") != null)
 			{
-				new2 = result.getGeometry().getParent();
-				break;
+				newTile = result.getGeometry().getParent();
+			}
+			if(newObject == null && result.getGeometry().getParent().getUserData("Target") != null)
+			{
+				newObject = result.getGeometry().getParent();
 			}
 		}
-		if(new2 != last2)
+		if(newTile != nodeTile)
 		{
-			last2 = new2;
-			if(last2 != null && last2.getUserData("R") != null)
+			nodeTile = newTile;
+			if(nodeTile != null)
 			{
-				if(last2.getUserData("H") != null)
-					targetTile = new HexLocation(last2.getUserData("X"), last2.getUserData("D"),
-							last2.getUserData("H"), last2.getUserData("R"));
+				if(nodeTile.getUserData("H") != null)
+					targetTile = new HexLocation(nodeTile.getUserData("X"), nodeTile.getUserData("D"),
+							nodeTile.getUserData("H"), nodeTile.getUserData("R"));
 				else
-					targetTile = new HexLocation(last2.getUserData("X"), last2.getUserData("D"),
-							last2.getParent().getUserData("H"), last2.getUserData("R"));
+					targetTile = new HexLocation(nodeTile.getUserData("X"), nodeTile.getUserData("D"),
+							nodeTile.getParent().getUserData("H"), nodeTile.getUserData("R"));
 			}
 			else
 				targetTile = null;
-			if(last2 != null && last2.getUserData("ID") != null)
+			updated = true;
+		}
+		if(newObject != nodeObject)
+		{
+			nodeObject = newObject;
+			if(nodeObject != null)
 			{
-				targetObject = map.objectByID(last2.getUserData("ID"));
+				targetObject = map.objectByID(nodeObject.getUserData("ID"));
 			}
 			else
 				targetObject = null;

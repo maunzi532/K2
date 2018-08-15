@@ -69,7 +69,7 @@ public class VisTiledMap extends AbstractVis<ITiledMap>
 							node1.setUserData("D", id);
 							node1.setUserData("H", ih);
 							node1.setUserData("R", rLayer);
-							node1.setUserData("Target", true);
+							node1.setUserData("Tile", true);
 							node1.setLocalTranslation(conv(new HexLocation(ix, id, ih, rLayer)));
 							node.attachChild(node1);
 						}
@@ -93,9 +93,8 @@ public class VisTiledMap extends AbstractVis<ITiledMap>
 				node1.attachChild(geom);
 				node1.setUserData("X", ix);
 				node1.setUserData("D", id);
-				//node1.setUserData("H", 0);
 				node1.setUserData("R", rLayer);
-				node1.setUserData("Target", true);
+				node1.setUserData("Tile", true);
 				node1.setLocalTranslation(conv(new HexLocation(ix, id, 0, rLayer)));
 				locationTargeters.attachChild(node1);
 			}
@@ -107,7 +106,7 @@ public class VisTiledMap extends AbstractVis<ITiledMap>
 		currentLocationTarget = new Node("CurrentLocationTarget");
 		node.attachChild(currentLocationTarget);
 		Geometry geom1 = new Geometry("CurrentLocationTarget", MeshLager.locationMesh);
-		geom1.setMaterial(MeshLager.locationMat);
+		geom1.setMaterial(MeshLager.locationMatDisabled);
 		geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
 		currentLocationTarget.attachChild(geom1);
 		currentLocationTarget.setCullHint(Spatial.CullHint.Always);
@@ -199,12 +198,13 @@ public class VisTiledMap extends AbstractVis<ITiledMap>
 		}
 	}
 
-	public void markCurrentTargetLocation(HexLocation location)
+	public void markCurrentTargetLocation(HexLocation location, boolean enabled)
 	{
 		if(location == null)
 			currentLocationTarget.setCullHint(Spatial.CullHint.Always);
 		else
 		{
+			currentLocationTarget.setMaterial(enabled ? MeshLager.locationMat : MeshLager.locationMatDisabled);
 			currentLocationTarget.setLocalTranslation(conv(location));
 			currentLocationTarget.setCullHint(Spatial.CullHint.Inherit);
 		}
