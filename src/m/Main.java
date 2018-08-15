@@ -78,8 +78,12 @@ public class Main extends SimpleApplication
 		//Create Meshes and Materials
 		MeshLager.init(assetManager);
 
-		//Create VisHexMap for HexMap
-		attachWithNode(rootNode, "Map", new VisTiledMap(hexMap, 0));
+		CameraHeightState cameraHeightState = new CameraHeightState();
+		stateManager.attach(cameraHeightState);
+		cameraHeightState.setEnabled(true);
+
+		//Create VisTiledMap for HexMap
+		attachWithNode(rootNode, "Map", new VisTiledMap(hexMap, 0, cameraHeightState));
 
 		//Create TX_AP_Transform (Mage) HexPather
 		Pather pather = new Pather(10, hexMap, new HexLocation(2, 1, 3, 0),
@@ -104,7 +108,8 @@ public class Main extends SimpleApplication
 		//Add Targeting and VisTurnSchedule for TurnSchedule
 		CursorTargeting targeting = new CursorTargeting(hexMap);
 		stateManager.attach(targeting);
-		attachWithNode(rootNode, "VTS", new VisTurnSchedule(turnSchedule, targeting, visHUD));
+		attachWithNode(rootNode, "VTS", new VisTurnSchedule(turnSchedule, targeting, visHUD,
+				rootNode.getChild("Map").getControl(VisTiledMap.class)));
 		rootNode.getChild("VTS").getControl(VisTurnSchedule.class).stepToPlayerPhase();
 	}
 

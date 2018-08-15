@@ -16,11 +16,15 @@ public class VisTiledMap extends AbstractVis<ITiledMap>
 	private Node lightLocations;
 	private Node lightDirections;
 	private Node lightObjects;
+	private Node locationTargeters;
+	private Node currentLocationTarget;
+	private CameraHeightState cameraHeight;
 
-	public VisTiledMap(ITiledMap linked, int rLayer)
+	public VisTiledMap(ITiledMap linked, int rLayer, CameraHeightState cameraHeight)
 	{
 		super(linked);
 		this.rLayer = rLayer;
+		this.cameraHeight = cameraHeight;
 	}
 
 	@Override
@@ -70,6 +74,43 @@ public class VisTiledMap extends AbstractVis<ITiledMap>
 							node.attachChild(node1);
 						}
 					}
+		createLocationTargeters();
+		createCurrentLocationTargeter();
+	}
+
+	public void createLocationTargeters()
+	{
+		locationTargeters = new Node("locationTargeters");
+		node.attachChild(locationTargeters);
+		int[] bounds = linked.getBounds();
+		for(int ix = bounds[0]; ix < bounds[4]; ix++)
+			for(int id = bounds[1]; id < bounds[5]; id++)
+			{
+				HexLocation loc = new HexLocation(ix, id, 0, rLayer);
+				Node node1 = new Node();
+				Geometry geom = new Geometry(loc.toString(), MeshLager.locationMesh);
+				geom.setCullHint(Spatial.CullHint.Always);
+				node1.attachChild(geom);
+				node1.setUserData("X", ix);
+				node1.setUserData("D", id);
+				//node1.setUserData("H", 0);
+				node1.setUserData("R", rLayer);
+				node1.setUserData("Target", true);
+				node1.setLocalTranslation(conv(new HexLocation(ix, id, 0, rLayer)));
+				locationTargeters.attachChild(node1);
+			}
+		locationTargeters.setUserData("H", 0);
+	}
+
+	public void createCurrentLocationTargeter()
+	{
+		currentLocationTarget = new Node("CurrentLocationTarget");
+		node.attachChild(currentLocationTarget);
+		Geometry geom1 = new Geometry("CurrentLocationTarget", MeshLager.locationMesh);
+		geom1.setMaterial(MeshLager.locationMat);
+		geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
+		currentLocationTarget.attachChild(geom1);
+		currentLocationTarget.setCullHint(Spatial.CullHint.Always);
 	}
 
 	public void lightThese(PathTraverse pathTraverse)
@@ -149,10 +190,37 @@ public class VisTiledMap extends AbstractVis<ITiledMap>
 		lightObjects.detachAllChildren();
 	}
 
+	private void updateForCameraHeight()
+	{
+		if(cameraHeight.heightLevel != (int) locationTargeters.getUserData("H"))
+		{
+			locationTargeters.setUserData("H", cameraHeight.heightLevel);
+			locationTargeters.setLocalTranslation(conv(new HexLocation(0, 0, cameraHeight.heightLevel, 0)));
+		}
+	}
+
+	public void markCurrentTargetLocation(HexLocation location)
+	{
+		if(location == null)
+			currentLocationTarget.setCullHint(Spatial.CullHint.Always);
+		else
+		{
+			currentLocationTarget.setLocalTranslation(conv(location));
+			currentLocationTarget.setCullHint(Spatial.CullHint.Inherit);
+		}
+	}
+
 	@Override
 	public void execute(ICommand command)
 	{
 
+	}
+
+	@Override
+	protected void controlUpdate(float tpf)
+	{
+		super.controlUpdate(tpf);
+		updateForCameraHeight();
 	}
 
 	public static Vector3f conv(HexLocation loc)

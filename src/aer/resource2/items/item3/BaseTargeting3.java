@@ -1,6 +1,7 @@
 package aer.resource2.items.item3;
 
 import aer.*;
+import aer.commands.*;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
@@ -67,7 +68,15 @@ public class BaseTargeting3 implements TActionObject, ITargetedAction, IAPAction
 	@Override
 	public boolean executeStart(Pather xec0, Therathic xec1, E_AP_MP xec2)
 	{
-		return false;
+		if(lookDir == null)
+			return false;
+		if(xec2.useAPMP(this, this, E_AP_MP.Use.REAL))
+		{
+			xec0.setDirection(lookDir);
+			CTurn.issueCommand(xec0);
+			return false;
+		}
+		return true;
 	}
 
 	@Override

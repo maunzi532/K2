@@ -1,33 +1,47 @@
 package aer;
 
-public class HexLocation extends TAxialHex
+import java.util.*;
+
+public class HexLocation
 {
-	public final int h, r;
+	public final int x, d, h, r;
 
 	public HexLocation(int x, int d, int h, int r)
 	{
-		super(x, d);
+		this.x = x;
+		this.d = d;
 		this.h = h;
 		this.r = r;
 	}
 
 	public HexLocation(HexLocation copy)
 	{
-		super(copy);
+		x = copy.x;
+		d = copy.d;
 		h = copy.h;
 		r = copy.r;
 	}
 
 	public HexLocation(HexLocation start, int x, int d, int h, int r)
 	{
-		super(start.x + x, start.d + d);
+		this.x = start.x + x;
+		this.d = start.d + d;
 		this.h = start.h + h;
 		this.r = start.r + r;
 	}
 
 	private HexLocation(HexLocation start, int x, int d, int z)
 	{
-		super(start.x + x - z, start.d + d + z);
+		this.x = start.x + x - z;
+		this.d = start.d + d + z;
+		this.h = start.h;
+		this.r = start.r;
+	}
+
+	public HexLocation(HexLocation start, int x, int d)
+	{
+		this.x = start.x + x;
+		this.d = start.d + d;
 		this.h = start.h;
 		this.r = start.r;
 	}
@@ -54,6 +68,7 @@ public class HexLocation extends TAxialHex
 			return Math.abs(dx + dd);
 	}
 
+	//TODO Replace with better version
 	public static HexDirection direction(HexLocation start, HexLocation end)
 	{
 		int dx = end.x - start.x;
@@ -104,6 +119,7 @@ public class HexLocation extends TAxialHex
 		}
 	}
 
+	//TODO Replace with version in CubeHex
 	public static HexLocation addDirection(HexLocation loc, HexDirection direction, int len)
 	{
 		if(!direction.primary() && len % 2 == 1)
@@ -137,6 +153,36 @@ public class HexLocation extends TAxialHex
 			default:
 				throw new RuntimeException();
 		}
+	}
+
+	private static int[] nextLoc0 = new int[]{-1, 1, -1, 0, 0, -1, 1, -1, 1, 0, 0, 1};
+
+	private HexLocation nextLoc(int num)
+	{
+		return new HexLocation(this, nextLoc0[num * 2], nextLoc0[num * 2 + 1]);
+	}
+
+	public List<HexLocation> rangeLoc(int min, int max)
+	{
+		List<HexLocation> locations = new ArrayList<>();
+		if(min <= 0)
+		{
+			locations.add(this);
+			min = 1;
+		}
+		for(int i = min; i <= max; i++)
+		{
+			HexLocation last = new HexLocation(this, i, 0);
+			for(int j = 0; j < 6; j++)
+			{
+				for(int k = 0; k < i; k++)
+				{
+					locations.add(last);
+					last = last.nextLoc(j);
+				}
+			}
+		}
+		return locations;
 	}
 
 	@Override

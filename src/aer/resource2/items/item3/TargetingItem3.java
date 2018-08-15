@@ -26,8 +26,9 @@ public class TargetingItem3 implements PatherItem
 		MapTile tile = pather.map.getTile(res1.dLocation());
 		if(!res1.dEnd())
 		{
-			for(Relocatable m1 : map.objectsAt(res1.dLocation()))
-				list.add(new BaseTargeting3(costTable, pather.getLoc(), pather.getDirection(), m1));
+			for(HexLocation l0 : res1.dLocation().rangeLoc(0, 2))
+				for(Relocatable m1 : map.objectsAt(l0))
+					list.add(new BaseTargeting3(costTable, pather.getLoc(), pather.getDirection(), m1));
 		}
 		return list;
 	}

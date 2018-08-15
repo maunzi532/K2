@@ -96,8 +96,12 @@ public class CursorTargeting extends BaseAppState implements Targeting, ActionLi
 			last2 = new2;
 			if(last2 != null && last2.getUserData("R") != null)
 			{
-				targetTile = new HexLocation(last2.getUserData("X"), last2.getUserData("D"),
-						last2.getUserData("H"), last2.getUserData("R"));
+				if(last2.getUserData("H") != null)
+					targetTile = new HexLocation(last2.getUserData("X"), last2.getUserData("D"),
+							last2.getUserData("H"), last2.getUserData("R"));
+				else
+					targetTile = new HexLocation(last2.getUserData("X"), last2.getUserData("D"),
+							last2.getParent().getUserData("H"), last2.getUserData("R"));
 			}
 			else
 				targetTile = null;

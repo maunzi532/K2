@@ -12,19 +12,30 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 	public Targeting targeting;
 	public PathTraverse pathTraverse;
 	public VisHUD visHUD;
+	public VisTiledMap visTiledMap;
 	public ReactionChooser reactionChooser;
 
-	public VisTurnSchedule(TurnSchedule linked, Targeting targeting, VisHUD visHUD)
+	public VisTurnSchedule(TurnSchedule linked, Targeting targeting, VisHUD visHUD, VisTiledMap visTiledMap)
 	{
 		super(linked);
 		this.targeting = targeting;
 		this.visHUD = visHUD;
+		this.visTiledMap = visTiledMap;
 	}
 
 	@Override
 	protected void controlUpdate(float tpf)
 	{
 		super.controlUpdate(tpf);
+		if(targeting.updated())
+		{
+			if(targeting.targetObject() == null && targeting.targetTile() != null)
+			{
+				visTiledMap.markCurrentTargetLocation(targeting.targetTile());
+			}
+			else
+				visTiledMap.markCurrentTargetLocation(null);
+		}
 		switch(linked.playerControl)
 		{
 			case 1:
@@ -56,7 +67,7 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 					if(pather.getPossiblePaths() == null)
 						pather.calculatePossiblePaths(ItemGetType.ACTION, null);
 					pathTraverse = new PathTraverse(pather.getPossiblePaths(), pather, true, visHUD);
-					node.getParent().getChild("Map").getControl(VisTiledMap.class).lightThese(pathTraverse);
+					visTiledMap.lightThese(pathTraverse);
 				}
 			}
 			else if(targeting.checkInput() == Input1.ACCEPT)
@@ -74,13 +85,13 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 			}
 			if(pathTraverse.esc || pathAction != null)
 			{
-				node.getParent().getChild("Map").getControl(VisTiledMap.class).endLighting();
+				visTiledMap.endLighting();
 				visHUD.changeMode(HUDMode.NONE);
 				pathTraverse = null;
 			}
 			else if(pathTraverse.visualUpdateRequired)
 			{
-				node.getParent().getChild("Map").getControl(VisTiledMap.class).lightThese(pathTraverse);
+				visTiledMap.lightThese(pathTraverse);
 			}
 		}
 	}

@@ -71,19 +71,6 @@ public class Airdash2 implements TActionLocation, IMovementAction, IAPAction, IT
 		return 1;
 	}
 
-	/*@Override
-	public boolean executeEnd(HexPather xec)
-	{
-		if(xec.getTherathicHex() instanceof E_AP_MP &&
-				((E_AP_MP) xec.getTherathicHex()).useAPMP(this, this, E_AP_MP.Use.REAL))
-		{
-			xec.setLoc(end2);
-			xec.setAirState(airState);
-			return false;
-		}
-		return true;
-	}*/
-
 	@Override
 	public boolean executeEnd(Pather xec0, Therathic xec1, E_AP_MP xec2)
 	{
