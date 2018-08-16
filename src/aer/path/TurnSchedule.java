@@ -2,7 +2,6 @@ package aer.path;
 
 import aer.*;
 import aer.path.takeable.*;
-import aer.path.team.*;
 import java.util.*;
 import java.util.stream.*;
 import visual.*;
@@ -75,7 +74,7 @@ public class TurnSchedule extends CommandLink
 				if(!npcControlled.hasNext())
 				{
 					log(0, "Ending draw phase");
-					setPhase(TurnPhase.PLAYERACTION);
+					setPhase(TurnPhase.ALLYACTION);
 					return true;
 				}
 				else
@@ -83,6 +82,31 @@ public class TurnSchedule extends CommandLink
 					currentControlled = npcControlled.next();
 					log(2, currentControlled.name() + " executes draw phase");
 					return currentControlled.getTherathic().drawPhase();
+				}
+			case ALLYACTION:
+				if(initFlag)
+				{
+					log(1, "Initiating ally phase");
+					npcControlled = currentTeam.stream().filter(e -> !e.getTherathic().playerControlled()).iterator();
+					initFlag = false;
+					return true;
+				}
+				if(!npcControlled.hasNext())
+				{
+					log(0, "Ending ally phase");
+					setPhase(TurnPhase.PLAYERACTION);
+					return true;
+				}
+				else
+				{
+					currentControlled = npcControlled.next();
+					currentControlled.calculateActionPaths();
+					PathAction path = currentControlled.getTherathic().npcControl().path(currentControlled);
+					if(path != null)
+						importPath(path);
+					else
+						log(2, currentControlled.name() + " skipped action phase");
+					return path != null;
 				}
 			case PLAYERACTION:
 				if(initFlag)
@@ -100,35 +124,10 @@ public class TurnSchedule extends CommandLink
 					{
 						log(0, "Ending player phase");
 						playerControl = 0;
-						setPhase(TurnPhase.ALLYACTION);
+						setPhase(TurnPhase.END);
 						return true;
 					}
 					return false;
-				}
-			case ALLYACTION:
-				if(initFlag)
-				{
-					log(1, "Initiating ally phase");
-					npcControlled = currentTeam.stream().filter(e -> !e.getTherathic().playerControlled()).iterator();
-					initFlag = false;
-					return true;
-				}
-				if(!npcControlled.hasNext())
-				{
-					log(0, "Ending ally phase");
-					setPhase(TurnPhase.END);
-					return true;
-				}
-				else
-				{
-					currentControlled = npcControlled.next();
-					currentControlled.calculatePossiblePaths(ItemGetType.ACTION, null);
-					PathAction path = currentControlled.getTherathic().npcControl().path(currentControlled);
-					if(path != null)
-						importPath(path);
-					else
-						log(2, currentControlled.name() + " skipped action phase");
-					return path != null;
 				}
 			case END:
 				if(initFlag)
@@ -150,7 +149,7 @@ public class TurnSchedule extends CommandLink
 				else
 				{
 					currentControlled = npcControlled.next();
-					currentControlled.calculatePossiblePaths(ItemGetType.END, null);
+					//currentControlled.calculateEndPath();
 					PathAction path = currentControlled.getTherathic().endPhase();
 					if(path != null)
 						importPath(path);
@@ -212,7 +211,7 @@ public class TurnSchedule extends CommandLink
 				else
 				{
 					currentInterrupt = npcInterrupt.next();
-					currentInterrupt.calculatePossiblePaths(ItemGetType.INTERRUPT, targetData);
+					currentInterrupt.calculateInterrupts(targetData);
 					TakeableAction intA = currentInterrupt.getTherathic().npcControl().interrupt(currentInterrupt, targetData);
 					if(intA != null)
 						importInterrupt(currentInterrupt, intA);

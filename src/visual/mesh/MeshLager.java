@@ -16,18 +16,18 @@ public class MeshLager
 	public static Material locationMat;
 	public static Material locationMatDisabled;
 	public static Mesh possibleActionMeshLoc;
-	public static Mesh possibleActionMeshObj;
 	public static Material possibleActionMatLoc;
 	public static Material activeLocMat;
+	public static Mesh possibleActionMeshObj;
 	public static Material possibleActionMatObj;
 	public static Material activeObjMat;
 	public static Material activeOtherMat;
-	public static Material pathLocMat;
 	public static Mesh directionArrowMesh;
 	public static Material directionArrowMat;
 	public static Material activeArrowMat;
 	public static Mesh objectMesh;
 	public static Material objectMat;
+	public static Material pathLocMat;
 
 	public static void init(AssetManager assetManager)
 	{

@@ -118,9 +118,15 @@ public class HexTiledMap extends CommandLink implements ITiledMap
 	}
 
 	@Override
-	public Relocatable objectByID(int id)
+	public Relocatable objectByID(Identifier id)
 	{
-		return objects.stream().filter(e -> e.id == id).findFirst().orElse(null);
+		return objects.stream().filter(e -> e.id.equals(id)).findFirst().orElse(null);
+	}
+
+	@Override
+	public Relocatable objectBySID(String id)
+	{
+		return objects.stream().filter(e -> e.id.toString().equals(id)).findFirst().orElse(null);
 	}
 
 	@Override

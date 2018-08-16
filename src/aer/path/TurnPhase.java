@@ -3,8 +3,8 @@ package aer.path;
 public enum TurnPhase
 {
 	DRAW(true),
-	PLAYERACTION(true),
 	ALLYACTION(true),
+	PLAYERACTION(true),
 	END(true),
 	EXEC(false),
 	TARGET(false),

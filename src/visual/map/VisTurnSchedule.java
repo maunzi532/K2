@@ -65,7 +65,7 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 				{
 					Pather pather = (Pather) object;
 					if(pather.getPossiblePaths() == null)
-						pather.calculatePossiblePaths(ItemGetType.ACTION, null);
+						pather.calculateActionPaths();
 					pathTraverse = new PathTraverse(pather.getPossiblePaths(), pather, true, visHUD);
 					visTiledMap.lightThese(pathTraverse);
 				}
@@ -107,7 +107,7 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 				{
 					Pather pather = (Pather) object;
 					if(pather.getPossiblePaths() == null)
-						pather.calculatePossiblePaths(ItemGetType.INTERRUPT, linked.targetData);
+						pather.calculateInterrupts(linked.targetData);
 					pathTraverse = new PathTraverse(pather.getPossiblePaths(), pather, false, visHUD);
 					node.getParent().getChild("Map").getControl(VisTiledMap.class).lightThese(pathTraverse);
 				}

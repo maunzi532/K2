@@ -9,7 +9,7 @@ public class Pather extends Relocatable
 	private Therathic therathic;
 	private List<PathAction> possiblePaths;
 
-	public Pather(int id, ITiledMap map, HexLocation loc, HexDirection direction, AirState airState, Therathic therathic)
+	public Pather(Identifier id, ITiledMap map, HexLocation loc, HexDirection direction, AirState airState, Therathic therathic)
 	{
 		super(id, map, loc, direction, airState);
 		this.therathic = therathic;
@@ -31,25 +31,24 @@ public class Pather extends Relocatable
 		possiblePaths = null;
 	}
 
-	public void calculatePossiblePaths(ItemGetType type, TargetData targetData)
+	public void calculateActionPaths()
 	{
-		switch(type)
-		{
-			case ACTION:
-				possiblePaths = therathic.possibleActivePaths();
-				break;
-			case INTERRUPT:
-				possiblePaths = therathic.possibleInterrupts(targetData);
-				break;
-			case END:
-				possiblePaths = Collections.singletonList(therathic.endPath());
-				break;
-		}
+		possiblePaths = therathic.possibleActivePaths();
+	}
+
+	public void calculateInterrupts(TargetData targetData)
+	{
+		possiblePaths = therathic.possibleInterrupts(targetData);
+	}
+
+	public void calculateEndPath()
+	{
+		possiblePaths = Collections.singletonList(therathic.endPath());
 	}
 
 	@Override
 	public String name()
 	{
-		return "HexPather ID " + id;
+		return id.toString() + " (Pather)";
 	}
 }

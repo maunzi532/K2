@@ -18,7 +18,9 @@ public interface ITiledMap extends ICommandLink
 
 	List<Relocatable> objectsAt(HexLocation loc);
 
-	Relocatable objectByID(int id);
+	Relocatable objectByID(Identifier id);
+
+	Relocatable objectBySID(String id);
 
 	void addObject(Relocatable object);
 

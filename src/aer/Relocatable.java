@@ -4,14 +4,14 @@ import visual.*;
 
 public class Relocatable extends CommandLink
 {
-	public final int id;
+	public final Identifier id;
 	public final ITiledMap map;
 	private HexLocation loc;
 	private HexDirection direction;
 	private AirState airState;
 	private Relocatable mount;
 
-	public Relocatable(int id, ITiledMap map, HexLocation loc, HexDirection direction, AirState airState)
+	public Relocatable(Identifier id, ITiledMap map, HexLocation loc, HexDirection direction, AirState airState)
 	{
 		this.id = id;
 		this.map = map;
@@ -94,6 +94,6 @@ public class Relocatable extends CommandLink
 	@Override
 	public String name()
 	{
-		return null;
+		return id.toString();
 	}
 }

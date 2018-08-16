@@ -19,7 +19,7 @@ public class VisRelocatable extends AbstractVis<Relocatable>
 	{
 		super.setSpatial(spatial);
 		Node node1 = new Node();
-		node1.setUserData("ID", linked.id);
+		node1.setUserData("ID", linked.id.toString());
 		node1.setUserData("Target", true);
 		HexLocation loc = linked.getLoc();
 		Geometry geom = new Geometry(loc.toString(), MeshLager.objectMesh);

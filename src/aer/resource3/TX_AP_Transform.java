@@ -21,8 +21,8 @@ public class TX_AP_Transform implements Therathic, E_AP_MP
 	public TX_AP_Transform(Transformation transform0)
 	{
 		transforms = new ArrayList<>();
-		transformInto(transform0);
 		modifiers = new ArrayList<>();
+		transformInto(transform0);
 		npc_control = new UselessNPC();
 	}
 
@@ -143,6 +143,7 @@ public class TX_AP_Transform implements Therathic, E_AP_MP
 	@Override
 	public boolean drawPhase()
 	{
+		tickModifiers();
 		actionPoints = costTable.startingAP;
 		movePoints = costTable.startingM;
 		reqFall = pather.getAirState().isAerial ? costTable.requiredFall : 0;
@@ -153,7 +154,6 @@ public class TX_AP_Transform implements Therathic, E_AP_MP
 	@Override
 	public PathAction endPhase()
 	{
-		tickModifiers();
 		PathAction ac1 = currentTransform().endPhase();
 		if(ac1 != null)
 			return ac1;

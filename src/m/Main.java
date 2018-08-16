@@ -86,18 +86,18 @@ public class Main extends SimpleApplication
 		attachWithNode(rootNode, "Map", new VisTiledMap(hexMap, 0, cameraHeightState));
 
 		//Create TX_AP_Transform (Mage) HexPather
-		Pather pather = new Pather(10, hexMap, new HexLocation(2, 1, 3, 0),
+		Pather pather = new Pather(new Identifier("Mage_10"), hexMap, new HexLocation(2, 1, 3, 0),
 				new HexDirection(6), AirState.UP, new TX_AP_Transform(new Mage()));
 		hexMap.addObject(pather);
 
 		//Create VisObject for HexPather
-		attachWithNode(rootNode, "VisHexPather0", new VisRelocatable(pather));
+		attachWithNode(rootNode, "VisHexPather_Mage_10", new VisRelocatable(pather));
 
 		//Create TX_AP_2 HexPather
-		Pather pather1 = new Pather(11, hexMap, new HexLocation(4, 1, 0, 0),
+		Pather pather1 = new Pather(new Identifier("TX_AP_2_11"), hexMap, new HexLocation(4, 1, 0, 0),
 				new HexDirection(3), AirState.FLOOR, new TX_AP_2(new CostTable()));
 		hexMap.addObject(pather1);
-		attachWithNode(rootNode, "VisHexPather1", new VisRelocatable(pather1));
+		attachWithNode(rootNode, "VisHexPather_TX_AP_2_11", new VisRelocatable(pather1));
 
 		//Add HUD
 		VisHUD visHUD = new VisHUD(guiNode, guiFont, getContext().getSettings());
@@ -145,12 +145,12 @@ public class Main extends SimpleApplication
 	}*/
 
 	/*
-	TODO: HexDirection Angle Axis Mode
-	TODO: TargetingAction Reach
-	TODO: Reaction/Interrupt HUD
+	TODO: Level Object Spawner
 	TODO: AerialMovementItem
 	TODO: Scatter Objects on the same Hex
-	TODO: Fix Camera
-	TODO: View Layers
+	TODO: Reaction/Interrupt HUD
+	TODO: Remove Layers which are too high
+	TODO: Camera Controls
+	TODO: Serialize State, Restore State, Link to Vis, Save State to File
 	 */
 }

@@ -116,7 +116,7 @@ public class CursorTargeting extends BaseAppState implements Targeting, ActionLi
 			nodeObject = newObject;
 			if(nodeObject != null)
 			{
-				targetObject = map.objectByID(nodeObject.getUserData("ID"));
+				targetObject = map.objectBySID(nodeObject.getUserData("ID"));
 			}
 			else
 				targetObject = null;
