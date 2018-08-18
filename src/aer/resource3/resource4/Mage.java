@@ -1,5 +1,6 @@
 package aer.resource3.resource4;
 
+import aer.*;
 import aer.path.*;
 import aer.resource2.items.item2.*;
 import aer.resource3.*;
@@ -41,5 +42,11 @@ public class Mage extends Transformation
 	public List<EndPatherItem> endItems()
 	{
 		return Collections.singletonList(movementItem);
+	}
+
+	@Override
+	public MountSlotInfo[] mountSlotInfo()
+	{
+		return new MountSlotInfo[]{MountSlotInfo.NORMAL};
 	}
 }

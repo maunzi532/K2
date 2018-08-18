@@ -1,5 +1,6 @@
 package aer.resource3;
 
+import aer.*;
 import aer.path.*;
 import java.util.*;
 
@@ -53,6 +54,16 @@ public abstract class Transformation
 	}
 
 	public abstract List<EndPatherItem> endItems();
+
+	public MountSlotInfo[] mountSlotInfo()
+	{
+		return new MountSlotInfo[0];
+	}
+
+	public boolean transformKeepMounted()
+	{
+		return false;
+	}
 
 	public int stat(TStat stat)
 	{

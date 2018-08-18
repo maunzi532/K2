@@ -9,6 +9,11 @@ public interface IMountAction extends IAirStateAction
 		return null;
 	}
 
+	default int mountingToSlot()
+	{
+		return 0;
+	}
+
 	default boolean dismounting()
 	{
 		return false;

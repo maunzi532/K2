@@ -1,5 +1,6 @@
 package aer.path.team;
 
+import aer.*;
 import aer.path.*;
 import aer.path.takeable.*;
 import java.util.*;
@@ -10,6 +11,8 @@ public interface Therathic
 	void linkTo(Pather pather);
 
 	Pather pather();
+
+	MountSlotInfo[] mountSlotInfo();
 
 	List<PatherItem> activeItems();
 

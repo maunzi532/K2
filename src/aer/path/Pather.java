@@ -11,7 +11,7 @@ public class Pather extends Relocatable
 
 	public Pather(Identifier id, ITiledMap map, HexLocation loc, HexDirection direction, AirState airState, Therathic therathic)
 	{
-		super(id, map, loc, direction, airState);
+		super(id, map, loc, direction, airState, therathic.mountSlotInfo());
 		this.therathic = therathic;
 		therathic.linkTo(this);
 	}

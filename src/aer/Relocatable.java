@@ -9,29 +9,34 @@ public class Relocatable extends CommandLink
 	private HexLocation loc;
 	private HexDirection direction;
 	private AirState airState;
-	private Relocatable mount;
+	private Relocatable mountedTo;
+	private int mountedToSlot;
+	private Relocatable[] mountSlots;
+	private MountSlotInfo[] mountSlotInfo;
 
-	public Relocatable(Identifier id, ITiledMap map, HexLocation loc, HexDirection direction, AirState airState)
+	public Relocatable(Identifier id, ITiledMap map, HexLocation loc, HexDirection direction, AirState airState, MountSlotInfo... mountSlotInfo)
 	{
 		this.id = id;
 		this.map = map;
 		this.loc = loc;
 		this.direction = direction;
 		this.airState = airState;
+		this.mountSlotInfo = mountSlotInfo;
+		mountSlots = new Relocatable[mountSlotInfo.length];
 	}
 
 	public HexLocation getLoc()
 	{
-		if(mount != null)
-			return mount.getLoc();
+		if(mountedTo != null)
+			return HexLocation.plus(mountedTo.getLoc(), loc);
 		return loc;
 	}
 
 	public void setLoc(HexLocation loc)
 	{
-		if(mount != null)
+		if(mountedTo != null)
 		{
-			mount.setLoc(loc);
+			this.loc = HexLocation.minus(loc, mountedTo.getLoc());
 			return;
 		}
 		this.loc = loc;
@@ -39,24 +44,44 @@ public class Relocatable extends CommandLink
 
 	public HexDirection getDirection()
 	{
-		if(mount != null)
-			return HexDirection.plus(direction, mount.getDirection());
+		if(mountedTo != null)
+			return HexDirection.plus(mountedTo.getDirection(), direction);
 		return direction;
 	}
 
 	public void setDirection(HexDirection direction)
 	{
-		if(mount != null)
+		if(mountedTo != null)
 		{
-			this.direction = HexDirection.minus(direction, mount.getDirection());
+			this.direction = HexDirection.minus(direction, mountedTo.getDirection());
 			return;
 		}
 		this.direction = direction;
 	}
 
+	public HexLocation getRelativeLoc()
+	{
+		return loc;
+	}
+
+	public void setRelativeLoc(HexLocation loc)
+	{
+		this.loc = loc;
+	}
+
+	public HexDirection getRelativeDirection()
+	{
+		return direction;
+	}
+
+	public void setRelativeDirection(HexDirection direction)
+	{
+		this.direction = direction;
+	}
+
 	public AirState getAirState()
 	{
-		if(mount != null)
+		if(mountedTo != null)
 			return AirState.MOUNT;
 		return airState;
 	}
@@ -66,29 +91,72 @@ public class Relocatable extends CommandLink
 		this.airState = airState;
 	}
 
-	public Relocatable getMount()
+	public Relocatable getMountedTo()
 	{
-		return mount;
+		return mountedTo;
 	}
 
-	public void setMount(Relocatable mount)
+	public int getMountedToSlot()
 	{
-		if(mount == null)
-		{
-			loc = this.mount.getLoc();
-			direction = HexDirection.plus(direction, this.mount.getDirection());
-			this.mount = null;
-		}
-		else
-		{
-			this.mount = mount;
-			direction = HexDirection.minus(direction, this.mount.getDirection());
-		}
+		return mountedToSlot;
 	}
 
-	public MapTile currentTile()
+	public int getMountSlotCount()
 	{
-		return map.getTile(loc);
+		return mountSlotInfo.length;
+	}
+
+	public Relocatable getMountSlotAt(int slot)
+	{
+		return mountSlots[slot];
+	}
+
+	public MountSlotInfo getMountSlotInfo(int slot)
+	{
+		return mountSlotInfo[slot];
+	}
+
+	public void setMountedTo(Relocatable newMountedTo, int slot)
+	{
+		dismount(AirState.MOUNT);
+		mountedTo = newMountedTo;
+		mountedToSlot = slot;
+		mountedTo.mountSlots[mountedToSlot] = this;
+		setLoc(getRelativeLoc());
+		setDirection(getRelativeDirection());
+	}
+
+	public void dismount(AirState toState)
+	{
+		if(mountedTo != null)
+		{
+			mountedTo.mountSlots[mountedToSlot] = null;
+			setRelativeLoc(getLoc());
+			setRelativeDirection(getDirection());
+			mountedTo = null;
+		}
+		setAirState(toState);
+	}
+
+	public void updateMountSlots(boolean keep, MountSlotInfo... newInfo)
+	{
+		Relocatable[] newSlots = new Relocatable[newInfo.length];
+		for(int i = 0; i < mountSlots.length; i++)
+		{
+			if(mountSlots[i] != null)
+			{
+				if(keep && i < newSlots.length && (newInfo[i].allowRotating || mountSlots[i].getDirection().r == 0))
+				{
+					newSlots[i] = mountSlots[i];
+				}
+				else
+				{
+					mountSlots[i].dismount(AirState.FLY);
+				}
+			}
+		}
+		mountSlotInfo = newInfo;
+		mountSlots = newSlots;
 	}
 
 	@Override

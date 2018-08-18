@@ -1,5 +1,6 @@
 package aer.resource2.therathicType;
 
+import aer.*;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
@@ -42,6 +43,12 @@ public class TX_AP_2 implements Therathic, E_AP_MP
 	}
 
 	@Override
+	public MountSlotInfo[] mountSlotInfo()
+	{
+		return new MountSlotInfo[0];
+	}
+
+	@Override
 	public List<PatherItem> activeItems()
 	{
 		return items;
@@ -68,7 +75,7 @@ public class TX_AP_2 implements Therathic, E_AP_MP
 	@Override
 	public ActionResource actionResource()
 	{
-		return new Resource_AP_MP(actionPoints, movePoints, pather.getDirection(), pather.getAirState(), reqFall, pather.getLoc(), pather.getMount());
+		return new Resource_AP_MP(actionPoints, movePoints, pather.getDirection(), pather.getAirState(), reqFall, pather.getLoc(), pather.getMountedTo(), pather.getMountedToSlot());
 	}
 
 	@Override

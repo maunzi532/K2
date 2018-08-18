@@ -13,19 +13,22 @@ public class Mount1 implements TActionObject, IMountAction, IAPAction, IMainActi
 	private final CostTable costs;
 	private final HexDirection from;
 	private final Relocatable mount;
+	private final int slot;
 
-	public Mount1(CostTable costs, HexDirection from, Relocatable mount)
+	public Mount1(CostTable costs, HexDirection from, Relocatable mount, int slot)
 	{
 		this.costs = costs;
 		this.from = from;
 		this.mount = mount;
+		this.slot = slot;
 	}
 
-	public Mount1(CostTable costs, Relocatable mount)
+	public Mount1(CostTable costs, Relocatable mount, int slot)
 	{
 		this.costs = costs;
 		from = null;
 		this.mount = mount;
+		this.slot = slot;
 	}
 
 	@Override
@@ -80,7 +83,7 @@ public class Mount1 implements TActionObject, IMountAction, IAPAction, IMainActi
 				xec0.setDirection(mount.getDirection());
 				CTurn.issueCommand(xec0);
 			}
-			xec0.setMount(mount);
+			xec0.setMountedTo(mount, slot);
 			CMove.issueCommand(xec0);
 			return false;
 		}

@@ -28,20 +28,23 @@ public class MountItem1 implements PatherItem
 			if(res1.dAirState() == AirState.MOUNT)
 			{
 				//Dismount
-				list.add(new Dismount1(costTable, res1.dMount(), AirState.UP));
 				if(tile.type == MapTileType.FLOOR && res1.dMount().getAirState() == AirState.FLOOR)
 					list.add(new Dismount1(costTable, res1.dMount(), AirState.FLOOR));
-				else
-					list.add(new Dismount1(costTable, res1.dMount(), AirState.FLY));
+				list.add(new Dismount1(costTable, res1.dMount(), AirState.FLY));
+				list.add(new Dismount1(costTable, res1.dMount(), AirState.UP));
 			}
 			else
 			{
 				//Mount
 				for(Relocatable m1 : map.objectsAt(res1.dLocation()))
 				{
-					list.add(new Mount1(costTable, m1));
-					if(!res1.dDirection().equals(m1.getDirection()))
-						list.add(new Mount1(costTable, res1.dDirection(), m1));
+					for(int i = 0; i < m1.getMountSlotCount(); i++)
+					{
+						MountSlotInfo mountSlotInfo = m1.getMountSlotInfo(i);
+						list.add(new Mount1(costTable, res1.dDirection(), m1, i));
+						if(mountSlotInfo.allowRotating && !res1.dDirection().equals(m1.getDirection()))
+							list.add(new Mount1(costTable, m1, i));
+					}
 				}
 			}
 		}

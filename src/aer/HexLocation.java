@@ -46,6 +46,16 @@ public class HexLocation
 		this.r = start.r;
 	}
 
+	public static HexLocation plus(HexLocation start, HexLocation plus)
+	{
+		return new HexLocation(start.x + plus.x, start.d + plus.d, start.h + plus.h, start.r + plus.r);
+	}
+
+	public static HexLocation minus(HexLocation start, HexLocation minus)
+	{
+		return new HexLocation(start.x - minus.x, start.d - minus.d, start.h - minus.h, start.r - minus.r);
+	}
+
 	public int dim(int dim)
 	{
 		switch(dim)

@@ -16,12 +16,13 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 	private final int requiredFall;
 	private final HexLocation location;
 	private final int freelyMovingBlocked;
-	private final Relocatable mount;
+	private final Relocatable mountedTo;
+	private final int mountedToSlot;
 	private final boolean hasMD;
 	private final boolean error;
 
 	public Resource_AP_MP(int actionPoints, int movePoints, HexDirection direction, AirState airState,
-			int requiredFall, HexLocation location, Relocatable mount)
+			int requiredFall, HexLocation location, Relocatable mountedTo, int mountedToSlot)
 	{
 		this.actionPoints = actionPoints;
 		this.movePoints = movePoints;
@@ -30,7 +31,8 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 		this.requiredFall = requiredFall;
 		this.location = location;
 		freelyMovingBlocked = 0;
-		this.mount = mount;
+		this.mountedTo = mountedTo;
+		this.mountedToSlot = mountedToSlot;
 		hasMD = false;
 		end = false;
 		error = actionPoints < 0 || movePoints < 0;
@@ -38,7 +40,7 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 
 	public Resource_AP_MP(boolean end, int actionPoints, int movePoints, HexDirection direction, AirState airState,
 			int requiredFall, HexLocation location, int freelyMovingBlocked,
-			Relocatable mount, boolean hasMD, boolean error)
+			Relocatable mountedTo, int mountedToSlot, boolean hasMD, boolean error)
 	{
 		this.end = end;
 		this.actionPoints = actionPoints;
@@ -48,7 +50,8 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 		this.requiredFall = requiredFall;
 		this.location = location;
 		this.freelyMovingBlocked = freelyMovingBlocked;
-		this.mount = mount;
+		this.mountedTo = mountedTo;
+		this.mountedToSlot = mountedToSlot;
 		this.hasMD = hasMD;
 		this.error = error || actionPoints < 0 || movePoints < 0;
 	}
@@ -70,7 +73,8 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 		int requiredFall1 = requiredFall;
 		HexLocation location1 = location;
 		int freelyMovingBlocked1 = freelyMovingBlocked == 1 ? 2 : freelyMovingBlocked;
-		Relocatable mount1 = mount;
+		Relocatable mountedTo1 = mountedTo;
+		int mountedToSlot1 = mountedToSlot;
 		boolean hasMD1 = hasMD;
 		boolean error1 = error || end;
 		if(action instanceof IMainAction && ((IMainAction) action).end())
@@ -105,15 +109,18 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 		if(action instanceof IMountAction)
 		{
 			Relocatable mounting1 = ((IMountAction) action).mounting();
+			int mountingToSlot1 = ((IMountAction) action).mountingToSlot();
 			boolean block = false;
 			if(mounting1 != null)
 			{
-				mount1 = mounting1;
+				mountedTo1 = mounting1;
+				mountedToSlot1 = mountingToSlot1;
 				block = true;
 			}
 			if(((IMountAction) action).dismounting())
 			{
-				mount1 = null;
+				mountedTo1 = null;
+				mountedToSlot1 = 0;
 				block = true;
 			}
 			if(block)
@@ -124,8 +131,10 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 					hasMD1 = true;
 			}
 		}
+		if(mountedTo1 != null && !mountedTo1.getMountSlotInfo(mountedToSlot1).allowRotating && !direction1.equals(mountedTo1.getDirection()))
+			error1 = true;
 		return new Resource_AP_MP(end1, actionPoints1, movePoints1, direction1,
-				airState1, requiredFall1, location1, freelyMovingBlocked1, mount1, hasMD1, error1);
+				airState1, requiredFall1, location1, freelyMovingBlocked1, mountedTo1, mountedToSlot1, hasMD1, error1);
 	}
 
 	@Override
@@ -161,7 +170,7 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 	@Override
 	public Relocatable dMount()
 	{
-		return mount;
+		return mountedTo;
 	}
 
 	@Override
@@ -189,7 +198,7 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 				"location=" + location +
 				", direction=" + direction +
 				", airState=" + airState +
-				", mount=" + mount +
+				", mountedTo=" + mountedTo +
 				", requiredFall=" + requiredFall +
 				", actionPoints=" + actionPoints +
 				", movePoints=" + movePoints +
