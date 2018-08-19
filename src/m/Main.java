@@ -85,19 +85,22 @@ public class Main extends SimpleApplication
 		//Create VisTiledMap for HexMap
 		attachWithNode(rootNode, "Map", new VisTiledMap(hexMap, 0, cameraHeightState));
 
+		Node objects = new Node("Objects");
+		rootNode.attachChild(objects);
+
 		//Create TX_AP_Transform (Mage) HexPather
 		Pather pather = new Pather(new Identifier("Mage_10"), hexMap, new HexLocation(2, 1, 3, 0),
 				new HexDirection(6), AirState.UP, new TX_AP_Transform(new Mage()));
 		hexMap.addObject(pather);
 
 		//Create VisObject for HexPather
-		attachWithNode(rootNode, "VisHexPather_Mage_10", new VisRelocatable(pather));
+		attachWithNode(objects, "VisHexPather_Mage_10", new VisRelocatable(pather, objects));
 
 		//Create TX_AP_2 HexPather
 		Pather pather1 = new Pather(new Identifier("TX_AP_2_11"), hexMap, new HexLocation(4, 1, 0, 0),
 				new HexDirection(3), AirState.FLOOR, new TX_AP_2(new CostTable()));
 		hexMap.addObject(pather1);
-		attachWithNode(rootNode, "VisHexPather_TX_AP_2_11", new VisRelocatable(pather1));
+		attachWithNode(objects, "VisHexPather_TX_AP_2_11", new VisRelocatable(pather1, objects));
 
 		//Add HUD
 		VisHUD visHUD = new VisHUD(guiNode, guiFont, getContext().getSettings());

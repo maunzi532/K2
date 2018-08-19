@@ -50,8 +50,7 @@ public class Turn2 implements TActionDirection, IDirectionAction, IMainAction, I
 	{
 		if(xec2.useAPMP(this, this, E_AP_MP.Use.REAL))
 		{
-			xec0.setDirection(to);
-			CTurn.issueCommand(xec0);
+			xec0.setDirection(to, new AC());
 			return false;
 		}
 		return true;

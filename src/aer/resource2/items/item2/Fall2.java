@@ -62,9 +62,8 @@ public class Fall2 implements TActionOther, IMovementAction, IAPAction, IThAP
 	{
 		if(xec2.useAPMP(this, this, E_AP_MP.rd(forced)))
 		{
-			xec0.setLoc(fallTo);
-			xec0.setAirState(AirState.DOWN2);
-			CMove.issueCommand(xec0);
+			xec0.setLoc(fallTo, null);
+			xec0.setAirState(AirState.DOWN2, new AC());
 			return false;
 		}
 		System.out.println("Not enough AP or MP");

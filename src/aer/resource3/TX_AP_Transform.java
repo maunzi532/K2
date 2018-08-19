@@ -1,6 +1,7 @@
 package aer.resource3;
 
 import aer.*;
+import aer.commands.*;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
@@ -50,7 +51,7 @@ public class TX_AP_Transform implements Therathic, E_AP_MP
 		transformation.main = this;
 		costTable = transformation.costTable;
 		if(pather != null)
-			pather.updateMountSlots(transformation.transformKeepMounted(), transformation.mountSlotInfo());
+			pather.updateMountSlots(transformation.mountSlotInfo(), transformation.transformKeepMounted(), new AC());
 	}
 
 	public void endTransformation(Transformation transformation)
@@ -105,7 +106,7 @@ public class TX_AP_Transform implements Therathic, E_AP_MP
 	public void linkTo(Pather pather)
 	{
 		this.pather = pather;
-		pather.updateMountSlots(currentTransform().transformKeepMounted(), currentTransform().mountSlotInfo());
+		pather.updateMountSlots(currentTransform().mountSlotInfo(), currentTransform().transformKeepMounted(), new AC());
 	}
 
 	@Override

@@ -56,8 +56,7 @@ public class Dismount1 implements TActionOther, IMountAction, IAPAction, IThAP
 	{
 		if(xec2.useAPMP(this, this, E_AP_MP.Use.REAL))
 		{
-			xec0.dismount(airState);
-			CMove.issueCommand(xec0);
+			xec0.dismount(airState, new AC());
 			return false;
 		}
 		return true;

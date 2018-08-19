@@ -79,10 +79,8 @@ public class FloorMovement2 implements TActionLocation, IMovementAction, IAPActi
 	{
 		if(xec2.useAPMP(this, this, E_AP_MP.Use.REAL))
 		{
-			xec0.setDirection(mvDir);
-			CTurn.issueCommand(xec0);
-			xec0.setLoc(end);
-			CMove.issueCommand(xec0);
+			xec0.setDirection(mvDir, new AC());
+			xec0.setLoc(end, new AC());
 			return false;
 		}
 		return true;

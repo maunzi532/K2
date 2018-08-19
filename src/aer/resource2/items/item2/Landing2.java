@@ -67,8 +67,7 @@ public class Landing2 implements TActionOther, IAirStateAction, IAPAction, IThAP
 	{
 		if(xec2.useAPMP(this, this, E_AP_MP.rd(forced)))
 		{
-			xec0.setAirState(AirState.FLOOR);
-			CMove.issueCommand(xec0);
+			xec0.setAirState(AirState.FLOOR, new AC());
 			return false;
 		}
 		System.out.println("Not enough AP or MP");

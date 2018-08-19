@@ -76,9 +76,8 @@ public class Airdash2 implements TActionLocation, IMovementAction, IAPAction, IT
 	{
 		if(xec2.useAPMP(this, this, E_AP_MP.Use.REAL))
 		{
-			xec0.setLoc(end2);
-			xec0.setAirState(airState);
-			CMove.issueCommand(xec0);
+			xec0.setLoc(end2, null);
+			xec0.setAirState(airState, new AC());
 			return false;
 		}
 		return true;

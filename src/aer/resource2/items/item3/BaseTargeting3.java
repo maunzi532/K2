@@ -72,8 +72,7 @@ public class BaseTargeting3 implements TActionObject, ITargetedAction, IAPAction
 			return false;
 		if(xec2.useAPMP(this, this, E_AP_MP.Use.REAL))
 		{
-			xec0.setDirection(lookDir);
-			CTurn.issueCommand(xec0);
+			xec0.setDirection(lookDir, new AC());
 			return false;
 		}
 		return true;

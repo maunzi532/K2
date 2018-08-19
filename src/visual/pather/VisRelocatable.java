@@ -9,9 +9,12 @@ import visual.mesh.*;
 
 public class VisRelocatable extends AbstractVis<Relocatable>
 {
-	public VisRelocatable(Relocatable linked)
+	private Node objectsNode;
+
+	public VisRelocatable(Relocatable linked, Node objectsNode)
 	{
 		super(linked);
+		this.objectsNode = objectsNode;
 	}
 
 	@Override
@@ -29,6 +32,7 @@ public class VisRelocatable extends AbstractVis<Relocatable>
 		node.setLocalTranslation(VisTiledMap.conv(loc));
 		node.setLocalRotation(VisTiledMap.conv(linked.getDirection()));
 		node.attachChild(node1);
+		node.setName(linked.id.toString());
 	}
 
 	@Override
@@ -43,6 +47,32 @@ public class VisRelocatable extends AbstractVis<Relocatable>
 		{
 			System.out.println("CTURN");
 			spatial.addControl(new TurnControl(1, (CTurn) command));
+		}
+		else if(command instanceof CMount)
+		{
+			System.out.println("CMOUNT");
+			/*Vector3f wt = spatial.getWorldTranslation(); DOES NPT WORK
+			Quaternion wr = spatial.getWorldRotation();
+			objectsNode.depthFirstTraversal(e ->
+			{
+				if(((CMount) command).targetM.id.toString().equals(e.getName()))
+				{
+					((Node) e).attachChild(spatial);
+					spatial.setLocalTranslation(wt.subtract(e.getWorldTranslation()));
+					spatial.setLocalRotation(wr.subtract(e.getWorldRotation()));
+				}
+			});*/
+			//spatial.addControl(new MoveControl(1, (CMove) command));
+		}
+		else if(command instanceof CDismount)
+		{
+			System.out.println("CDISMOUNT");
+			/*Vector3f wt = spatial.getWorldTranslation();
+			Quaternion wr = spatial.getWorldRotation();
+			objectsNode.attachChild(spatial);
+			spatial.setLocalTranslation(wt.subtract(objectsNode.getWorldTranslation()));
+			spatial.setLocalRotation(wr.subtract(objectsNode.getWorldRotation()));*/
+			//spatial.addControl(new TurnControl(1, (CTurn) command));
 		}
 	}
 }
