@@ -13,7 +13,6 @@ public class TX_AP_Transform implements Therathic, E_AP_MP
 {
 	private Pather pather;
 	private List<Transformation> transforms;
-	private CostTable costTable;
 	private NPC_Control npc_control;
 	private int actionPoints;
 	private int movePoints;
@@ -49,7 +48,6 @@ public class TX_AP_Transform implements Therathic, E_AP_MP
 	{
 		transforms.add(transformation);
 		transformation.main = this;
-		costTable = transformation.costTable;
 		if(pather != null)
 			pather.updateMountSlots(transformation.mountSlotInfo(), transformation.transformKeepMounted(), new AC());
 	}
@@ -58,7 +56,6 @@ public class TX_AP_Transform implements Therathic, E_AP_MP
 	{
 		if(!transforms.remove(transformation))
 			throw new RuntimeException();
-		costTable = currentTransform().costTable;
 	}
 
 	public void applyModifier(Modifier modifier)
@@ -142,22 +139,24 @@ public class TX_AP_Transform implements Therathic, E_AP_MP
 	@Override
 	public TakeableAction startAction()
 	{
-		return new InitAction(costTable);
+		return new InitAction(currentTransform().costTable);
 	}
 
 	@Override
 	public ActionResource actionResource()
 	{
-		return new Resource_AP_MP(actionPoints, movePoints, pather.getDirection(), pather.getAirState(), reqFall, pather.getLoc(), pather.getMountedTo(), pather.getMountedToSlot());
+		return new Resource_AP_MP(actionPoints, movePoints, pather.getDirection(), pather.getAirState(), reqFall,
+				pather.getLoc(), pather.getMountedTo(), pather.getMountedToSlot());
 	}
 
 	@Override
 	public boolean drawPhase()
 	{
 		tickModifiers();
-		actionPoints = costTable.startingAP;
-		movePoints = costTable.startingM;
-		reqFall = pather.getAirState().isAerial ? costTable.requiredFall : 0;
+		CostTable costTable0 = currentTransform().costTable;
+		actionPoints = costTable0.startingAP;
+		movePoints = costTable0.startingM;
+		reqFall = pather.getAirState().isAerial ? costTable0.requiredFall : 0;
 		currentTransform().drawPhase();
 		return true;
 	}

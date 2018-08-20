@@ -4,7 +4,7 @@ public class MapTile
 {
 	public final ITiledMap map;
 	public final HexLocation loc;
-	public MapTileType type;
+	public final MapTileType type;
 	public final boolean outofbounds;
 
 	public MapTile(ITiledMap map, HexLocation loc)

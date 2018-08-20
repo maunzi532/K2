@@ -3,10 +3,11 @@ package aer.path.team;
 import aer.*;
 import aer.path.*;
 import aer.path.takeable.*;
+import java.io.*;
 import java.util.*;
 import java.util.stream.*;
 
-public interface Therathic
+public interface Therathic extends Serializable
 {
 	void linkTo(Pather pather);
 

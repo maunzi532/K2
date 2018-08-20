@@ -1,8 +1,9 @@
 package aer;
 
+import java.io.*;
 import java.util.*;
 
-public class HexLocation
+public class HexLocation implements Serializable
 {
 	public final int x, d, h, r;
 

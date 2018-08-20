@@ -1,18 +1,20 @@
 package aer;
 
 import aer.commands.*;
+import java.io.*;
 import visual.*;
 
-public class Relocatable extends CommandLink
+public class Relocatable extends CommandLink implements Serializable
 {
 	public final Identifier id;
-	public final ITiledMap map;
+	public transient ITiledMap map;
 	private HexLocation rLoc;
 	private HexDirection rDirection;
 	private AirState airState;
-	private Relocatable mountedTo;
+	private Identifier mountedToID;
+	private transient Relocatable mountedTo;
 	private int mountedToSlot;
-	private Relocatable[] mountSlots;
+	private transient Relocatable[] mountSlots;
 	private MountSlotInfo[] mountSlotInfo;
 
 	public Relocatable(Identifier id, ITiledMap map, HexLocation loc, HexDirection direction, AirState airState, MountSlotInfo... mountSlotInfo)
@@ -23,20 +25,19 @@ public class Relocatable extends CommandLink
 		this.rDirection = direction;
 		this.airState = airState;
 		this.mountSlotInfo = mountSlotInfo;
-		mountSlots = new Relocatable[mountSlotInfo.length];
 	}
 
 	public HexLocation getLoc()
 	{
-		if(mountedTo != null)
-			return HexLocation.plus(mountedTo.getLoc(), rLoc);
+		if(mountedToID != null)
+			return HexLocation.plus(getMountedTo().getLoc(), rLoc);
 		return rLoc;
 	}
 
 	public void setLoc(HexLocation loc, AC ac)
 	{
-		if(mountedTo != null)
-			this.rLoc = HexLocation.minus(loc, mountedTo.getLoc());
+		if(mountedToID != null)
+			this.rLoc = HexLocation.minus(loc, getMountedTo().getLoc());
 		else
 			this.rLoc = loc;
 		if(ac != null)
@@ -45,15 +46,15 @@ public class Relocatable extends CommandLink
 
 	public HexDirection getDirection()
 	{
-		if(mountedTo != null)
-			return HexDirection.plus(mountedTo.getDirection(), rDirection);
+		if(mountedToID != null)
+			return HexDirection.plus(getMountedTo().getDirection(), rDirection);
 		return rDirection;
 	}
 
 	public void setDirection(HexDirection direction, AC ac)
 	{
-		if(mountedTo != null)
-			this.rDirection = HexDirection.minus(direction, mountedTo.getDirection());
+		if(mountedToID != null)
+			this.rDirection = HexDirection.minus(direction, getMountedTo().getDirection());
 		else
 			this.rDirection = direction;
 		if(ac != null)
@@ -62,7 +63,7 @@ public class Relocatable extends CommandLink
 
 	public AirState getAirState()
 	{
-		if(mountedTo != null)
+		if(mountedToID != null)
 			return AirState.MOUNT;
 		return airState;
 	}
@@ -74,8 +75,17 @@ public class Relocatable extends CommandLink
 			CMove.issueCommand(this);
 	}
 
+	public Identifier getMountedToID()
+	{
+		return mountedToID;
+	}
+
 	public Relocatable getMountedTo()
 	{
+		if(mountedTo == null && mountedToID != null)
+		{
+			mountedTo = map.objectByID(mountedToID);
+		}
 		return mountedTo;
 	}
 
@@ -89,9 +99,23 @@ public class Relocatable extends CommandLink
 		return mountSlotInfo.length;
 	}
 
+	private Relocatable[] getMountSlots()
+	{
+		if(mountSlots == null)
+		{
+			mountSlots = map.determineMountSlots(id, mountSlotInfo);
+		}
+		return mountSlots;
+	}
+
 	public Relocatable getMountSlotAt(int slot)
 	{
-		return mountSlots[slot];
+		return getMountSlots()[slot];
+	}
+
+	public void setMountSlotAt(int slot, Relocatable m)
+	{
+		getMountSlots()[slot] = m;
 	}
 
 	public MountSlotInfo getMountSlotInfo(int slot)
@@ -99,12 +123,12 @@ public class Relocatable extends CommandLink
 		return mountSlotInfo[slot];
 	}
 
-	public void setMountedTo(Relocatable newMountedTo, int slot, AC ac)
+	public void setMountedTo(Identifier newMountedToID, int slot, AC ac)
 	{
 		dismount(AirState.MOUNT, ac);
-		mountedTo = newMountedTo;
+		mountedToID = newMountedToID;
 		mountedToSlot = slot;
-		mountedTo.mountSlots[mountedToSlot] = this;
+		getMountedTo().setMountSlotAt(mountedToSlot, this);
 		setLoc(rLoc, null);
 		setDirection(rDirection, null);
 		if(ac != null)
@@ -113,14 +137,15 @@ public class Relocatable extends CommandLink
 
 	public void dismount(AirState toState, AC ac)
 	{
-		if(mountedTo != null)
+		if(mountedToID != null)
 		{
-			mountedTo.mountSlots[mountedToSlot] = null;
+			getMountedTo().setMountSlotAt(mountedToSlot, null);
 			rLoc = getLoc();
 			rDirection = getDirection();
 			setAirState(toState, null);
 			if(ac != null)
 				CDismount.issueCommand(this, toState != AirState.MOUNT);
+			mountedToID = null;
 			mountedTo = null;
 		}
 		else
@@ -130,17 +155,17 @@ public class Relocatable extends CommandLink
 	public void updateMountSlots(MountSlotInfo[] newInfo, boolean keep, AC ac)
 	{
 		Relocatable[] newSlots = new Relocatable[newInfo.length];
-		for(int i = 0; i < mountSlots.length; i++)
+		for(int i = 0; i < getMountSlotCount(); i++)
 		{
-			if(mountSlots[i] != null)
+			if(getMountSlotAt(i) != null)
 			{
-				if(keep && i < newSlots.length && (newInfo[i].allowRotating || mountSlots[i].getDirection().r == 0))
+				if(keep && i < newSlots.length && (newInfo[i].allowRotating || getMountSlotAt(i).getDirection().r == 0))
 				{
-					newSlots[i] = mountSlots[i];
+					newSlots[i] = getMountSlotAt(i);
 				}
 				else
 				{
-					mountSlots[i].dismount(AirState.FLY, ac);
+					getMountSlotAt(i).dismount(AirState.FLY, ac);
 				}
 			}
 		}

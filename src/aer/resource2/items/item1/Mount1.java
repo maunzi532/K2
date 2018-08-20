@@ -82,7 +82,7 @@ public class Mount1 implements TActionObject, IMountAction, IAPAction, IMainActi
 			{
 				xec0.setDirection(mount.getDirection(), null);
 			}
-			xec0.setMountedTo(mount, slot, new AC());
+			xec0.setMountedTo(mount.id, slot, new AC());
 			return false;
 		}
 		return true;

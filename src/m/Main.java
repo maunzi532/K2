@@ -18,6 +18,7 @@ import com.jme3.scene.control.*;
 import com.jme3.scene.shape.*;
 import com.jme3.system.*;
 import java.awt.*;
+import java.io.*;
 import java.util.*;
 import visual.map.*;
 import visual.mesh.*;
@@ -93,6 +94,8 @@ public class Main extends SimpleApplication
 				new HexDirection(6), AirState.UP, new TX_AP_Transform(new Mage()));
 		hexMap.addObject(pather);
 
+		serialize(pather);
+
 		//Create VisObject for HexPather
 		attachWithNode(objects, "VisHexPather_Mage_10", new VisRelocatable(pather, objects));
 
@@ -122,6 +125,22 @@ public class Main extends SimpleApplication
 		attach.attachChild(node);
 		node.addControl(control);
 		return node;
+	}
+
+	private static void serialize(Relocatable m)
+	{
+		try
+		{
+			ByteArrayOutputStream b = new ByteArrayOutputStream();
+			ObjectOutputStream n = new ObjectOutputStream(b);
+			n.writeObject(m);
+			n.close();
+			b.close();
+			System.out.println(b.toString());
+		}catch(IOException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override

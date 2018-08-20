@@ -1,6 +1,8 @@
 package aer;
 
-public class Identifier
+import java.io.*;
+
+public class Identifier implements Serializable
 {
 	public final String name;
 	public final int num0;

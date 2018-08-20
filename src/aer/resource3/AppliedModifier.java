@@ -1,6 +1,8 @@
 package aer.resource3;
 
-public class AppliedModifier
+import java.io.*;
+
+public class AppliedModifier implements Serializable
 {
 	public final Modifier modifier;
 	public int timePassed;

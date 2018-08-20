@@ -1,8 +1,9 @@
 package aer.path;
 
 import aer.*;
+import java.io.*;
 
-public class CostTable
+public class CostTable implements Serializable
 {
 	public int startingAP;
 	public int init;

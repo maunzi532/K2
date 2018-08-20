@@ -2,9 +2,10 @@ package aer.resource3;
 
 import aer.*;
 import aer.path.*;
+import java.io.*;
 import java.util.*;
 
-public abstract class Transformation
+public abstract class Transformation implements Serializable
 {
 	public CostTable costTable;
 	public TX_AP_Transform main;

@@ -1,6 +1,8 @@
 package aer;
 
-public class HexDirection
+import java.io.*;
+
+public class HexDirection implements Serializable
 {
 	public final int r;
 
