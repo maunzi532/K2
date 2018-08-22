@@ -34,8 +34,11 @@ public abstract class AbstractVis<T extends ICommandLink> extends AbstractContro
 	@Override
 	protected void controlUpdate(float tpf)
 	{
-		commands.addAll(linked.commands());
-		linked.deleteCommands();
+		if(linked != null)
+		{
+			commands.addAll(linked.commands());
+			linked.deleteCommands();
+		}
 		while(blocking.size() <= 0 && commands.size() > 0)
 		{
 			ICommand command = commands.remove(0);

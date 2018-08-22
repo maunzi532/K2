@@ -1,6 +1,7 @@
 package aer;
 
 import aer.mapgen.*;
+import aer.save.*;
 import java.util.*;
 import visual.*;
 
@@ -27,4 +28,10 @@ public interface ITiledMap extends ICommandLink
 	void addObject(Relocatable object);
 
 	List<Relocatable> team(int teamID);
+
+	List<Relocatable> allObjects();
+
+	Map<HexLocation, MapTile> updatedTiles();
+
+	void restore(InMapSave inMapSave);
 }

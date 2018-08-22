@@ -2,6 +2,7 @@ package aer.path;
 
 import aer.*;
 import aer.path.takeable.*;
+import aer.save.*;
 import java.util.*;
 import java.util.stream.*;
 import visual.*;
@@ -65,8 +66,7 @@ public class TurnSchedule extends CommandLink
 				if(initFlag)
 				{
 					log(2, "Initiating draw phase for team " + controlledTeams.get(inActionLNum));
-					currentTeam = new ArrayList<>();
-					map.team(controlledTeams.get(inActionLNum)).forEach(e -> currentTeam.add((Pather) e));
+					currentTeam = new ArrayList(map.team(controlledTeams.get(inActionLNum)));
 					npcControlled = currentTeam.iterator();
 					initFlag = false;
 					return true;
@@ -302,6 +302,15 @@ public class TurnSchedule extends CommandLink
 			endActionPath(false);
 		else
 			innerPhase = TurnPhase.TARGET;
+	}
+
+	public void restore(InMapSave inMapSave)
+	{
+		map.restore(inMapSave);
+		inActionLNum = inMapSave.inActionLNum;
+		setPhase(inMapSave.mainPhase);
+		currentTeam = new ArrayList(map.team(controlledTeams.get(inActionLNum)));
+		stepForward(true);
 	}
 
 	@Override

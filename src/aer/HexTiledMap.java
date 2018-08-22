@@ -2,6 +2,7 @@ package aer;
 
 import aer.mapgen.*;
 import aer.path.*;
+import aer.save.*;
 import java.util.*;
 import java.util.stream.*;
 import visual.*;
@@ -14,11 +15,11 @@ public class HexTiledMap extends CommandLink implements ITiledMap
 	private int endX, endD, endH, endR;
 
 	private final MapTile[][][][] tiles;
-	private final HashMap<HexLocation, MapTile> updateds;
+	private Map<HexLocation, MapTile> updatedTiles;
 
 	private IHexMapGen generator;
 
-	private final ArrayList<Relocatable> objects;
+	private List<Relocatable> objects;
 
 	public HexTiledMap(String name, int startX, int startD, int startH, int startR, int endX, int endD, int endH, int endR)
 	{
@@ -36,7 +37,7 @@ public class HexTiledMap extends CommandLink implements ITiledMap
 		int wH = endH - startH;
 		int wR = endR - startR;
 		tiles = new MapTile[wX][wD][wH][wR];
-		updateds = new HashMap<>();
+		updatedTiles = new HashMap<>();
 		objects = new ArrayList<>();
 	}
 
@@ -62,7 +63,7 @@ public class HexTiledMap extends CommandLink implements ITiledMap
 		int tD = loc.d - startD;
 		int tH = loc.h - startH;
 		int tR = loc.r - startR;
-		MapTile updated = updateds.get(new HexLocation(tX, tD, tH, tR));
+		MapTile updated = updatedTiles.get(new HexLocation(tX, tD, tH, tR));
 		if(updated != null)
 			return updated;
 		MapTile tile = tiles[tX][tD][tH][tR];
@@ -100,9 +101,9 @@ public class HexTiledMap extends CommandLink implements ITiledMap
 		if(tiles[tX][tD][tH][tR] == null)
 			generator.generate(loc1);
 		if(tile.equals(tiles[tX][tD][tH][tR]))
-			updateds.remove(loc1);
+			updatedTiles.remove(loc1);
 		else
-			updateds.put(loc1, tile);
+			updatedTiles.put(loc1, tile);
 	}
 
 	@Override
@@ -147,6 +148,27 @@ public class HexTiledMap extends CommandLink implements ITiledMap
 	public List<Relocatable> team(int teamID)
 	{
 		return objects.stream().filter(e -> e instanceof Pather && ((Pather) e).getTherathic().teamSide() == teamID).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<Relocatable> allObjects()
+	{
+		return objects;
+	}
+
+	@Override
+	public Map<HexLocation, MapTile> updatedTiles()
+	{
+		return updatedTiles;
+	}
+
+	@Override
+	public void restore(InMapSave inMapSave)
+	{
+		updatedTiles = inMapSave.updatedTiles;
+		objects = inMapSave.relocatables;
+		for(Relocatable relocatable : objects)
+			relocatable.map = this;
 	}
 
 	@Override

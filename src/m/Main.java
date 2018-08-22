@@ -6,6 +6,7 @@ import aer.path.*;
 import aer.resource2.therathicType.*;
 import aer.resource3.*;
 import aer.resource3.resource4.*;
+import aer.save.*;
 import com.jme3.app.*;
 import com.jme3.input.*;
 import com.jme3.input.controls.*;
@@ -86,24 +87,21 @@ public class Main extends SimpleApplication
 		//Create VisTiledMap for HexMap
 		attachWithNode(rootNode, "Map", new VisTiledMap(hexMap, 0, cameraHeightState));
 
-		Node objects = new Node("Objects");
-		rootNode.attachChild(objects);
+		//Create VisFinder for storing VisRelocatable
+		VisFinder visFinder = new VisFinder();
+		attachWithNode(rootNode, "VisFinder", visFinder);
 
 		//Create TX_AP_Transform (Mage) HexPather
 		Pather pather = new Pather(new Identifier("Mage_10"), hexMap, new HexLocation(2, 1, 3, 0),
 				new HexDirection(6), AirState.UP, new TX_AP_Transform(new Mage()));
 		hexMap.addObject(pather);
-
-		serialize(pather);
-
-		//Create VisObject for HexPather
-		attachWithNode(objects, "VisHexPather_Mage_10", new VisRelocatable(pather, objects));
+		visFinder.attachAndRegister(pather);
 
 		//Create TX_AP_2 HexPather
 		Pather pather1 = new Pather(new Identifier("TX_AP_2_11"), hexMap, new HexLocation(4, 1, 0, 0),
 				new HexDirection(3), AirState.FLOOR, new TX_AP_2(new CostTable()));
 		hexMap.addObject(pather1);
-		attachWithNode(objects, "VisHexPather_TX_AP_2_11", new VisRelocatable(pather1, objects));
+		visFinder.attachAndRegister(pather1);
 
 		//Add HUD
 		VisHUD visHUD = new VisHUD(guiNode, guiFont, getContext().getSettings());
@@ -117,6 +115,15 @@ public class Main extends SimpleApplication
 		attachWithNode(rootNode, "VTS", new VisTurnSchedule(turnSchedule, targeting, visHUD,
 				rootNode.getChild("Map").getControl(VisTiledMap.class)));
 		rootNode.getChild("VTS").getControl(VisTurnSchedule.class).stepToPlayerPhase();
+
+		//Test serialization
+		InMapSave inMapSave = new InMapSave(turnSchedule);
+		byte[] b0 = serialize(inMapSave);
+		rootNode.getChild("VTS").getControl(VisTurnSchedule.class).stepToPlayerPhase();
+		//TODO: remove from TurnSchedule and map
+		visFinder.remove(new Identifier("Mage_10"));
+		turnSchedule.restore((InMapSave) deserialize(b0));
+		visFinder.reattach(hexMap);
 	}
 
 	public static Node attachWithNode(Node attach, String name, Control control)
@@ -127,7 +134,7 @@ public class Main extends SimpleApplication
 		return node;
 	}
 
-	private static void serialize(Relocatable m)
+	private static byte[] serialize(Serializable m)
 	{
 		try
 		{
@@ -136,8 +143,25 @@ public class Main extends SimpleApplication
 			n.writeObject(m);
 			n.close();
 			b.close();
-			System.out.println(b.toString());
+			return b.toByteArray();
+			//System.out.println(b.toString());
 		}catch(IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static Object deserialize(byte[] b0)
+	{
+		try
+		{
+			ByteArrayInputStream b = new ByteArrayInputStream(b0);
+			ObjectInputStream n = new ObjectInputStream(b);
+			Object m = n.readObject();
+			n.close();
+			b.close();
+			return m;
+		}catch(IOException | ClassNotFoundException e)
 		{
 			throw new RuntimeException(e);
 		}
@@ -173,6 +197,28 @@ public class Main extends SimpleApplication
 	TODO: Reaction/Interrupt HUD
 	TODO: Remove Layers which are too high
 	TODO: Camera Controls
-	TODO: Serialize State, Restore State, Link to Vis, Save State to File
+	TODO: TurnSchedule change skipping
+	 */
+
+	/*
+	TODO: Save/Load in Map 1
+	> Serialize Relocatable
+	> Deserialize Relocatable
+	> Link Vis to new Relocatable
+	> Create missing Vis
+	Fade unused Vis (Remove or keep?)
+	TODO: Save/Load in Map 2
+	> Serialize TurnSchedule
+	> Deserialize TurnSchedule
+	Save/Load via UI
+	TODO: Save/Load full Map
+	Save additional Data for Map
+	Create currently loading map
+	TODO: TurnSummoner Save/Load
+	Serialize TurnSummoner
+	Deserialize TurnSummoner
+	Allow TurnSummoner to summon serialized Relocatables
+	Save State to file/Load State from file
+	Read data for TurnSummoner from file
 	 */
 }
