@@ -9,7 +9,7 @@ public class CMove implements ICommand
 
 	public CMove(Relocatable x1)
 	{
-		targetL = x1.getLoc();
+		targetL = new HexLocation(x1.getLoc());
 		airState = x1.getAirState();
 	}
 

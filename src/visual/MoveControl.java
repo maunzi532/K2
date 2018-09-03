@@ -35,6 +35,11 @@ public class MoveControl extends AbstractControl
 	@Override
 	protected void controlUpdate(float tpf)
 	{
+		if(spatial.getControl(MountControl.class) != null)
+		{
+			spatial.removeControl(this);
+			return;
+		}
 		timeLeft -= tpf;
 		if(timeLeft <= 0)
 		{

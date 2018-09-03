@@ -8,7 +8,7 @@ public class CTurn implements ICommand
 
 	public CTurn(Relocatable x1)
 	{
-		targetD = x1.getDirection();
+		targetD = new HexDirection(x1.getDirection());
 	}
 
 	public CTurn(HexDirection targetD)

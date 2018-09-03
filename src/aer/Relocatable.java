@@ -132,7 +132,7 @@ public class Relocatable extends CommandLink implements Serializable
 		setLoc(rLoc, null);
 		setDirection(rDirection, null);
 		if(ac != null)
-			CMount.issueCommand(this, true);
+			CMount.issueCommand(this);
 	}
 
 	public void dismount(AirState toState, AC ac)
@@ -144,9 +144,11 @@ public class Relocatable extends CommandLink implements Serializable
 			rDirection = getDirection();
 			setAirState(toState, null);
 			if(ac != null)
-				CDismount.issueCommand(this, toState != AirState.MOUNT);
+				CDismount.issueCommand(this);
 			mountedToID = null;
 			mountedTo = null;
+			if(ac != null && toState != AirState.MOUNT)
+				CMove.issueCommand(this);
 		}
 		else
 			setAirState(toState, null);

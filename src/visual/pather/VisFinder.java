@@ -37,7 +37,7 @@ public class VisFinder extends AbstractControl
 	{
 		Node node = new Node(relocatable.id.toString());
 		finderNode.attachChild(node);
-		VisRelocatable visRelocatable = new VisRelocatable(relocatable, finderNode);
+		VisRelocatable visRelocatable = new VisRelocatable(relocatable, this);
 		node.addControl(visRelocatable);
 		byIdentifier.put(visRelocatable.id, visRelocatable);
 	}

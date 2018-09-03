@@ -120,7 +120,6 @@ public class Main extends SimpleApplication
 		InMapSave inMapSave = new InMapSave(turnSchedule);
 		byte[] b0 = serialize(inMapSave);
 		rootNode.getChild("VTS").getControl(VisTurnSchedule.class).stepToPlayerPhase();
-		//TODO: remove from TurnSchedule and map
 		visFinder.remove(new Identifier("Mage_10"));
 		turnSchedule.restore((InMapSave) deserialize(b0));
 		visFinder.reattach(hexMap);

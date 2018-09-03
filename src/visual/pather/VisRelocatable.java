@@ -10,12 +10,12 @@ import visual.mesh.*;
 public class VisRelocatable extends AbstractVis<Relocatable>
 {
 	public Identifier id;
-	private Node objectsNode;
+	private VisFinder visFinder;
 
-	public VisRelocatable(Relocatable linked, Node objectsNode)
+	public VisRelocatable(Relocatable linked, VisFinder visFinder)
 	{
 		super(linked);
-		this.objectsNode = objectsNode;
+		this.visFinder = visFinder;
 		id = linked.id;
 	}
 
@@ -61,11 +61,15 @@ public class VisRelocatable extends AbstractVis<Relocatable>
 		else if(command instanceof CTurn)
 		{
 			System.out.println("CTURN");
-			spatial.addControl(new TurnControl(1, (CTurn) command));
+			if(spatial.getControl(MountControl.class) != null)
+				spatial.getControl(MountControl.class).setTimerD(((CTurn) command).targetD, 1f);
+			else
+				spatial.addControl(new TurnControl(1, (CTurn) command));
 		}
 		else if(command instanceof CMount)
 		{
 			System.out.println("CMOUNT");
+			spatial.addControl(new MountControl(visFinder, (CMount) command));
 			/*Vector3f wt = spatial.getWorldTranslation(); DOES NPT WORK
 			Quaternion wr = spatial.getWorldRotation();
 			objectsNode.depthFirstTraversal(e ->
@@ -82,6 +86,7 @@ public class VisRelocatable extends AbstractVis<Relocatable>
 		else if(command instanceof CDismount)
 		{
 			System.out.println("CDISMOUNT");
+			spatial.removeControl(MountControl.class);
 			/*Vector3f wt = spatial.getWorldTranslation();
 			Quaternion wr = spatial.getWorldRotation();
 			objectsNode.attachChild(spatial);
