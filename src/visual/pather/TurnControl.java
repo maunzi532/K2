@@ -1,4 +1,4 @@
-package visual;
+package visual.pather;
 
 import aer.commands.*;
 import com.jme3.math.*;
@@ -7,20 +7,20 @@ import com.jme3.scene.*;
 import com.jme3.scene.control.*;
 import visual.map.*;
 
-public class MoveControl extends AbstractControl
+public class TurnControl extends AbstractControl
 {
-	private CMove cMove;
-	private Vector3f localStart;
-	private Vector3f localEnd;
+	private CTurn cTurn;
+	private Quaternion localStart;
+	private Quaternion localEnd;
 	private float time;
 	private float timeLeft;
 
-	public MoveControl(float time, CMove cMove)
+	public TurnControl(float time, CTurn cTurn)
 	{
-		this.cMove = cMove;
+		this.cTurn = cTurn;
 		this.time = time;
 		timeLeft = time;
-		localEnd = VisTiledMap.conv(cMove.targetL);
+		localEnd = VisTiledMap.conv(cTurn.targetD);
 	}
 
 	@Override
@@ -29,26 +29,21 @@ public class MoveControl extends AbstractControl
 		super.setSpatial(spatial);
 		if(spatial == null)
 			return;
-		localStart = spatial.getLocalTranslation().clone();
+		localStart = spatial.getLocalRotation().clone();
 	}
 
 	@Override
 	protected void controlUpdate(float tpf)
 	{
-		if(spatial.getControl(MountControl.class) != null)
-		{
-			spatial.removeControl(this);
-			return;
-		}
 		timeLeft -= tpf;
 		if(timeLeft <= 0)
 		{
-			spatial.setLocalTranslation(localEnd);
+			spatial.setLocalRotation(localEnd);
 			spatial.removeControl(this);
 			return;
 		}
 		float time2 = timeLeft / time;
-		spatial.setLocalTranslation(localStart.mult(time2).addLocal(localEnd.mult(1 - time2)));
+		spatial.setLocalRotation(localStart.mult(time2).addLocal(localEnd.mult(1 - time2)).normalizeLocal());
 	}
 
 	@Override

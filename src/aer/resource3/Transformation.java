@@ -2,10 +2,11 @@ package aer.resource3;
 
 import aer.*;
 import aer.path.*;
+import aer.resource3.resource4.*;
 import java.io.*;
 import java.util.*;
 
-public abstract class Transformation implements Serializable
+public abstract class Transformation implements Serializable, CBA
 {
 	public CostTable costTable;
 	public TX_AP_Transform main;
@@ -66,7 +67,7 @@ public abstract class Transformation implements Serializable
 		return false;
 	}
 
-	public int stat(TStat stat)
+	public int modifiedStat(TStat stat)
 	{
 		int value = stats.get(stat);
 		value += classModifiers(StatModifier.class).stream().filter(e -> e.modified == stat).mapToInt(e -> e.change).sum();

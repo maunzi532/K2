@@ -6,7 +6,6 @@ import aer.path.*;
 import aer.resource2.therathicType.*;
 import aer.resource3.*;
 import aer.resource3.resource4.*;
-import aer.save.*;
 import com.jme3.app.*;
 import com.jme3.input.*;
 import com.jme3.input.controls.*;
@@ -91,17 +90,25 @@ public class Main extends SimpleApplication
 		VisFinder visFinder = new VisFinder();
 		attachWithNode(rootNode, "VisFinder", visFinder);
 
-		//Create TX_AP_Transform (Mage) HexPather
+		//Create TX_AP_Transform (Equipable) HexPather
 		Pather pather = new Pather(new Identifier("Mage_10"), hexMap, new HexLocation(2, 1, 3, 0),
-				new HexDirection(6), AirState.UP, new TX_AP_Transform(new Mage()));
+				new HexDirection(6), AirState.UP, new TX_AP_Transform(new Equipable()));
 		hexMap.addObject(pather);
 		visFinder.attachAndRegister(pather);
+		((Equipable) ((TX_AP_Transform) pather.getTherathic()).currentTransform()).lhItem = new AttackItem3();
 
 		//Create TX_AP_2 HexPather
 		Pather pather1 = new Pather(new Identifier("TX_AP_2_11"), hexMap, new HexLocation(4, 1, 0, 0),
 				new HexDirection(3), AirState.FLOOR, new TX_AP_2(new CostTable()));
 		hexMap.addObject(pather1);
 		visFinder.attachAndRegister(pather1);
+
+		//Create TX_AP_Transform (Equipable) HexPather
+		Pather pather2 = new Pather(new Identifier("Equip_12"), hexMap, new HexLocation(2, 3, 0, 0),
+				new HexDirection(5), AirState.FLOOR, new TX_AP_Transform(new Equipable()));
+		hexMap.addObject(pather2);
+		visFinder.attachAndRegister(pather2);
+		((Equipable) ((TX_AP_Transform) pather2.getTherathic()).currentTransform()).lhItem = new AttackItem3();
 
 		//Add HUD
 		VisHUD visHUD = new VisHUD(guiNode, guiFont, getContext().getSettings());
@@ -117,12 +124,12 @@ public class Main extends SimpleApplication
 		rootNode.getChild("VTS").getControl(VisTurnSchedule.class).stepToPlayerPhase();
 
 		//Test serialization
-		InMapSave inMapSave = new InMapSave(turnSchedule);
+		/*InMapSave inMapSave = new InMapSave(turnSchedule);
 		byte[] b0 = serialize(inMapSave);
 		rootNode.getChild("VTS").getControl(VisTurnSchedule.class).stepToPlayerPhase();
 		visFinder.remove(new Identifier("Mage_10"));
 		turnSchedule.restore((InMapSave) deserialize(b0));
-		visFinder.reattach(hexMap);
+		visFinder.reattach(hexMap);*/
 	}
 
 	public static Node attachWithNode(Node attach, String name, Control control)

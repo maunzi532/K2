@@ -56,7 +56,7 @@ public class VisRelocatable extends AbstractVis<Relocatable>
 		if(command instanceof CMove)
 		{
 			System.out.println("CMOVE");
-			spatial.addControl(new MoveControl(1, (CMove) command));
+			spatial.addControl(new MoveControl(1f, (CMove) command));
 		}
 		else if(command instanceof CTurn)
 		{
@@ -64,35 +64,17 @@ public class VisRelocatable extends AbstractVis<Relocatable>
 			if(spatial.getControl(MountControl.class) != null)
 				spatial.getControl(MountControl.class).setTimerD(((CTurn) command).targetD, 1f);
 			else
-				spatial.addControl(new TurnControl(1, (CTurn) command));
+				spatial.addControl(new TurnControl(1f, (CTurn) command));
 		}
 		else if(command instanceof CMount)
 		{
 			System.out.println("CMOUNT");
 			spatial.addControl(new MountControl(visFinder, (CMount) command));
-			/*Vector3f wt = spatial.getWorldTranslation(); DOES NPT WORK
-			Quaternion wr = spatial.getWorldRotation();
-			objectsNode.depthFirstTraversal(e ->
-			{
-				if(((CMount) command).targetM.id.toString().equals(e.getName()))
-				{
-					((Node) e).attachChild(spatial);
-					spatial.setLocalTranslation(wt.subtract(e.getWorldTranslation()));
-					spatial.setLocalRotation(wr.subtract(e.getWorldRotation()));
-				}
-			});*/
-			//spatial.addControl(new MoveControl(1, (CMove) command));
 		}
 		else if(command instanceof CDismount)
 		{
 			System.out.println("CDISMOUNT");
 			spatial.removeControl(MountControl.class);
-			/*Vector3f wt = spatial.getWorldTranslation();
-			Quaternion wr = spatial.getWorldRotation();
-			objectsNode.attachChild(spatial);
-			spatial.setLocalTranslation(wt.subtract(objectsNode.getWorldTranslation()));
-			spatial.setLocalRotation(wr.subtract(objectsNode.getWorldRotation()));*/
-			//spatial.addControl(new TurnControl(1, (CTurn) command));
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package visual;
+package visual.pather;
 
 import aer.*;
 import aer.commands.*;
@@ -7,7 +7,6 @@ import com.jme3.renderer.*;
 import com.jme3.scene.*;
 import com.jme3.scene.control.*;
 import visual.map.*;
-import visual.pather.*;
 
 public class MountControl extends AbstractControl
 {

@@ -14,25 +14,16 @@ public class BaseTargeting3 implements TActionObject, ITargetedAction, IAPAction
 	private final CostTable costs;
 	private final HexLocation start;
 	private final HexDirection from;
-	private final Relocatable target;
+	protected final Relocatable target;
 	private final HexDirection lookDir;
 
-	public BaseTargeting3(CostTable costs, HexLocation start, HexDirection from, Relocatable target)
+	public BaseTargeting3(CostTable costs, HexLocation start, HexDirection from, Relocatable target, boolean noTurningRequired)
 	{
 		this.costs = costs;
 		this.start = start;
-		this.from = from;
+		this.from = noTurningRequired ? null : from;
 		this.target = target;
-		lookDir = HexLocation.direction(start, target.getLoc());
-	}
-
-	public BaseTargeting3(CostTable costs, HexLocation start, Relocatable target)
-	{
-		this.costs = costs;
-		this.start = start;
-		from = null;
-		this.target = target;
-		lookDir = null;
+		lookDir = noTurningRequired ? null : HexLocation.direction(start, target.getLoc());
 	}
 
 	@Override
@@ -68,11 +59,10 @@ public class BaseTargeting3 implements TActionObject, ITargetedAction, IAPAction
 	@Override
 	public boolean executeStart(Pather xec0, Therathic xec1, E_AP_MP xec2)
 	{
-		if(lookDir == null)
-			return false;
 		if(xec2.useAPMP(this, this, E_AP_MP.Use.REAL))
 		{
-			xec0.setDirection(lookDir, new AC());
+			if(lookDir != null)
+				xec0.setDirection(lookDir, new AC());
 			return false;
 		}
 		return true;
@@ -89,8 +79,8 @@ public class BaseTargeting3 implements TActionObject, ITargetedAction, IAPAction
 	@Override
 	public List<Reaction> targetOptions(Therathic xec1, Therathic target1, E_AP_MP target2)
 	{
-		return Arrays.asList(new Reaction("Wugu0", 0, true),
-				new Reaction("Wugu1", 1, true));
+		return Arrays.asList(new Reaction("Wugu0", 0, 0, true),
+				new Reaction("Wugu1", 1, 0, true));
 	}
 
 	@Override

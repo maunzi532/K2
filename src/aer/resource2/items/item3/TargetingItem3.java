@@ -28,7 +28,7 @@ public class TargetingItem3 implements PatherItem
 		{
 			for(HexLocation l0 : res1.dLocation().rangeLoc(0, 2))
 				for(Relocatable m1 : map.objectsAt(l0))
-					list.add(new BaseTargeting3(costTable, pather.getLoc(), pather.getDirection(), m1));
+					list.add(new BaseTargeting3(costTable, pather.getLoc(), pather.getDirection(), m1, false));
 		}
 		return list;
 	}

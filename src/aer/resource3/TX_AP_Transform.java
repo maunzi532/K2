@@ -7,9 +7,10 @@ import aer.path.takeable.*;
 import aer.path.team.*;
 import aer.resource2.resource.*;
 import aer.resource2.therathicType.*;
+import aer.resource3.resource4.*;
 import java.util.*;
 
-public class TX_AP_Transform implements Therathic, E_AP_MP
+public class TX_AP_Transform implements Therathic, E_AP_MP, CBA
 {
 	private Pather pather;
 	private List<Transformation> transforms;
@@ -214,5 +215,36 @@ public class TX_AP_Transform implements Therathic, E_AP_MP
 		if(ok && use == Use.REAL)
 			movePoints -= amount;
 		return ok;
+	}
+
+	@Override
+	public boolean canBeAttacked()
+	{
+		return currentTransform().canBeAttacked();
+	}
+
+	@Override
+	public List<Reaction> reactions(Therathic attackedBy, StatItem item, AttackType attackType, int distance)
+	{
+		return currentTransform().reactions(attackedBy, item, attackType, distance);
+	}
+
+	@Override
+	public void takeAttack(Therathic attackedBy, StatItem item, AttackType attackType, int distance, boolean retaliated)
+	{
+		currentTransform().takeAttack(attackedBy, item, attackType, distance, retaliated);
+	}
+
+	@Override
+	public void dodgeAttack(Therathic attackedBy, StatItem item, AttackType attackType, int distance)
+	{
+		currentTransform().dodgeAttack(attackedBy, item, attackType, distance);
+	}
+
+	@Override
+	public void blockAttack(Therathic attackedBy, StatItem item, AttackType attackType, int distance,
+			StatItem blockWith)
+	{
+		currentTransform().blockAttack(attackedBy, item, attackType, distance, blockWith);
 	}
 }
