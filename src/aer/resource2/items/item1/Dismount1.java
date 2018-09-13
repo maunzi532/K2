@@ -24,13 +24,13 @@ public class Dismount1 implements TActionOther, IMountAction, IAPAction, IThAP
 	@Override
 	public int cost()
 	{
-		return costs.dismountCost;
+		return costs.dismountCost();
 	}
 
 	@Override
 	public int mCost()
 	{
-		return costs.dismountCostM;
+		return costs.dismountCostM();
 	}
 
 	@Override

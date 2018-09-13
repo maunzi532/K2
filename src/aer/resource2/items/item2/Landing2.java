@@ -23,13 +23,13 @@ public class Landing2 implements TActionOther, IAirStateAction, IAPAction, IThAP
 	@Override
 	public int cost()
 	{
-		return costs.landingCost;
+		return costs.landingCost();
 	}
 
 	@Override
 	public int mCost()
 	{
-		return costs.landingCostM;
+		return costs.landingCostM();
 	}
 
 	@Override

@@ -140,7 +140,7 @@ public class TX_AP_Transform implements Therathic, E_AP_MP, CBA
 	@Override
 	public TakeableAction startAction()
 	{
-		return new InitAction(currentTransform().costTable);
+		return new InitAction(currentTransform());
 	}
 
 	@Override
@@ -154,10 +154,10 @@ public class TX_AP_Transform implements Therathic, E_AP_MP, CBA
 	public boolean drawPhase()
 	{
 		tickModifiers();
-		CostTable costTable0 = currentTransform().costTable;
-		actionPoints = costTable0.startingAP;
-		movePoints = costTable0.startingM;
-		reqFall = pather.getAirState().isAerial ? costTable0.requiredFall : 0;
+		CostTable transform0 = currentTransform();
+		actionPoints = transform0.startingAP();
+		movePoints = transform0.startingM();
+		reqFall = pather.getAirState().isAerial ? transform0.requiredFall() : 0;
 		currentTransform().drawPhase();
 		return true;
 	}
@@ -230,21 +230,10 @@ public class TX_AP_Transform implements Therathic, E_AP_MP, CBA
 	}
 
 	@Override
-	public void takeAttack(Therathic attackedBy, StatItem item, AttackType attackType, int distance, boolean retaliated)
+	public void takeAttack(Therathic attackedBy, StatItem item, AttackType attackType,
+			int distance, boolean retaliated, boolean dodge, StatItem blockWith)
 	{
-		currentTransform().takeAttack(attackedBy, item, attackType, distance, retaliated);
+		currentTransform().takeAttack(attackedBy, item, attackType, distance, retaliated, dodge, blockWith);
 	}
 
-	@Override
-	public void dodgeAttack(Therathic attackedBy, StatItem item, AttackType attackType, int distance)
-	{
-		currentTransform().dodgeAttack(attackedBy, item, attackType, distance);
-	}
-
-	@Override
-	public void blockAttack(Therathic attackedBy, StatItem item, AttackType attackType, int distance,
-			StatItem blockWith)
-	{
-		currentTransform().blockAttack(attackedBy, item, attackType, distance, blockWith);
-	}
 }

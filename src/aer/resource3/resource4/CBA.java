@@ -17,9 +17,5 @@ public interface CBA
 
 	List<Reaction> reactions(Therathic attackedBy, StatItem item, AttackType attackType, int distance);
 
-	void takeAttack(Therathic attackedBy, StatItem item, AttackType attackType, int distance, boolean retaliated);
-
-	void dodgeAttack(Therathic attackedBy, StatItem item, AttackType attackType, int distance);
-
-	void blockAttack(Therathic attackedBy, StatItem item, AttackType attackType, int distance, StatItem blockWith);
+	void takeAttack(Therathic attackedBy, StatItem item, AttackType attackType, int distance, boolean retaliated, boolean dodge, StatItem blockWith);
 }

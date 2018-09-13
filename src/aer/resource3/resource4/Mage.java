@@ -15,8 +15,7 @@ public class Mage extends Transformation
 
 	public Mage()
 	{
-		costTable = CostTable.v1();
-		movementItem = new FloorMovementItem2(costTable);
+		movementItem = new FloorMovementItem2(this);
 	}
 
 	@Override
@@ -64,21 +63,10 @@ public class Mage extends Transformation
 	}
 
 	@Override
-	public void takeAttack(Therathic attackedBy, StatItem item, AttackType attackType, int distance, boolean retaliated)
+	public void takeAttack(Therathic attackedBy, StatItem item, AttackType attackType, int distance, boolean retaliated,
+			boolean dodge, StatItem blockWith)
 	{
 
 	}
 
-	@Override
-	public void dodgeAttack(Therathic attackedBy, StatItem item, AttackType attackType, int distance)
-	{
-
-	}
-
-	@Override
-	public void blockAttack(Therathic attackedBy, StatItem item, AttackType attackType, int distance,
-			StatItem blockWith)
-	{
-
-	}
 }

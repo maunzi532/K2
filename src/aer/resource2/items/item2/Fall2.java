@@ -30,13 +30,13 @@ public class Fall2 implements TActionOther, IMovementAction, IAPAction, IThAP
 	@Override
 	public int cost()
 	{
-		return costs.fallCost;
+		return costs.fallCost();
 	}
 
 	@Override
 	public int mCost()
 	{
-		return costs.fallCostM;
+		return costs.fallCostM();
 	}
 
 	@Override

@@ -17,11 +17,27 @@ public class Equipable extends Transformation
 	public StatItem shoeItem;
 	public PatherItem classItem;
 	public PatherItem personalItem;
+	public List<StatItem> inventory;
+	public int health;
+	public boolean active;
+	public int lives;
 
-	public Equipable()
+	public Equipable(StatItem... items)
 	{
-		costTable = CostTable.v1();
-		movementItem = new FloorMovementItem2(costTable);
+		movementItem = new FloorMovementItem2(this);
+		health = maxHealth();
+		active = true;
+		lives = maxLives();
+		if(items.length >= 5)
+		{
+			lhItem = items[0];
+			rhItem = items[1];
+			dhItem = items[2];
+			armorItem = items[3];
+			shoeItem = items[4];
+		}
+		if(items.length > 5)
+			inventory = new ArrayList<>(Arrays.asList(items).subList(5, items.length));
 	}
 
 	protected void addItems(ArrayList<PatherItem> items)
@@ -98,6 +114,15 @@ public class Equipable extends Transformation
 	}
 
 	@Override
+	public void drawPhase()
+	{
+		if(!active && lives > 0)
+		{
+			health = Math.min(health + regenPerTurn(), maxHealth());
+		}
+	}
+
+	@Override
 	public boolean canBeAttacked()
 	{
 		return true;
@@ -127,21 +152,24 @@ public class Equipable extends Transformation
 	}
 
 	@Override
-	public void takeAttack(Therathic attackedBy, StatItem item, AttackType attackType, int distance, boolean retaliated)
+	public void takeAttack(Therathic attackedBy, StatItem item, AttackType attackType,
+			int distance, boolean retaliated, boolean dodge, StatItem blockWith)
 	{
 		System.out.println("W");
 	}
 
-	@Override
-	public void dodgeAttack(Therathic attackedBy, StatItem item, AttackType attackType, int distance)
+	public int maxHealth()
 	{
-		System.out.println("D");
+		return 100;
 	}
 
-	@Override
-	public void blockAttack(Therathic attackedBy, StatItem item, AttackType attackType, int distance,
-			StatItem blockWith)
+	public int regenPerTurn()
 	{
-		System.out.println("B");
+		return 30;
+	}
+
+	public int maxLives()
+	{
+		return 2;
 	}
 }

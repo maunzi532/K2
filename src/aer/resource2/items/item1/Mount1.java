@@ -34,13 +34,13 @@ public class Mount1 implements TActionObject, IMountAction, IAPAction, IMainActi
 	@Override
 	public int cost()
 	{
-		return costs.mountCost;
+		return costs.mountCost();
 	}
 
 	@Override
 	public int mCost()
 	{
-		return costs.mountCostM + costs.turnCost(from, mount.getDirection());
+		return costs.mountCostM() + costs.turnCost(from, mount.getDirection());
 	}
 
 	@Override

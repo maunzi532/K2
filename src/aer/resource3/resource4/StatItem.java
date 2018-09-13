@@ -5,6 +5,7 @@ import aer.path.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
 import aer.resource2.resource.*;
+import aer.resource3.*;
 import java.util.*;
 
 public interface StatItem extends PatherItem
@@ -37,13 +38,14 @@ public interface StatItem extends PatherItem
 		Pather pather = pathAction.pather;
 		ITiledMap map = pather.map;
 		Therathic therathic = pather.getTherathic();
+		CostTable costTable = ((TX_AP_Transform) therathic).currentTransform();
 		if(!res1.dEnd())
 		{
 			for(AttackType attackType : attackTypes())
 				if(res2.dActionPoints() >= attackType.cost() && res2.dMovementPoints() >= attackType.mCost())
 					for(HexLocation l0 : res1.dLocation().rangeLoc(attackType.minRange(), attackType.maxRange()))
 						for(Relocatable m1 : map.objectsAt(l0))
-							list.add(new Attack3(CostTable.v1(), pather.getLoc(), pather.getDirection(), m1, attackType,
+							list.add(new Attack3(costTable, pather.getLoc(), pather.getDirection(), m1, attackType,
 									this, therathic, HexLocation.xdzDifference(pather.getLoc(), l0)));
 		}
 		return list;

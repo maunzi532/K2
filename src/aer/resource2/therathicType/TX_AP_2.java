@@ -81,9 +81,9 @@ public class TX_AP_2 implements Therathic, E_AP_MP
 	@Override
 	public boolean drawPhase()
 	{
-		actionPoints = 100;
-		movePoints = 100;
-		reqFall = 4;
+		actionPoints = costTable.startingAP();
+		movePoints = costTable.startingM();
+		reqFall = costTable.requiredFall();
 		return true;
 	}
 

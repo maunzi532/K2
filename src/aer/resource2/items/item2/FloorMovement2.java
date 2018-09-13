@@ -41,7 +41,7 @@ public class FloorMovement2 implements TActionLocation, IMovementAction, IAPActi
 	@Override
 	public int cost()
 	{
-		return costs.initMove;
+		return costs.initMove();
 	}
 
 	@Override

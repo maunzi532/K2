@@ -38,7 +38,7 @@ public class Airdash2 implements TActionLocation, IMovementAction, IAPAction, IT
 	@Override
 	public int cost()
 	{
-		return costs.initAirdash;
+		return costs.initAirdash();
 	}
 
 	@Override

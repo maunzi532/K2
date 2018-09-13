@@ -4,7 +4,6 @@ import aer.path.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
 import aer.resource2.interfaces.*;
-import aer.resource2.therathicType.*;
 
 public class InitAction implements TActionOther, IAPAction, IThAP
 {
@@ -24,7 +23,7 @@ public class InitAction implements TActionOther, IAPAction, IThAP
 	@Override
 	public int cost()
 	{
-		return costs.init;
+		return costs.init();
 	}
 
 	@Override

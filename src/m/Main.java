@@ -99,7 +99,7 @@ public class Main extends SimpleApplication
 
 		//Create TX_AP_2 HexPather
 		Pather pather1 = new Pather(new Identifier("TX_AP_2_11"), hexMap, new HexLocation(4, 1, 0, 0),
-				new HexDirection(3), AirState.FLOOR, new TX_AP_2(new CostTable()));
+				new HexDirection(3), AirState.FLOOR, new TX_AP_2(new CostTable.V1()));
 		hexMap.addObject(pather1);
 		visFinder.attachAndRegister(pather1);
 

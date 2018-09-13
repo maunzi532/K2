@@ -6,9 +6,8 @@ import aer.resource3.resource4.*;
 import java.io.*;
 import java.util.*;
 
-public abstract class Transformation implements Serializable, CBA
+public abstract class Transformation implements Serializable, CBA, CostTable
 {
-	public CostTable costTable;
 	public TX_AP_Transform main;
 	public Map<TStat, Integer> stats;
 	public List<AppliedModifier> modifiers;

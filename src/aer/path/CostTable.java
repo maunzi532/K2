@@ -1,104 +1,162 @@
 package aer.path;
 
 import aer.*;
-import java.io.*;
 
-public class CostTable implements Serializable
+public interface CostTable
 {
-	public int startingAP;
-	public int init;
-	public int mountCost;
-	public int dismountCost;
-	public int initMove;
-	public int fallCost;
-	public int landingCost;
-	public int initAirdash;
-	public int requiredFall;
-	public int startingM;
-	protected int turnCostM;
-	public int mountCostM;
-	public int dismountCostM;
-	protected int initMoveM;
-	private int moveCostM;
-	public int fallCostM;
-	public int landingCostM;
-	protected int initAirdashM;
-	protected int airdashMoveM;
-	protected int turn1;
-	protected int turn2;
-
-	public CostTable(int startingAP, int init, int mountCost, int dismountCost, int initMove, int fallCost,
-			int landingCost, int initAirdash, int requiredFall, int startingM, int turnCostM, int mountCostM,
-			int dismountCostM,
-			int initMoveM, int moveCostM, int fallCostM, int landingCostM, int initAirdashM, int airdashMoveM,
-			int turn1, int turn2)
-	{
-		this.startingAP = startingAP;
-		this.init = init;
-		this.mountCost = mountCost;
-		this.dismountCost = dismountCost;
-		this.initMove = initMove;
-		this.fallCost = fallCost;
-		this.landingCost = landingCost;
-		this.initAirdash = initAirdash;
-		this.requiredFall = requiredFall;
-		this.startingM = startingM;
-		this.turnCostM = turnCostM;
-		this.mountCostM = mountCostM;
-		this.dismountCostM = dismountCostM;
-		this.initMoveM = initMoveM;
-		this.moveCostM = moveCostM;
-		this.fallCostM = fallCostM;
-		this.landingCostM = landingCostM;
-		this.initAirdashM = initAirdashM;
-		this.airdashMoveM = airdashMoveM;
-		this.turn1 = turn1;
-		this.turn2 = turn2;
-	}
-
-	public CostTable()
+	/*public CostTable()
 	{
 		this(100, 5, 30, 20, 5, 5, 2,
 				10, 4, 100, 8, 0, 0, 20, 12, 20, 0, 10, 25, 2, 4);
-	}
+	}*/
 
-	public static CostTable v1()
+	default int startingAP()
 	{
-		return new CostTable(100, 5, 30, 20, 0, 0, 20,
-				0, 4, 6, 1, 0, 0, 1, 1, 1, 0, 1, 2, 2, 4);
+		return 100;
 	}
 
-	public int turnCost(HexDirection d0, HexDirection d1)
+	default int init()
+	{
+		return 5;
+	}
+
+	default int mountCost()
+	{
+		return 30;
+	}
+
+	default int dismountCost()
+	{
+		return 20;
+	}
+
+	default int initMove()
+	{
+		return 0;
+	}
+
+	default int fallCost()
+	{
+		return 0;
+	}
+
+	default int landingCost()
+	{
+		return 20;
+	}
+
+	default int initAirdash()
+	{
+		return 0;
+	}
+
+	default int requiredFall()
+	{
+		return 4;
+	}
+
+	default int startingM()
+	{
+		return 6;
+	}
+
+	default int turnCostM()
+	{
+		return 1;
+	}
+
+	default int mountCostM()
+	{
+		return 0;
+	}
+
+	default int dismountCostM()
+	{
+		return 0;
+	}
+
+	default int initMoveM()
+	{
+		return 1;
+	}
+
+	default int moveCostM()
+	{
+		return 1;
+	}
+
+	default int fallCostM()
+	{
+		return 1;
+	}
+
+	default int landingCostM()
+	{
+		return 0;
+	}
+
+	default int initAirdashM()
+	{
+		return 1;
+	}
+
+	default int airdashMoveM()
+	{
+		return 2;
+	}
+
+	default int turn1()
+	{
+		return 2;
+	}
+
+	default int turn2()
+	{
+		return 4;
+	}
+
+	default int turnCost(HexDirection d0, HexDirection d1)
 	{
 		if(d0 == null || d1 == null)
 			return 0;
 		int turn = HexDirection.turnCost(d0, d1);
-		if(turn <= turn1)
+		if(turn <= turn1())
 			return 0;
-		if(turn <= turn2)
-			return turnCostM;
-		return turnCostM * 2;
+		if(turn <= turn2())
+			return turnCostM();
+		return turnCostM() * 2;
 	}
 
-	public int moveCost(HexLocation l0, HexLocation l1)
+	default int moveCost(HexLocation l0, HexLocation l1)
 	{
 		int diff = HexLocation.xdzDifference(l0, l1);
-		return initMoveM + moveCostM * diff;
+		return initMoveM() + moveCostM() * diff;
 	}
 
-	public int airdashCost(HexLocation l0, HexLocation l1)
+	default int airdashCost(HexLocation l0, HexLocation l1)
 	{
 		int diff = HexLocation.xdzDifference(l0, l1);
-		return initAirdashM + airdashMoveM * diff;
+		return initAirdashM() + airdashMoveM() * diff;
 	}
 
-	public int maxMovement(int movePoints)
+	default int maxMovement(int movePoints)
 	{
-		return (movePoints - initMoveM) / moveCostM;
+		return (movePoints - initMoveM()) / moveCostM();
 	}
 
-	public int maxAirdash(int movePoints)
+	default int maxAirdash(int movePoints)
 	{
-		return (movePoints - initAirdashM) / airdashMoveM;
+		return (movePoints - initAirdashM()) / airdashMoveM();
+	}
+
+	/*static CostTable v1()
+	{
+		return new CostTable(100, 5, 30, 20, 0, 0, 20,
+				0, 4, 6, 1, 0, 0, 1, 1, 1, 0, 1, 2, 2, 4);
+	}*/
+
+	class V1 implements CostTable
+	{
+
 	}
 }
