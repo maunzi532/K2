@@ -23,6 +23,10 @@ public interface Therathic extends Serializable
 
 	TakeableAction startAction();
 
+	void setUsedFirstPath();
+
+	void setUsedFirstMovement();
+
 	ActionResource actionResource();
 
 	boolean drawPhase();

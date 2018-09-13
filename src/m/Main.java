@@ -92,10 +92,9 @@ public class Main extends SimpleApplication
 
 		//Create TX_AP_Transform (Equipable) HexPather
 		Pather pather = new Pather(new Identifier("Mage_10"), hexMap, new HexLocation(2, 1, 3, 0),
-				new HexDirection(6), AirState.UP, new TX_AP_Transform(new Equipable()));
+				new HexDirection(6), AirState.UP, new TX_AP_Transform(new Equipable(new AttackItem3(), new AttackItem3(), null, null, null)));
 		hexMap.addObject(pather);
 		visFinder.attachAndRegister(pather);
-		((Equipable) ((TX_AP_Transform) pather.getTherathic()).currentTransform()).lhItem = new AttackItem3();
 
 		//Create TX_AP_2 HexPather
 		Pather pather1 = new Pather(new Identifier("TX_AP_2_11"), hexMap, new HexLocation(4, 1, 0, 0),
@@ -105,13 +104,12 @@ public class Main extends SimpleApplication
 
 		//Create TX_AP_Transform (Equipable) HexPather
 		Pather pather2 = new Pather(new Identifier("Equip_12"), hexMap, new HexLocation(2, 3, 0, 0),
-				new HexDirection(5), AirState.FLOOR, new TX_AP_Transform(new Equipable()));
+				new HexDirection(5), AirState.FLOOR, new TX_AP_Transform(new Equipable(new AttackItem3(), null, null, null, null)));
 		hexMap.addObject(pather2);
 		visFinder.attachAndRegister(pather2);
-		((Equipable) ((TX_AP_Transform) pather2.getTherathic()).currentTransform()).lhItem = new AttackItem3();
 
-		//Add HUD
-		VisHUD visHUD = new VisHUD(guiNode, guiFont, getContext().getSettings());
+		//Add Path Info HUD
+		VisHUD pathInfoVisHUD = new PathInfoVisHUD(guiNode, guiFont, getContext().getSettings());
 
 		//Add TurnSchedule
 		TurnSchedule turnSchedule = new TurnSchedule(Collections.singletonList(0), 0, hexMap);
@@ -119,7 +117,7 @@ public class Main extends SimpleApplication
 		//Add Targeting and VisTurnSchedule for TurnSchedule
 		CursorTargeting targeting = new CursorTargeting(hexMap);
 		stateManager.attach(targeting);
-		attachWithNode(rootNode, "VTS", new VisTurnSchedule(turnSchedule, targeting, visHUD,
+		attachWithNode(rootNode, "VTS", new VisTurnSchedule(turnSchedule, targeting, pathInfoVisHUD,
 				rootNode.getChild("Map").getControl(VisTiledMap.class)));
 		rootNode.getChild("VTS").getControl(VisTurnSchedule.class).stepToPlayerPhase();
 

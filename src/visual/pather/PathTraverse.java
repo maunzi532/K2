@@ -256,22 +256,23 @@ public class PathTraverse
 			System.out.print(sb.toString());
 		}*/
 
-		visHUD.updateText(HUDMode.ACTION, "AP", String.valueOf(((Resource_AP_MP) currentAction.deducted).dActionPoints()));
-		visHUD.updateText(HUDMode.ACTION, "MP", String.valueOf(((Resource_AP_MP) currentAction.deducted).dMovementPoints()));
-		visHUD.updateText(HUDMode.ACTION, "Path", steps(currentAction));
-		visHUD.updateText(HUDMode.ACTION, "Take", !chCheck() && canEnd() ? "Press enter key to take this Path" : "");
-		visHUD.updateText(HUDMode.ACTION, "Target", object != null ? "Actions targeting object:" :
+		//TODO Hier Crash
+		visHUD.updateText(1, "AP", String.valueOf(((Resource_AP_MP) currentAction.deducted).dActionPoints()));
+		visHUD.updateText(1, "MP", String.valueOf(((Resource_AP_MP) currentAction.deducted).dMovementPoints()));
+		visHUD.updateText(1, "Path", steps(currentAction));
+		visHUD.updateText(1, "Take", !chCheck() && canEnd() ? "Press enter key to take this Path" : "");
+		visHUD.updateText(1, "Target", object != null ? "Actions targeting object:" :
 				loc != null ? "Actions targeting location:" : turn != null ? "Actions targeting direction:" : "Actions:");
 		if(choiceOptions.isEmpty())
-			visHUD.updateText(HUDMode.ACTION, "Options", "None");
+			visHUD.updateText(1, "Options", "None");
 		else
 		{
 			StringBuilder sb = new StringBuilder();
 			for(int i = 0; i < choiceOptions.size(); i++)
 				sb.append(i == choiceNum ? "> " : "| ").append(choiceOptions.get(i).getClass().getSimpleName()).append("\n");
-			visHUD.updateText(HUDMode.ACTION, "Options", sb.toString());
+			visHUD.updateText(1, "Options", sb.toString());
 		}
-		visHUD.changeMode(HUDMode.ACTION);
+		visHUD.changeMode(1);
 	}
 
 	public static String steps(PathAction pathAction)

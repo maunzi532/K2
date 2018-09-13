@@ -73,6 +73,12 @@ public class TX_AP_2 implements Therathic, E_AP_MP
 	}
 
 	@Override
+	public void setUsedFirstPath(){}
+
+	@Override
+	public void setUsedFirstMovement(){}
+
+	@Override
 	public ActionResource actionResource()
 	{
 		return new Resource_AP_MP(actionPoints, movePoints, pather.getDirection(), pather.getAirState(), reqFall, pather.getLoc(), pather.getMountedTo(), pather.getMountedToSlot());

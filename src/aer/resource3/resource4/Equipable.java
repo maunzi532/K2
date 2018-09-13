@@ -118,14 +118,18 @@ public class Equipable extends Transformation
 	{
 		if(!active && lives > 0)
 		{
-			health = Math.min(health + regenPerTurn(), maxHealth());
+			increaseHealth(regenPerTurn());
+			if(health >= maxHealth())
+			{
+				active = true;
+			}
 		}
 	}
 
 	@Override
 	public boolean canBeAttacked()
 	{
-		return true;
+		return active;
 	}
 
 	@Override
@@ -155,7 +159,7 @@ public class Equipable extends Transformation
 	public void takeAttack(Therathic attackedBy, StatItem item, AttackType attackType,
 			int distance, boolean retaliated, boolean dodge, StatItem blockWith)
 	{
-		System.out.println("W");
+		reduceHealth(30);
 	}
 
 	public int maxHealth()
@@ -171,5 +175,58 @@ public class Equipable extends Transformation
 	public int maxLives()
 	{
 		return 2;
+	}
+
+	@Override
+	public int startingAP()
+	{
+		return active ? super.startingAP() : 20;
+	}
+
+	@Override
+	public int startingM()
+	{
+		return active ? super.startingM() : 0;
+	}
+
+	@Override
+	public int init()
+	{
+		return main.usedFirstPath ? 5 : 0;
+	}
+
+	@Override
+	public int initMoveM()
+	{
+		return main.usedFirstMovement ? 1 : 0;
+	}
+
+	public boolean reduceHealth(int amount)
+	{
+		if(amount < 0)
+			amount = 0;
+		health = health - amount;
+		System.out.println(amount + " dmg -> " + health + " health remaining");
+		if(health <= 0 && active)
+		{
+			lives = Math.max(lives - 1, 0);
+			active = false;
+			return true;
+		}
+		return health <= 0;
+	}
+
+	public boolean increaseHealth(int amount)
+	{
+		if(amount <= 0)
+			return health >= maxHealth();
+		health = health + amount;
+		System.out.println("healed by " + amount + " -> " + health + " health");
+		if(health >= maxHealth())
+		{
+			health = maxHealth();
+			return true;
+		}
+		return false;
 	}
 }

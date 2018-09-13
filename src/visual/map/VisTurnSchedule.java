@@ -3,7 +3,6 @@ package visual.map;
 import aer.*;
 import aer.commands.*;
 import aer.path.*;
-import aer.path.team.*;
 import visual.*;
 import visual.pather.*;
 
@@ -86,7 +85,7 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 			if(pathTraverse.esc || pathAction != null)
 			{
 				visTiledMap.endLighting();
-				visHUD.changeMode(HUDMode.NONE);
+				visHUD.changeMode(0);
 				pathTraverse = null;
 			}
 			else if(pathTraverse.visualUpdateRequired)
@@ -142,7 +141,7 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 			}
 			if(pathTraverse.esc || pathAction != null)
 			{
-				visHUD.changeMode(HUDMode.NONE);
+				visHUD.changeMode(0);
 				pathTraverse = null;
 				if(reactionChooser == null)
 					reactionChooser = new ReactionChooser(linked.reactions);

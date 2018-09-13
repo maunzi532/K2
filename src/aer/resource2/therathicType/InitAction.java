@@ -29,6 +29,9 @@ public class InitAction implements TActionOther, IAPAction, IThAP
 	@Override
 	public boolean executeEnd(Pather xec0, Therathic xec1, E_AP_MP xec2)
 	{
-		return !xec2.useAP(this, E_AP_MP.Use.REAL);
+		if(!xec2.useAP(this, E_AP_MP.Use.REAL))
+			return true;
+		xec1.setUsedFirstPath();
+		return false;
 	}
 }

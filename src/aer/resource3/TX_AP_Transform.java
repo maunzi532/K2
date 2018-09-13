@@ -15,6 +15,8 @@ public class TX_AP_Transform implements Therathic, E_AP_MP, CBA
 	private Pather pather;
 	private List<Transformation> transforms;
 	private NPC_Control npc_control;
+	public boolean usedFirstPath;
+	public boolean usedFirstMovement;
 	private int actionPoints;
 	private int movePoints;
 	private int reqFall;
@@ -144,6 +146,18 @@ public class TX_AP_Transform implements Therathic, E_AP_MP, CBA
 	}
 
 	@Override
+	public void setUsedFirstPath()
+	{
+		usedFirstPath = true;
+	}
+
+	@Override
+	public void setUsedFirstMovement()
+	{
+		usedFirstMovement = true;
+	}
+
+	@Override
 	public ActionResource actionResource()
 	{
 		return new Resource_AP_MP(actionPoints, movePoints, pather.getDirection(), pather.getAirState(), reqFall,
@@ -153,12 +167,13 @@ public class TX_AP_Transform implements Therathic, E_AP_MP, CBA
 	@Override
 	public boolean drawPhase()
 	{
+		usedFirstPath = false;
 		tickModifiers();
+		currentTransform().drawPhase();
 		CostTable transform0 = currentTransform();
 		actionPoints = transform0.startingAP();
 		movePoints = transform0.startingM();
 		reqFall = pather.getAirState().isAerial ? transform0.requiredFall() : 0;
-		currentTransform().drawPhase();
 		return true;
 	}
 
