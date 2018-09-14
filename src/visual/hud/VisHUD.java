@@ -1,4 +1,4 @@
-package visual.map;
+package visual.hud;
 
 import com.jme3.font.*;
 import com.jme3.math.*;
@@ -24,14 +24,6 @@ public abstract class VisHUD
 		setup();
 		currentMode = 0;
 		modes.get(0).setCullHint(Spatial.CullHint.Inherit);
-
-		/*BitmapText t0 = new BitmapText(guiFont, false);
-		t0.setQueueBucket(RenderQueue.Bucket.Gui);
-		t0.setSize(guiFont.getCharSet().getRenderedSize());
-		t0.setColor(ColorRGBA.White);
-		t0.setText("Wugu\nW");
-		t0.setLocalTranslation(300, t0.getHeight(), 0);
-		guiNode.attachChild(t0);*/
 	}
 
 	public abstract void setup();

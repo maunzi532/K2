@@ -20,6 +20,7 @@ import com.jme3.system.*;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
+import visual.hud.*;
 import visual.map.*;
 import visual.mesh.*;
 import visual.pather.*;
@@ -109,7 +110,7 @@ public class Main extends SimpleApplication
 		visFinder.attachAndRegister(pather2);
 
 		//Add Path Info HUD
-		VisHUD pathInfoVisHUD = new PathInfoVisHUD(guiNode, guiFont, getContext().getSettings());
+		VisHUD pathInfoHUD = new PathInfoHUD(guiNode, guiFont, getContext().getSettings());
 
 		//Add TurnSchedule
 		TurnSchedule turnSchedule = new TurnSchedule(Collections.singletonList(0), 0, hexMap);
@@ -117,7 +118,10 @@ public class Main extends SimpleApplication
 		//Add Targeting and VisTurnSchedule for TurnSchedule
 		CursorTargeting targeting = new CursorTargeting(hexMap);
 		stateManager.attach(targeting);
-		attachWithNode(rootNode, "VTS", new VisTurnSchedule(turnSchedule, targeting, pathInfoVisHUD,
+
+		stateManager.attach(new TargetInfoState(guiNode, guiFont, getContext().getSettings(), targeting, hexMap));
+
+		attachWithNode(rootNode, "VTS", new VisTurnSchedule(turnSchedule, targeting, pathInfoHUD,
 				rootNode.getChild("Map").getControl(VisTiledMap.class)));
 		rootNode.getChild("VTS").getControl(VisTurnSchedule.class).stepToPlayerPhase();
 

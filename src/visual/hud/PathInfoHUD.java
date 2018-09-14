@@ -1,13 +1,12 @@
-package visual.pather;
+package visual.hud;
 
 import com.jme3.font.*;
 import com.jme3.scene.*;
 import com.jme3.system.*;
-import visual.map.*;
 
-public class PathInfoVisHUD extends VisHUD
+public class PathInfoHUD extends VisHUD
 {
-	public PathInfoVisHUD(Node guiNode, BitmapFont guiFont, AppSettings settings)
+	public PathInfoHUD(Node guiNode, BitmapFont guiFont, AppSettings settings)
 	{
 		super(guiNode, guiFont, settings);
 	}
@@ -15,9 +14,7 @@ public class PathInfoVisHUD extends VisHUD
 	@Override
 	public void setup()
 	{
-		{
-			addNode(0);
-		}
+		addNode(0);
 		{
 			Node node = addNode(1);
 			createText(node, "AP", 0.02f, 0.98f, false);

@@ -4,6 +4,7 @@ import aer.*;
 import aer.commands.*;
 import aer.path.*;
 import visual.*;
+import visual.hud.*;
 import visual.pather.*;
 
 public class VisTurnSchedule extends AbstractVis<TurnSchedule>

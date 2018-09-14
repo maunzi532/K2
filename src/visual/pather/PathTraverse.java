@@ -6,6 +6,7 @@ import aer.path.takeable.*;
 import aer.resource2.resource.*;
 import java.util.*;
 import java.util.stream.*;
+import visual.hud.*;
 import visual.map.*;
 
 public class PathTraverse
