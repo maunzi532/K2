@@ -1,6 +1,11 @@
 package visual.map;
 
 import aer.*;
+import aer.path.*;
+import aer.path.team.*;
+import aer.resource2.resource.*;
+import aer.resource3.*;
+import aer.resource3.resource4.*;
 import com.jme3.app.*;
 import com.jme3.app.state.*;
 import com.jme3.font.*;
@@ -44,11 +49,62 @@ public class TargetInfoState extends BaseAppState
 	@Override
 	public void update(float tpf)
 	{
-		if(targeting.updated())
+		//if(targeting.updated())
 		{
 			if(targeting.targetObject() != null)
 			{
-				//targetInfoHUD.updateText();
+				Relocatable relocatable = targeting.targetObject();
+				targetInfoHUD.updateText(2, "Name", relocatable.name());
+				targetInfoHUD.updateText(2, "AirState", relocatable.getAirState().toString());
+				targetInfoHUD.updateText(2, "MountedTo", relocatable.getMountedTo() != null ? "MT: " + relocatable.getMountedTo().name() : "");
+				if(relocatable instanceof Pather)
+				{
+					Therathic therathic = ((Pather) relocatable).getTherathic();
+					targetInfoHUD.updateText(2, "PlayerControlled", therathic.playerControlled() ? "Player" : "NPC");
+					targetInfoHUD.updateText(2, "Team", "Team: " + therathic.teamSide());
+					if(therathic instanceof TX_AP_Transform)
+					{
+						Resource_AP_MP resource_ap_mp = (Resource_AP_MP) therathic.actionResource();
+						targetInfoHUD.updateText(2, "AP", "AP: " + String.valueOf(resource_ap_mp.dActionPoints()));
+						targetInfoHUD.updateText(2, "MP", "MP: " + String.valueOf(resource_ap_mp.dMovementPoints()));
+						targetInfoHUD.updateText(2, "RequiredFall",
+								resource_ap_mp.dRequiredFall() > 0 ? "RQF: " + String.valueOf(resource_ap_mp.dRequiredFall()) : "");
+						Transformation transformation = ((TX_AP_Transform) therathic).currentTransform();
+						if(transformation instanceof Equipable)
+						{
+							Equipable equipable = (Equipable) transformation;
+							targetInfoHUD.updateText(2, "Health", "H: " + String.valueOf(equipable.health));
+							targetInfoHUD.updateText(2, "Active", equipable.active ? "Active" : "Inactive");
+							targetInfoHUD.updateText(2, "Lives", "L: " + String.valueOf(equipable.lives));
+						}
+						else
+						{
+							targetInfoHUD.updateText(2, "Health", "");
+							targetInfoHUD.updateText(2, "Active", "");
+							targetInfoHUD.updateText(2, "Lives", "");
+						}
+					}
+					else
+					{
+						targetInfoHUD.updateText(2, "AP", "");
+						targetInfoHUD.updateText(2, "MP", "");
+						targetInfoHUD.updateText(2, "RequiredFall", "");
+						targetInfoHUD.updateText(2, "Health", "");
+						targetInfoHUD.updateText(2, "Active", "");
+						targetInfoHUD.updateText(2, "Lives", "");
+					}
+				}
+				else
+				{
+					targetInfoHUD.updateText(2, "PlayerControlled", "");
+					targetInfoHUD.updateText(2, "Team", "");
+					targetInfoHUD.updateText(2, "AP", "");
+					targetInfoHUD.updateText(2, "MP", "");
+					targetInfoHUD.updateText(2, "RequiredFall", "");
+					targetInfoHUD.updateText(2, "Health", "");
+					targetInfoHUD.updateText(2, "Active", "");
+					targetInfoHUD.updateText(2, "Lives", "");
+				}
 				targetInfoHUD.changeMode(2);
 			}
 			else if(targeting.targetTile() != null)

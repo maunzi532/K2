@@ -17,21 +17,21 @@ public class TargetInfoHUD extends VisHUD
 		addNode(0);
 		{
 			Node node = addNode(1);
-			createText(node, "FloorType", 0.82f, 0.98f, false);
-			/*createText(node, "MP", 0.02f, 0.94f, false);
-			createText(node, "Take", 0.02f, 0.90f, false);
-			createText(node, "Path", 0.02f, 0.86f, false);
-			createText(node, "Target", 0.02f, 0.60f, false);
-			createText(node, "Options", 0.02f, 0.56f, false);*/
+			createText(node, "FloorType", 0.72f, 0.98f, false);
 		}
 		{
 			Node node = addNode(2);
-			createText(node, "W", 0.82f, 0.98f, false);
-			/*createText(node, "MP", 0.02f, 0.94f, false);
-			createText(node, "Take", 0.02f, 0.90f, false);
-			createText(node, "Path", 0.02f, 0.86f, false);
-			createText(node, "Target", 0.02f, 0.60f, false);
-			createText(node, "Options", 0.02f, 0.56f, false);*/
+			createText(node, "Name", 0.72f, 0.98f, false);
+			createText(node, "AirState", 0.72f, 0.94f, false);
+			createText(node, "MountedTo", 0.72f, 0.90f, false);
+			createText(node, "PlayerControlled", 0.87f, 0.98f, false);
+			createText(node, "Team", 0.87f, 0.94f, false);
+			createText(node, "AP", 0.87f, 0.90f, false);
+			createText(node, "MP", 0.87f, 0.86f, false);
+			createText(node, "RequiredFall", 0.87f, 0.82f, false);
+			createText(node, "Health", 0.87f, 0.78f, false);
+			createText(node, "Active", 0.87f, 0.74f, false);
+			createText(node, "Lives", 0.87f, 0.70f, false);
 		}
 	}
 }

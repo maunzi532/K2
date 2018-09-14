@@ -35,8 +35,6 @@ public class Main extends SimpleApplication
 		int scw = Toolkit.getDefaultToolkit().getScreenSize().width / 400;
 		app.setShowSettings(false);
 		AppSettings settings = new AppSettings(true);
-		/*settings.put("Width", scw * 400);
-		settings.put("Height", scw * 225);*/
 		settings.put("Width", scw * 320);
 		settings.put("Height", scw * 180);
 		app.setSettings(settings);
@@ -199,34 +197,32 @@ public class Main extends SimpleApplication
 	}*/
 
 	/*
-	TODO: Level Object Spawner
+	TODO: TurnSchedule fix skipping
+	TODO: Remove Layers which are too high
+	TODO: TurnSummoner
 	TODO: AerialMovementItem
 	TODO: Scatter Objects on the same Hex
-	TODO: Reaction/Interrupt HUD
-	TODO: Remove Layers which are too high
 	TODO: Camera Controls
-	TODO: TurnSchedule change skipping
 	 */
 
 	/*
-	TODO: Save/Load in Map 1
-	> Serialize Relocatable
-	> Deserialize Relocatable
-	> Link Vis to new Relocatable
-	> Create missing Vis
-	Fade unused Vis (Remove or keep?)
-	TODO: Save/Load in Map 2
-	> Serialize TurnSchedule
-	> Deserialize TurnSchedule
+	TODO: Save/Load
+	Fade unused Vis
 	Save/Load via UI
-	TODO: Save/Load full Map
 	Save additional Data for Map
 	Create currently loading map
+
 	TODO: TurnSummoner Save/Load
 	Serialize TurnSummoner
 	Deserialize TurnSummoner
 	Allow TurnSummoner to summon serialized Relocatables
 	Save State to file/Load State from file
 	Read data for TurnSummoner from file
+
+	TODO: HUD improvements
+	Reaction/Interrupt HUD
+	Target Object Info
+	Clickable HUD
+	Choose Path with HUD
 	 */
 }
