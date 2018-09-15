@@ -127,26 +127,15 @@ public interface CostTable
 		return turnCostM() * 2;
 	}
 
-	default int moveCost(HexLocation l0, HexLocation l1)
-	{
-		int diff = HexLocation.xdzDifference(l0, l1);
-		return initMoveM() + moveCostM() * diff;
-	}
-
-	default int moveCostSeeker(int len)
-	{
-		return initMoveM() + moveCostM() * len;
-	}
-
 	default int airdashCost(HexLocation l0, HexLocation l1)
 	{
 		int diff = HexLocation.xdzDifference(l0, l1);
 		return initAirdashM() + airdashMoveM() * diff;
 	}
 
-	default int maxMovement(int movePoints)
+	default int maxMovement(int movePoints, boolean init)
 	{
-		return (movePoints - initMoveM()) / moveCostM();
+		return (movePoints - (init ? initMoveM() : 0)) / moveCostM();
 	}
 
 	default int maxAirdash(int movePoints)
@@ -160,8 +149,5 @@ public interface CostTable
 				0, 4, 6, 1, 0, 0, 1, 1, 1, 0, 1, 2, 2, 4);
 	}*/
 
-	class V1 implements CostTable
-	{
-
-	}
+	class V1 implements CostTable{}
 }

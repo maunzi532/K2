@@ -12,7 +12,7 @@ public interface R_Relocatable
 
 	Relocatable dMount();
 
-	boolean dMDUsed();
+	boolean dMTTUsed();
 
 	boolean dEnd();
 }

@@ -15,11 +15,12 @@ public class TX_AP_Transform implements Therathic, E_AP_MP, CBA
 	private Pather pather;
 	private List<Transformation> transforms;
 	private NPC_Control npc_control;
-	public boolean usedFirstPath;
-	public boolean usedFirstMovement;
 	private int actionPoints;
 	private int movePoints;
+	private boolean usedFirstPath;
+	private boolean usedFirstMovement;
 	private int reqFall;
+	private boolean mountUsed;
 	public List<AppliedModifier> modifiers;
 
 	public TX_AP_Transform(Transformation transform0)
@@ -142,32 +143,23 @@ public class TX_AP_Transform implements Therathic, E_AP_MP, CBA
 	@Override
 	public TakeableAction startAction()
 	{
-		return new InitAction(currentTransform());
-	}
-
-	@Override
-	public void setUsedFirstPath()
-	{
-		usedFirstPath = true;
-	}
-
-	@Override
-	public void setUsedFirstMovement()
-	{
-		usedFirstMovement = true;
+		return new InitAction(currentTransform(), usedFirstPath);
 	}
 
 	@Override
 	public ActionResource actionResource()
 	{
-		return new Resource_AP_MP(actionPoints, movePoints, pather.getDirection(), pather.getAirState(), reqFall,
-				pather.getLoc(), pather.getMountedTo(), pather.getMountedToSlot());
+		return new Resource_AP_MP(actionPoints, movePoints, usedFirstPath ? 1 : 0, usedFirstMovement ? 1 : 0,
+				pather.getDirection(), pather.getAirState(), reqFall,
+				pather.getLoc(), pather.getMountedTo(), pather.getMountedToSlot(), mountUsed);
 	}
 
 	@Override
 	public boolean drawPhase()
 	{
 		usedFirstPath = false;
+		usedFirstMovement = false;
+		mountUsed = false;
 		tickModifiers();
 		currentTransform().drawPhase();
 		CostTable transform0 = currentTransform();
@@ -202,6 +194,24 @@ public class TX_AP_Transform implements Therathic, E_AP_MP, CBA
 	public NPC_Control npcControl()
 	{
 		return npc_control;
+	}
+
+	@Override
+	public void setUsedFirstPath()
+	{
+		usedFirstPath = true;
+	}
+
+	@Override
+	public void setUsedFirstMovement()
+	{
+		usedFirstMovement = true;
+	}
+
+	@Override
+	public void setMountThisTurnUsed()
+	{
+		mountUsed = true;
 	}
 
 	@Override

@@ -23,7 +23,7 @@ public class MountItem1 implements PatherItem
 		Pather pather = pathAction.pather;
 		ITiledMap map = pather.map;
 		MapTile tile = pather.map.getTile(res1.dLocation());
-		if(!res1.dEnd() && !res1.dMDUsed())
+		if(!res1.dEnd() && !res1.dMTTUsed())
 		{
 			if(res1.dAirState() == AirState.MOUNT)
 			{

@@ -8,10 +8,12 @@ import aer.resource2.interfaces.*;
 public class InitAction implements TActionOther, IAPAction, IThAP
 {
 	private final CostTable costs;
+	private final boolean extraCost;
 
-	public InitAction(CostTable costs)
+	public InitAction(CostTable costs, boolean extraCost)
 	{
 		this.costs = costs;
+		this.extraCost = extraCost;
 	}
 
 	@Override
@@ -23,7 +25,13 @@ public class InitAction implements TActionOther, IAPAction, IThAP
 	@Override
 	public int cost()
 	{
-		return costs.init();
+		return extraCost ? costs.init() : 0;
+	}
+
+	@Override
+	public boolean extraCost()
+	{
+		return true;
 	}
 
 	@Override

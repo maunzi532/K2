@@ -11,6 +11,8 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 	private final boolean end;
 	private final int actionPoints;
 	private final int movePoints;
+	private final int requiresExtraAP;
+	private final int requiresExtraMP;
 	private final HexDirection direction;
 	private final AirState airState;
 	private final int requiredFall;
@@ -18,14 +20,17 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 	private final int freelyMovingBlocked;
 	private final Relocatable mountedTo;
 	private final int mountedToSlot;
-	private final boolean hasMD;
+	private final boolean mountedThisTurn;
 	private final boolean error;
 
-	public Resource_AP_MP(int actionPoints, int movePoints, HexDirection direction, AirState airState,
-			int requiredFall, HexLocation location, Relocatable mountedTo, int mountedToSlot)
+	public Resource_AP_MP(int actionPoints, int movePoints, int requiresExtraAP, int requiresExtraMP,
+			HexDirection direction, AirState airState,
+			int requiredFall, HexLocation location, Relocatable mountedTo, int mountedToSlot, boolean mountedThisTurn)
 	{
 		this.actionPoints = actionPoints;
 		this.movePoints = movePoints;
+		this.requiresExtraAP = requiresExtraAP;
+		this.requiresExtraMP = requiresExtraMP;
 		this.direction = direction;
 		this.airState = airState;
 		this.requiredFall = requiredFall;
@@ -33,18 +38,21 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 		freelyMovingBlocked = 0;
 		this.mountedTo = mountedTo;
 		this.mountedToSlot = mountedToSlot;
-		hasMD = false;
+		this.mountedThisTurn = mountedThisTurn;
 		end = false;
 		error = actionPoints < 0 || movePoints < 0;
 	}
 
-	public Resource_AP_MP(boolean end, int actionPoints, int movePoints, HexDirection direction, AirState airState,
+	public Resource_AP_MP(boolean end, int actionPoints, int movePoints, int requiresExtraAP,
+			int requiresExtraMP, HexDirection direction, AirState airState,
 			int requiredFall, HexLocation location, int freelyMovingBlocked,
-			Relocatable mountedTo, int mountedToSlot, boolean hasMD, boolean error)
+			Relocatable mountedTo, int mountedToSlot, boolean mountedThisTurn, boolean error)
 	{
 		this.end = end;
 		this.actionPoints = actionPoints;
 		this.movePoints = movePoints;
+		this.requiresExtraAP = requiresExtraAP;
+		this.requiresExtraMP = requiresExtraMP;
 		this.direction = direction;
 		this.airState = airState;
 		this.requiredFall = requiredFall;
@@ -52,7 +60,7 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 		this.freelyMovingBlocked = freelyMovingBlocked;
 		this.mountedTo = mountedTo;
 		this.mountedToSlot = mountedToSlot;
-		this.hasMD = hasMD;
+		this.mountedThisTurn = mountedThisTurn;
 		this.error = error || actionPoints < 0 || movePoints < 0;
 	}
 
@@ -67,23 +75,31 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 	{
 		boolean end1 = end;
 		int actionPoints1 = actionPoints;
-		HexDirection direction1 = direction;
 		int movePoints1 = movePoints;
+		int extraAP1 = requiresExtraAP;
+		int extraMP1 = requiresExtraMP;
+		HexDirection direction1 = direction;
 		AirState airState1 = airState;
 		int requiredFall1 = requiredFall;
 		HexLocation location1 = location;
 		int freelyMovingBlocked1 = freelyMovingBlocked == 1 ? 2 : freelyMovingBlocked;
 		Relocatable mountedTo1 = mountedTo;
 		int mountedToSlot1 = mountedToSlot;
-		boolean hasMD1 = hasMD;
+		boolean hasMT1 = mountedThisTurn;
 		boolean error1 = error || end;
 		if(action instanceof IMainAction && ((IMainAction) action).end())
 			end1 = true;
 		if(action instanceof IAPAction)
+		{
 			actionPoints1 = actionPoints - ((IAPAction) action).cost();
+			if(((IAPAction) action).extraCost())
+				extraAP1 = -1;
+		}
 		if(action instanceof IDirectionAction)
 		{
 			movePoints1 = movePoints - ((IDirectionAction) action).mCost();
+			if(((IDirectionAction) action).extraCostM())
+				extraMP1 = -1;
 			direction1 = Optional.ofNullable(((IDirectionAction) action).lookDirection()).orElse(direction);
 		}
 		if(action instanceof IAirStateAction)
@@ -108,33 +124,26 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 		}
 		if(action instanceof IMountAction)
 		{
+			if(hasMT1)
+				error1 = true;
 			Relocatable mounting1 = ((IMountAction) action).mounting();
 			int mountingToSlot1 = ((IMountAction) action).mountingToSlot();
-			boolean block = false;
 			if(mounting1 != null)
 			{
 				mountedTo1 = mounting1;
 				mountedToSlot1 = mountingToSlot1;
-				block = true;
+				hasMT1 = true;
 			}
 			if(((IMountAction) action).dismounting())
 			{
 				mountedTo1 = null;
 				mountedToSlot1 = 0;
-				block = true;
-			}
-			if(block)
-			{
-				if(hasMD1)
-					error1 = true;
-				else
-					hasMD1 = true;
 			}
 		}
 		if(mountedTo1 != null && !mountedTo1.getMountSlotInfo(mountedToSlot1).allowRotating && !direction1.equals(mountedTo1.getDirection()))
 			error1 = true;
-		return new Resource_AP_MP(end1, actionPoints1, movePoints1, direction1,
-				airState1, requiredFall1, location1, freelyMovingBlocked1, mountedTo1, mountedToSlot1, hasMD1, error1);
+		return new Resource_AP_MP(end1, actionPoints1, movePoints1, extraAP1, extraMP1, direction1,
+				airState1, requiredFall1, location1, freelyMovingBlocked1, mountedTo1, mountedToSlot1, hasMT1, error1);
 	}
 
 	@Override
@@ -147,6 +156,18 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 	public int dMovementPoints()
 	{
 		return movePoints;
+	}
+
+	@Override
+	public int dRequiresExtraAP()
+	{
+		return requiresExtraAP;
+	}
+
+	@Override
+	public int dRequiresExtraMP()
+	{
+		return requiresExtraMP;
 	}
 
 	@Override
@@ -174,9 +195,9 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 	}
 
 	@Override
-	public boolean dMDUsed()
+	public boolean dMTTUsed()
 	{
-		return hasMD;
+		return mountedThisTurn;
 	}
 
 	@Override
@@ -194,16 +215,20 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 	@Override
 	public String toString()
 	{
-		return "BasicAPResource2{" +
-				"location=" + location +
-				", direction=" + direction +
-				", airState=" + airState +
-				", mountedTo=" + mountedTo +
-				", requiredFall=" + requiredFall +
+		return "Resource_AP_MP{" +
+				"end=" + end +
 				", actionPoints=" + actionPoints +
 				", movePoints=" + movePoints +
-				", hasMD=" + hasMD +
-				", end=" + end +
+				", requiresExtraAP=" + requiresExtraAP +
+				", requiresExtraMP=" + requiresExtraMP +
+				", direction=" + direction +
+				", airState=" + airState +
+				", requiredFall=" + requiredFall +
+				", location=" + location +
+				", freelyMovingBlocked=" + freelyMovingBlocked +
+				", mountedTo=" + mountedTo +
+				", mountedToSlot=" + mountedToSlot +
+				", mountedThisTurn=" + mountedThisTurn +
 				", error=" + error +
 				'}';
 	}

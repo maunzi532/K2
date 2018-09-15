@@ -197,6 +197,7 @@ public class Main extends SimpleApplication
 	}*/
 
 	/*
+	TODO: Fix additional movement costs
 	TODO: TurnSchedule fix skipping
 	TODO: Remove Layers which are too high
 	TODO: TurnSummoner

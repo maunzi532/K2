@@ -189,7 +189,7 @@ public class Equipable extends Transformation
 		return active ? super.startingM() : 0;
 	}
 
-	@Override
+	/*@Override
 	public int init()
 	{
 		return main.usedFirstPath ? 5 : 0;
@@ -199,7 +199,7 @@ public class Equipable extends Transformation
 	public int initMoveM()
 	{
 		return main.usedFirstMovement ? 1 : 0;
-	}
+	}*/
 
 	public boolean reduceHealth(int amount)
 	{

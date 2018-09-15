@@ -42,7 +42,7 @@ public class FloorMovementItem2 implements EndPatherItem
 					freelyMovingA = ((IMovementAction) pathAction.action).freelyMovingN();
 				if(freelyMovingA == null)
 					freelyMovingN = new ArrayList<>();
-				int maxM = costTable.maxMovement(res2.dMovementPoints());
+				int maxM = costTable.maxMovement(res2.dMovementPoints(), res2.dRequiresExtraMP() == 1);
 				for(int ix = -maxM; ix <= maxM; ix++)
 				{
 					int maxD = Math.min(maxM, maxM - ix);
@@ -51,8 +51,8 @@ public class FloorMovementItem2 implements EndPatherItem
 						HexLocation end = new HexLocation(res1.dLocation(), ix, id, 0, 0);
 						if(!res1.dLocation().equals(end))
 						{
-							FloorMovement2 mv = new FloorMovement2(costTable, res1.dDirection(), map,
-									res1.dLocation(), end, freelyMovingA, freelyMovingN);
+							FloorMovement2 mv = new FloorMovement2(costTable, res2.dRequiresExtraMP() == 1,
+									res1.dDirection(), map, res1.dLocation(), end, freelyMovingA, freelyMovingN);
 							if(mv.possible())
 							{
 								list.add(mv);

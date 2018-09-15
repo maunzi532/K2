@@ -5,4 +5,8 @@ public interface R_AP_MP
 	int dActionPoints();
 
 	int dMovementPoints();
+
+	int dRequiresExtraAP();
+
+	int dRequiresExtraMP();
 }

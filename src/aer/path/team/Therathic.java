@@ -27,6 +27,8 @@ public interface Therathic extends Serializable
 
 	void setUsedFirstMovement();
 
+	void setMountThisTurnUsed();
+
 	ActionResource actionResource();
 
 	boolean drawPhase();

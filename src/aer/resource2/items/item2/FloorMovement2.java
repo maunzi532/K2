@@ -12,6 +12,7 @@ import java.util.*;
 public class FloorMovement2 implements TActionLocation, IMovementAction, IAPAction, IThAP
 {
 	private final CostTable costs;
+	private final boolean extraCost;
 	private final ITiledMap map;
 	private final HexLocation start;
 	private final HexLocation end;
@@ -21,10 +22,11 @@ public class FloorMovement2 implements TActionLocation, IMovementAction, IAPActi
 	private final List<HexLocation> fMovingN;
 	private final PathSeeker seeker;
 
-	public FloorMovement2(CostTable costs, HexDirection from, ITiledMap map, HexLocation start, HexLocation end,
-			List<HexLocation> fMovingA, List<HexLocation> fMovingN)
+	public FloorMovement2(CostTable costs, boolean extraCost, HexDirection from, ITiledMap map, HexLocation start,
+			HexLocation end, List<HexLocation> fMovingA, List<HexLocation> fMovingN)
 	{
 		this.costs = costs;
+		this.extraCost = extraCost;
 		this.from = from;
 		this.map = map;
 		this.start = start;
@@ -52,7 +54,13 @@ public class FloorMovement2 implements TActionLocation, IMovementAction, IAPActi
 	@Override
 	public int mCost()
 	{
-		return costs.moveCostSeeker(seeker != null ? seeker.len : 0) + costs.turnCost(from, mvDir);
+		return (extraCost ? costs.initMoveM() : 0) + (seeker != null ? costs.moveCostM() * seeker.len : 0) + costs.turnCost(from, mvDir);
+	}
+
+	@Override
+	public boolean extraCost()
+	{
+		return true;
 	}
 
 	@Override

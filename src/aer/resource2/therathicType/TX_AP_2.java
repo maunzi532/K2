@@ -17,7 +17,10 @@ public class TX_AP_2 implements Therathic, E_AP_MP
 	private NPC_Control npc_control;
 	private int actionPoints;
 	private int movePoints;
+	private boolean usedFirstPath;
+	private boolean usedFirstMovement;
 	private int reqFall;
+	private boolean mountUsed;
 	private List<PatherItem> items;
 
 	public TX_AP_2(CostTable costTable)
@@ -69,24 +72,22 @@ public class TX_AP_2 implements Therathic, E_AP_MP
 	@Override
 	public TakeableAction startAction()
 	{
-		return new InitAction(costTable);
+		return new InitAction(costTable, false);
 	}
-
-	@Override
-	public void setUsedFirstPath(){}
-
-	@Override
-	public void setUsedFirstMovement(){}
 
 	@Override
 	public ActionResource actionResource()
 	{
-		return new Resource_AP_MP(actionPoints, movePoints, pather.getDirection(), pather.getAirState(), reqFall, pather.getLoc(), pather.getMountedTo(), pather.getMountedToSlot());
+		return new Resource_AP_MP(actionPoints, movePoints, 0, 0, pather.getDirection(),
+				pather.getAirState(), reqFall, pather.getLoc(), pather.getMountedTo(), pather.getMountedToSlot(), mountUsed);
 	}
 
 	@Override
 	public boolean drawPhase()
 	{
+		usedFirstPath = false;
+		usedFirstMovement = false;
+		mountUsed = false;
 		actionPoints = costTable.startingAP();
 		movePoints = costTable.startingM();
 		reqFall = costTable.requiredFall();
@@ -115,6 +116,24 @@ public class TX_AP_2 implements Therathic, E_AP_MP
 	public NPC_Control npcControl()
 	{
 		return npc_control;
+	}
+
+	@Override
+	public void setUsedFirstPath()
+	{
+		usedFirstPath = true;
+	}
+
+	@Override
+	public void setUsedFirstMovement()
+	{
+		usedFirstMovement = true;
+	}
+
+	@Override
+	public void setMountThisTurnUsed()
+	{
+		mountUsed = true;
 	}
 
 	@Override

@@ -78,6 +78,7 @@ public class Mount1 implements TActionObject, IMountAction, IAPAction, IMainActi
 	{
 		if(xec2.useAPMP(this, this, E_AP_MP.Use.REAL))
 		{
+			xec1.setMountThisTurnUsed();
 			if(from != null)
 			{
 				xec0.setDirection(mount.getDirection(), null);
