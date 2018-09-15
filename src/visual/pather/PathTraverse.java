@@ -11,8 +11,6 @@ import visual.map.*;
 
 public class PathTraverse
 {
-	private static final HexDirection eins = new HexDirection(1);
-
 	public VisHUD visHUD;
 	public final List<PathAction> possibleActions;
 	public PathAction currentAction;
@@ -139,7 +137,7 @@ public class PathTraverse
 				else if(turn.r == 1)
 					turn = null;
 				else
-					turn = HexDirection.minus(turn, eins);
+					turn = HexDirection.minus(turn, 1);
 				updateChoiceOptions();
 				visualUpdateRequired = true;
 				break;
@@ -151,7 +149,7 @@ public class PathTraverse
 				else if(turn.r == 11)
 					turn = null;
 				else
-					turn = HexDirection.plus(turn, eins);
+					turn = HexDirection.plus(turn, 1);
 				updateChoiceOptions();
 				visualUpdateRequired = true;
 				break;

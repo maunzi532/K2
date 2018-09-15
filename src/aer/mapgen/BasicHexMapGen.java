@@ -1,6 +1,7 @@
 package aer.mapgen;
 
 import aer.*;
+import java.util.*;
 
 public class BasicHexMapGen implements IHexMapGen
 {
@@ -15,6 +16,7 @@ public class BasicHexMapGen implements IHexMapGen
 	@Override
 	public void generate(HexLocation loc)
 	{
+		Random r = new Random();
 		int[] bounds = map.getBounds();
 		for(int iX = bounds[0]; iX < bounds[4]; iX++)
 			for(int iD = bounds[1]; iD < bounds[5]; iD++)
@@ -25,7 +27,7 @@ public class BasicHexMapGen implements IHexMapGen
 						if(iH > 0)
 							map.setTile(new MapTile(map, loc1, MapTileType.AIR));
 						else if(iH == 0)
-							map.setTile(new MapTile(map, loc1, MapTileType.FLOOR));
+							map.setTile(new MapTile(map, loc1, r.nextInt(20) == 0 ? MapTileType.BLOCKED : MapTileType.FLOOR));
 						else
 							map.setTile(new MapTile(map, loc1, MapTileType.BLOCKED));
 					}

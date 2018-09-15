@@ -31,6 +31,16 @@ public class HexDirection implements Serializable
 		return new HexDirection((r1.r + 12 - r2.r) % 12);
 	}
 
+	public static HexDirection plus(HexDirection r1, int r2)
+	{
+		return new HexDirection((r1.r + r2) % 12);
+	}
+
+	public static HexDirection minus(HexDirection r1, int r2)
+	{
+		return new HexDirection((r1.r + 12 - r2) % 12);
+	}
+
 	public static int turnCost(HexDirection from, HexDirection to)
 	{
 		return Math.min((to.r + 12 - from.r) % 12, (from.r + 12 - to.r) % 12);

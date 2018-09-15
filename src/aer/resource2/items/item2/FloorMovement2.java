@@ -19,6 +19,7 @@ public class FloorMovement2 implements TActionLocation, IMovementAction, IAPActi
 	private final HexDirection mvDir;
 	private final List<HexLocation> fMovingA;
 	private final List<HexLocation> fMovingN;
+	private final PathSeeker seeker;
 
 	public FloorMovement2(CostTable costs, HexDirection from, ITiledMap map, HexLocation start, HexLocation end,
 			List<HexLocation> fMovingA, List<HexLocation> fMovingN)
@@ -31,11 +32,15 @@ public class FloorMovement2 implements TActionLocation, IMovementAction, IAPActi
 		mvDir = HexLocation.direction(start, end);
 		this.fMovingA = fMovingA;
 		this.fMovingN = fMovingN;
+		if(fMovingA == null || !fMovingA.contains(end))
+			seeker = new PathSeeker(map, start, end, e -> e.type == MapTileType.FLOOR ? 1 : -1);
+		else
+			seeker = null;
 	}
 
 	public boolean possible()
 	{
-		return (fMovingA == null || !fMovingA.contains(end)) && map.getTile(end).type == MapTileType.FLOOR;
+		return (fMovingA == null || !fMovingA.contains(end)) && seeker.len >= 0;
 	}
 
 	@Override
@@ -47,7 +52,7 @@ public class FloorMovement2 implements TActionLocation, IMovementAction, IAPActi
 	@Override
 	public int mCost()
 	{
-		return costs.moveCost(start, end) + costs.turnCost(from, mvDir);
+		return costs.moveCostSeeker(seeker != null ? seeker.len : 0) + costs.turnCost(from, mvDir);
 	}
 
 	@Override

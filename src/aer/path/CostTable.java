@@ -133,6 +133,11 @@ public interface CostTable
 		return initMoveM() + moveCostM() * diff;
 	}
 
+	default int moveCostSeeker(int len)
+	{
+		return initMoveM() + moveCostM() * len;
+	}
+
 	default int airdashCost(HexLocation l0, HexLocation l1)
 	{
 		int diff = HexLocation.xdzDifference(l0, l1);
