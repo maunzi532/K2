@@ -5,22 +5,13 @@ import aer.commands.*;
 import aer.path.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
-import aer.resource2.resource.*;
 import aer.resource2.therathicType.*;
 import aer.resource3.resource4.*;
 import java.util.*;
 
-public class TX_AP_Transform implements Therathic, E_AP_MP, CBA
+public class TX_AP_Transform extends TX_AP implements CBA
 {
-	private Pather pather;
 	private List<Transformation> transforms;
-	private NPC_Control npc_control;
-	private int actionPoints;
-	private int movePoints;
-	private boolean usedFirstPath;
-	private boolean usedFirstMovement;
-	private int reqFall;
-	private boolean mountUsed;
 	public List<AppliedModifier> modifiers;
 
 	public TX_AP_Transform(Transformation transform0)
@@ -106,14 +97,8 @@ public class TX_AP_Transform implements Therathic, E_AP_MP, CBA
 	@Override
 	public void linkTo(Pather pather)
 	{
-		this.pather = pather;
+		super.linkTo(pather);
 		pather.updateMountSlots(currentTransform().mountSlotInfo(), currentTransform().transformKeepMounted(), new AC());
-	}
-
-	@Override
-	public Pather pather()
-	{
-		return pather;
 	}
 
 	@Override
@@ -147,19 +132,9 @@ public class TX_AP_Transform implements Therathic, E_AP_MP, CBA
 	}
 
 	@Override
-	public ActionResource actionResource()
-	{
-		return new Resource_AP_MP(actionPoints, movePoints, usedFirstPath ? 1 : 0, usedFirstMovement ? 1 : 0,
-				pather.getDirection(), pather.getAirState(), reqFall,
-				pather.getLoc(), pather.getMountedTo(), pather.getMountedToSlot(), mountUsed);
-	}
-
-	@Override
 	public boolean drawPhase()
 	{
-		usedFirstPath = false;
-		usedFirstMovement = false;
-		mountUsed = false;
+		super.drawPhase();
 		tickModifiers();
 		currentTransform().drawPhase();
 		CostTable transform0 = currentTransform();
@@ -175,71 +150,13 @@ public class TX_AP_Transform implements Therathic, E_AP_MP, CBA
 		PathAction ac1 = currentTransform().endPhase();
 		if(ac1 != null)
 			return ac1;
-		return endPath();
-	}
-
-	@Override
-	public int teamSide()
-	{
-		return 0;
+		return super.endPhase();
 	}
 
 	@Override
 	public boolean playerControlled()
 	{
 		return true;
-	}
-
-	@Override
-	public NPC_Control npcControl()
-	{
-		return npc_control;
-	}
-
-	@Override
-	public void setUsedFirstPath()
-	{
-		usedFirstPath = true;
-	}
-
-	@Override
-	public void setUsedFirstMovement()
-	{
-		usedFirstMovement = true;
-	}
-
-	@Override
-	public void setMountThisTurnUsed()
-	{
-		mountUsed = true;
-	}
-
-	@Override
-	public boolean useAP(int amount, Use use)
-	{
-		if(use == Use.DRAIN)
-		{
-			actionPoints = Math.max(actionPoints - amount, 0);
-			return true;
-		}
-		boolean ok = actionPoints >= amount;
-		if(ok && use == Use.REAL)
-			actionPoints -= amount;
-		return ok;
-	}
-
-	@Override
-	public boolean useMP(int amount, Use use)
-	{
-		if(use == Use.DRAIN)
-		{
-			movePoints = Math.max(movePoints - amount, 0);
-			return true;
-		}
-		boolean ok = movePoints >= amount;
-		if(ok && use == Use.REAL)
-			movePoints -= amount;
-		return ok;
 	}
 
 	@Override
@@ -260,5 +177,4 @@ public class TX_AP_Transform implements Therathic, E_AP_MP, CBA
 	{
 		currentTransform().takeAttack(attackedBy, item, attackType, distance, retaliated, dodge, blockWith);
 	}
-
 }

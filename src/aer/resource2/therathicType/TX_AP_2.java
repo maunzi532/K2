@@ -7,20 +7,11 @@ import aer.path.team.*;
 import aer.resource2.items.item1.*;
 import aer.resource2.items.item2.*;
 import aer.resource2.items.item3.*;
-import aer.resource2.resource.*;
 import java.util.*;
 
-public class TX_AP_2 implements Therathic, E_AP_MP
+public class TX_AP_2 extends TX_AP
 {
 	private CostTable costTable;
-	private Pather pather;
-	private NPC_Control npc_control;
-	private int actionPoints;
-	private int movePoints;
-	private boolean usedFirstPath;
-	private boolean usedFirstMovement;
-	private int reqFall;
-	private boolean mountUsed;
 	private List<PatherItem> items;
 
 	public TX_AP_2(CostTable costTable)
@@ -31,18 +22,6 @@ public class TX_AP_2 implements Therathic, E_AP_MP
 		items.add(new MountItem1(costTable));
 		items.add(new FloorMovementItem2(costTable));
 		items.add(new TargetingItem3(costTable));
-	}
-
-	@Override
-	public void linkTo(Pather pather)
-	{
-		this.pather = pather;
-	}
-
-	@Override
-	public Pather pather()
-	{
-		return pather;
 	}
 
 	@Override
@@ -72,22 +51,13 @@ public class TX_AP_2 implements Therathic, E_AP_MP
 	@Override
 	public TakeableAction startAction()
 	{
-		return new InitAction(costTable, false);
-	}
-
-	@Override
-	public ActionResource actionResource()
-	{
-		return new Resource_AP_MP(actionPoints, movePoints, 0, 0, pather.getDirection(),
-				pather.getAirState(), reqFall, pather.getLoc(), pather.getMountedTo(), pather.getMountedToSlot(), mountUsed);
+		return new InitAction(costTable, usedFirstPath);
 	}
 
 	@Override
 	public boolean drawPhase()
 	{
-		usedFirstPath = false;
-		usedFirstMovement = false;
-		mountUsed = false;
+		super.drawPhase();
 		actionPoints = costTable.startingAP();
 		movePoints = costTable.startingM();
 		reqFall = costTable.requiredFall();
@@ -95,72 +65,8 @@ public class TX_AP_2 implements Therathic, E_AP_MP
 	}
 
 	@Override
-	public PathAction endPhase()
-	{
-		return endPath();
-	}
-
-	@Override
-	public int teamSide()
-	{
-		return 0;
-	}
-
-	@Override
 	public boolean playerControlled()
 	{
 		return true;
-	}
-
-	@Override
-	public NPC_Control npcControl()
-	{
-		return npc_control;
-	}
-
-	@Override
-	public void setUsedFirstPath()
-	{
-		usedFirstPath = true;
-	}
-
-	@Override
-	public void setUsedFirstMovement()
-	{
-		usedFirstMovement = true;
-	}
-
-	@Override
-	public void setMountThisTurnUsed()
-	{
-		mountUsed = true;
-	}
-
-	@Override
-	public boolean useAP(int amount, Use use)
-	{
-		if(use == Use.DRAIN)
-		{
-			actionPoints = Math.max(actionPoints - amount, 0);
-			return true;
-		}
-		boolean ok = actionPoints >= amount;
-		if(ok && use == Use.REAL)
-			actionPoints -= amount;
-		return ok;
-	}
-
-	@Override
-	public boolean useMP(int amount, Use use)
-	{
-		if(use == Use.DRAIN)
-		{
-			movePoints = Math.max(movePoints - amount, 0);
-			return true;
-		}
-		boolean ok = movePoints >= amount;
-		if(ok && use == Use.REAL)
-			movePoints -= amount;
-		return ok;
 	}
 }
