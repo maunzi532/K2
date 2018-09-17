@@ -9,6 +9,7 @@ public class InMapSave implements Serializable
 {
 	public final List<Relocatable> relocatables;
 	public final Map<HexLocation, MapTile> updatedTiles;
+	public final int turnCounter;
 	public final int inActionLNum;
 	public final TurnPhase mainPhase;
 
@@ -16,6 +17,7 @@ public class InMapSave implements Serializable
 	{
 		relocatables = turnSchedule.map.allObjects();
 		updatedTiles = turnSchedule.map.updatedTiles();
+		turnCounter = turnSchedule.turnCounter;
 		inActionLNum = turnSchedule.inActionLNum;
 		mainPhase = turnSchedule.mainPhase;
 	}

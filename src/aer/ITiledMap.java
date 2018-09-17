@@ -1,9 +1,9 @@
 package aer;
 
+import aer.commands.*;
 import aer.mapgen.*;
 import aer.save.*;
 import java.util.*;
-import visual.*;
 
 public interface ITiledMap extends ICommandLink
 {

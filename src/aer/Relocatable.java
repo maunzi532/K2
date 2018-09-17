@@ -2,7 +2,6 @@ package aer;
 
 import aer.commands.*;
 import java.io.*;
-import visual.*;
 
 public class Relocatable extends CommandLink implements Serializable
 {

@@ -1,6 +1,7 @@
 package aer.path;
 
 import aer.*;
+import java.io.*;
 
 public interface CostTable
 {
@@ -149,5 +150,5 @@ public interface CostTable
 				0, 4, 6, 1, 0, 0, 1, 1, 1, 0, 1, 2, 2, 4);
 	}*/
 
-	class V1 implements CostTable{}
+	class V1 implements CostTable, Serializable{}
 }

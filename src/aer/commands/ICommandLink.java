@@ -1,6 +1,5 @@
-package visual;
+package aer.commands;
 
-import aer.commands.*;
 import java.util.*;
 
 public interface ICommandLink

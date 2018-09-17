@@ -6,6 +6,7 @@ import aer.path.*;
 import aer.resource2.therathicType.*;
 import aer.resource3.*;
 import aer.resource3.resource4.*;
+import aer.summoner.*;
 import com.jme3.app.*;
 import com.jme3.input.*;
 import com.jme3.input.controls.*;
@@ -89,29 +90,32 @@ public class Main extends SimpleApplication
 		VisFinder visFinder = new VisFinder();
 		attachWithNode(rootNode, "VisFinder", visFinder);
 
+		//Create TurnSummoner
+		TurnSummoner turnSummoner = new TurnSummoner();
+
 		//Create TX_AP_Transform (Equipable) HexPather
 		Pather pather = new Pather(new Identifier("Mage_10"), hexMap, new HexLocation(2, 1, 3, 0),
 				new HexDirection(6), AirState.UP, new TX_AP_Transform(new Equipable(new AttackItem3(), new AttackItem3(), null, null, null)));
-		hexMap.addObject(pather);
-		visFinder.attachAndRegister(pather);
+		turnSummoner.entries.add(new EntryToSummon(0, 0, 0, 0, pather));
 
 		//Create TX_AP_2 HexPather
 		Pather pather1 = new Pather(new Identifier("TX_AP_2_11"), hexMap, new HexLocation(4, 1, 0, 0),
 				new HexDirection(3), AirState.FLOOR, new TX_AP_2(new CostTable.V1()));
-		hexMap.addObject(pather1);
-		visFinder.attachAndRegister(pather1);
+		turnSummoner.entries.add(new EntryToSummon(0, 0, 0, 0, pather1));
 
 		//Create TX_AP_Transform (Equipable) HexPather
 		Pather pather2 = new Pather(new Identifier("Equip_12"), hexMap, new HexLocation(2, 3, 0, 0),
 				new HexDirection(5), AirState.FLOOR, new TX_AP_Transform(new Equipable(new AttackItem3(), null, null, null, null)));
-		hexMap.addObject(pather2);
-		visFinder.attachAndRegister(pather2);
+		turnSummoner.entries.add(new EntryToSummon(0, 1, 0, 0, pather2));
 
 		//Add Path Info HUD
 		VisHUD pathInfoHUD = new PathInfoHUD(guiNode, guiFont, getContext().getSettings());
 
+		//Add VisTurnSummoner for TurnSummoner
+		attachWithNode(rootNode, "VisTurnSummoner", new VisTurnSummoner(turnSummoner, visFinder));
+
 		//Add TurnSchedule
-		TurnSchedule turnSchedule = new TurnSchedule(Collections.singletonList(0), 0, hexMap);
+		TurnSchedule turnSchedule = new TurnSchedule(Collections.singletonList(0), 0, hexMap, turnSummoner);
 
 		//Add Targeting and VisTurnSchedule for TurnSchedule
 		CursorTargeting targeting = new CursorTargeting(hexMap);
@@ -197,13 +201,13 @@ public class Main extends SimpleApplication
 	}*/
 
 	/*
-	TODO: Fix additional movement costs
 	TODO: TurnSchedule fix skipping
+	TODO: Fix Vis doubling
 	TODO: Remove Layers which are too high
-	TODO: TurnSummoner
 	TODO: AerialMovementItem
 	TODO: Scatter Objects on the same Hex
 	TODO: Camera Controls
+	TODO: TurnSummoner other features
 	 */
 
 	/*
@@ -222,7 +226,6 @@ public class Main extends SimpleApplication
 
 	TODO: HUD improvements
 	Reaction/Interrupt HUD
-	Target Object Info
 	Clickable HUD
 	Choose Path with HUD
 	 */

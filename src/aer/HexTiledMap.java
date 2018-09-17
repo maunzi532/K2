@@ -1,11 +1,11 @@
 package aer;
 
+import aer.commands.*;
 import aer.mapgen.*;
 import aer.path.*;
 import aer.save.*;
 import java.util.*;
 import java.util.stream.*;
-import visual.*;
 
 public class HexTiledMap extends CommandLink implements ITiledMap
 {

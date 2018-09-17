@@ -1,6 +1,5 @@
-package visual;
+package aer.commands;
 
-import aer.commands.*;
 import java.util.*;
 
 public abstract class CommandLink implements ICommandLink

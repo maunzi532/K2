@@ -1,14 +1,18 @@
 package aer.path;
 
 import aer.*;
+import aer.commands.*;
 import aer.path.takeable.*;
 import aer.save.*;
+import aer.summoner.*;
 import java.util.*;
 import java.util.stream.*;
-import visual.*;
 
 public class TurnSchedule extends CommandLink
 {
+	public int startingTeamCode;
+	public int turnCounter;
+	public TurnSummoner turnSummoner;
 	public List<Integer> controlledTeams;
 	public int inActionLNum;
 	public ITiledMap map;
@@ -36,14 +40,18 @@ public class TurnSchedule extends CommandLink
 
 	public int playerControl;
 
-	public TurnSchedule(List<Integer> controlledTeams, int startingTeamCode, ITiledMap map)
+	public TurnSchedule(List<Integer> controlledTeams, int startingTeamCode, ITiledMap map, TurnSummoner turnSummoner)
 	{
 		this.controlledTeams = controlledTeams;
+		this.startingTeamCode = startingTeamCode;
+		turnCounter = 0;
 		inActionLNum = controlledTeams.indexOf(startingTeamCode);
 		if(inActionLNum < 0)
 			throw new RuntimeException();
 		this.map = map;
-		setPhase(TurnPhase.DRAW);
+		this.turnSummoner = turnSummoner;
+		turnSummoner.init(this);
+		setPhase(TurnPhase.SUMMON);
 		initFlag = true;
 	}
 
@@ -62,11 +70,26 @@ public class TurnSchedule extends CommandLink
 	{
 		switch(innerPhase)
 		{
+			case SUMMON:
+				if(initFlag)
+				{
+					log(2, "Initiating summon phase, turn " + turnCounter + ", team " + controlledTeams.get(inActionLNum));
+					initFlag = false;
+					return true;
+				}
+				else
+				{
+					turnSummoner.callEntries(turnCounter, controlledTeams.get(inActionLNum), 0);
+					log(0, "Ending summon phase");
+					setPhase(TurnPhase.DRAW);
+					return true;
+				}
 			case DRAW:
 				if(initFlag)
 				{
-					log(2, "Initiating draw phase for team " + controlledTeams.get(inActionLNum));
-					currentTeam = new ArrayList(map.team(controlledTeams.get(inActionLNum)));
+					int currentTeamCode = controlledTeams.get(inActionLNum);
+					log(2, "Initiating draw phase for team " + currentTeamCode);
+					currentTeam = new ArrayList(map.team(currentTeamCode));
 					npcControlled = currentTeam.iterator();
 					initFlag = false;
 					return true;
@@ -143,7 +166,9 @@ public class TurnSchedule extends CommandLink
 					inActionLNum++;
 					if(inActionLNum >= controlledTeams.size())
 						inActionLNum = 0;
-					setPhase(TurnPhase.DRAW);
+					if(controlledTeams.get(inActionLNum) == startingTeamCode)
+						turnCounter++;
+					setPhase(TurnPhase.SUMMON);
 					return false;
 				}
 				else
@@ -307,6 +332,7 @@ public class TurnSchedule extends CommandLink
 	public void restore(InMapSave inMapSave)
 	{
 		map.restore(inMapSave);
+		turnCounter = inMapSave.turnCounter;
 		inActionLNum = inMapSave.inActionLNum;
 		setPhase(inMapSave.mainPhase);
 		currentTeam = new ArrayList(map.team(controlledTeams.get(inActionLNum)));
