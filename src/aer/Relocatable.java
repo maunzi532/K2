@@ -115,11 +115,17 @@ public class Relocatable extends CommandLink implements Serializable
 	public void setMountSlotAt(int slot, Relocatable m)
 	{
 		getMountSlots()[slot] = m;
+		mountSlotUpdateInfo();
 	}
 
 	public MountSlotInfo getMountSlotInfo(int slot)
 	{
 		return mountSlotInfo[slot];
+	}
+
+	public MountSlotInfo[] getMountSlotInfo()
+	{
+		return mountSlotInfo;
 	}
 
 	public void setMountedTo(Identifier newMountedToID, int slot, AC ac)
@@ -172,7 +178,10 @@ public class Relocatable extends CommandLink implements Serializable
 		}
 		mountSlotInfo = newInfo;
 		mountSlots = newSlots;
+		mountSlotUpdateInfo();
 	}
+
+	public void mountSlotUpdateInfo(){}
 
 	@Override
 	public String name()

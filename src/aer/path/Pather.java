@@ -47,6 +47,12 @@ public class Pather extends Relocatable
 	}
 
 	@Override
+	public void mountSlotUpdateInfo()
+	{
+		therathic.mountSlotUpdateInfo();
+	}
+
+	@Override
 	public String name()
 	{
 		return id.toString() + " (Pather)";

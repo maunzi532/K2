@@ -255,7 +255,7 @@ public class PathTraverse
 			System.out.print(sb.toString());
 		}*/
 
-		//TODO Hier Crash
+		//TODO Hier Crash (wenn in reaction chooser)
 		visHUD.updateText(1, "AP", String.valueOf(((Resource_AP_MP) currentAction.deducted).dActionPoints()));
 		visHUD.updateText(1, "MP", String.valueOf(((Resource_AP_MP) currentAction.deducted).dMovementPoints()));
 		visHUD.updateText(1, "Path", steps(currentAction));

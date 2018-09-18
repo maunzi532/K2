@@ -39,6 +39,8 @@ public interface Therathic extends Serializable
 
 	boolean playerControlled();
 
+	default void mountSlotUpdateInfo(){}
+
 	NPC_Control npcControl();
 
 	default List<PathAction> possibleActivePaths()

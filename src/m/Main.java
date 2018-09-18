@@ -100,7 +100,7 @@ public class Main extends SimpleApplication
 
 		//Create TX_AP_2 HexPather
 		Pather pather1 = new Pather(new Identifier("TX_AP_2_11"), hexMap, new HexLocation(4, 1, 0, 0),
-				new HexDirection(3), AirState.FLOOR, new TX_AP_2(new CostTable.V1()));
+				new HexDirection(3), AirState.FLOOR, new TX_CP_2());
 		turnSummoner.entries.add(new EntryToSummon(0, 0, 0, 0, pather1));
 
 		//Create TX_AP_Transform (Equipable) HexPather
