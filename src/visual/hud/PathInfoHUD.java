@@ -15,14 +15,12 @@ public class PathInfoHUD extends VisHUD
 	public void setup()
 	{
 		addNode(0);
-		{
-			Node node = addNode(1);
-			createText(node, "AP", 0.02f, 0.98f, false);
-			createText(node, "MP", 0.02f, 0.94f, false);
-			createText(node, "Take", 0.02f, 0.90f, false);
-			createText(node, "Path", 0.02f, 0.86f, false);
-			createText(node, "Target", 0.02f, 0.60f, false);
-			createText(node, "Options", 0.02f, 0.56f, false);
-		}
+		addNode(1);
+		new FieldWithText(this, 1, "AP", TFieldWithText.W1, 0.02f, 0.025f, 0.20f, 0.97f, 0.99f);
+		new FieldWithText(this, 1, "MP", TFieldWithText.W1, 0.02f, 0.025f, 0.20f, 0.94f, 0.96f);
+		new FieldWithText(this, 1, "Take", TFieldWithText.W1, 0.02f, 0.025f, 0.20f, 0.91f, 0.93f);
+		new FieldWithText(this, 1, "Path", TFieldWithText.W1, 0.02f, 0.025f, 0.20f, 0.76f, 0.90f);
+		new FieldWithText(this, 1, "Target", TFieldWithText.W1, 0.02f, 0.025f, 0.20f, 0.73f, 0.75f);
+		new FieldWithText(this, 1, "Options", TFieldWithText.W1, 0.02f, 0.025f, 0.20f, 0.58f, 0.72f);
 	}
 }

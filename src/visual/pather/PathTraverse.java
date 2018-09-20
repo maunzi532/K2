@@ -255,13 +255,22 @@ public class PathTraverse
 			System.out.print(sb.toString());
 		}*/
 
-		//TODO Hier Crash (wenn in reaction chooser)
-		visHUD.updateText(1, "AP", String.valueOf(((Resource_AP_MP) currentAction.deducted).dActionPoints()));
-		visHUD.updateText(1, "MP", String.valueOf(((Resource_AP_MP) currentAction.deducted).dMovementPoints()));
-		visHUD.updateText(1, "Path", steps(currentAction));
+		if(currentAction != null && currentAction.deducted instanceof Resource_AP_MP)
+		{
+			visHUD.updateText(1, "AP", String.valueOf(((Resource_AP_MP) currentAction.deducted).dActionPoints()));
+			visHUD.updateText(1, "MP", String.valueOf(((Resource_AP_MP) currentAction.deducted).dMovementPoints()));
+			visHUD.updateText(1, "Path", steps(currentAction));
+		}
+		else
+		{
+			visHUD.updateText(1, "AP", "");
+			visHUD.updateText(1, "MP", "");
+			visHUD.updateText(1, "Path", "");
+		}
 		visHUD.updateText(1, "Take", !chCheck() && canEnd() ? "Press enter key to take this Path" : "");
 		visHUD.updateText(1, "Target", object != null ? "Actions targeting object:" :
-				loc != null ? "Actions targeting location:" : turn != null ? "Actions targeting direction:" : "Actions:");
+				loc != null ? "Actions targeting location:" :
+						turn != null ? "Actions targeting direction:" : "Actions:");
 		if(choiceOptions.isEmpty())
 			visHUD.updateText(1, "Options", "None");
 		else

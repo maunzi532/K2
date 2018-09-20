@@ -15,23 +15,19 @@ public class TargetInfoHUD extends VisHUD
 	public void setup()
 	{
 		addNode(0);
-		{
-			Node node = addNode(1);
-			createText(node, "FloorType", 0.72f, 0.98f, false);
-		}
-		{
-			Node node = addNode(2);
-			createText(node, "Name", 0.72f, 0.98f, false);
-			createText(node, "AirState", 0.72f, 0.94f, false);
-			createText(node, "MountedTo", 0.72f, 0.90f, false);
-			createText(node, "PlayerControlled", 0.87f, 0.98f, false);
-			createText(node, "Team", 0.87f, 0.94f, false);
-			createText(node, "AP", 0.87f, 0.90f, false);
-			createText(node, "MP", 0.87f, 0.86f, false);
-			createText(node, "RequiredFall", 0.87f, 0.82f, false);
-			createText(node, "Health", 0.87f, 0.78f, false);
-			createText(node, "Active", 0.87f, 0.74f, false);
-			createText(node, "Lives", 0.87f, 0.70f, false);
-		}
+		addNode(1);
+		new FieldWithText(this, 1, "FloorType", TFieldWithText.W1, 0.72f, 0.725f, 0.86f, 0.97f, 0.99f);
+		addNode(2);
+		new FieldWithText(this, 2, "Name", TFieldWithText.W1, 0.72f, 0.725f, 0.86f, 0.97f, 0.99f);
+		new FieldWithText(this, 2, "AirState", TFieldWithText.W1, 0.72f, 0.725f, 0.86f, 0.93f, 0.95f);
+		new FieldWithText(this, 2, "MountedTo", TFieldWithText.W1, 0.72f, 0.725f, 0.86f, 0.89f, 0.91f);
+		new FieldWithText(this, 2, "PlayerControlled", TFieldWithText.W1, 0.87f, 0.875f, 0.99f, 0.97f, 0.99f);
+		new FieldWithText(this, 2, "Team", TFieldWithText.W1, 0.87f, 0.875f, 0.99f, 0.93f, 0.95f);
+		new FieldWithText(this, 2, "AP", TFieldWithText.W1, 0.87f, 0.875f, 0.99f, 0.89f, 0.91f);
+		new FieldWithText(this, 2, "MP", TFieldWithText.W1, 0.87f, 0.875f, 0.99f, 0.85f, 0.87f);
+		new FieldWithText(this, 2, "RequiredFall", TFieldWithText.W1, 0.87f, 0.875f, 0.99f, 0.81f, 0.83f);
+		new FieldWithText(this, 2, "Health", TFieldWithText.W1, 0.87f, 0.875f, 0.99f, 0.77f, 0.79f);
+		new FieldWithText(this, 2, "Active", TFieldWithText.W1, 0.87f, 0.875f, 0.99f, 0.73f, 0.75f);
+		new FieldWithText(this, 2, "Lives", TFieldWithText.W1, 0.87f, 0.875f, 0.99f, 0.69f, 0.71f);
 	}
 }

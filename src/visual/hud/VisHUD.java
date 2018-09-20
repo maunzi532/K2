@@ -62,6 +62,10 @@ public abstract class VisHUD
 
 	public void updateText(int mode, String name, String newText)
 	{
-		((BitmapText) modes.get(mode).getChild(name)).setText(newText);
+		Spatial target = modes.get(mode).getChild(name);
+		if(target instanceof BitmapText)
+			((BitmapText) target).setText(newText);
+		else if(target instanceof FieldWithText)
+			((FieldWithText) target).text.setText(newText);
 	}
 }

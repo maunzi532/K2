@@ -14,6 +14,7 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 	public VisHUD visHUD;
 	public VisTiledMap visTiledMap;
 	public ReactionChooser reactionChooser;
+	public int skip = 5;
 
 	public VisTurnSchedule(TurnSchedule linked, Targeting targeting, VisHUD visHUD, VisTiledMap visTiledMap)
 	{
@@ -47,9 +48,9 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 				break;
 			default:
 				if(targeting.checkInput() == Input1.ACCEPT)
-					linked.stepForward(5, true);
+					linked.stepForward(skip, true);
 				if(targeting.checkInput() == Input1.CHOOSE)
-					linked.stepForward(5, false);
+					linked.stepForward(skip, false);
 		}
 		targeting.reset();
 	}
@@ -71,9 +72,9 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 				}
 			}
 			else if(targeting.checkInput() == Input1.ACCEPT)
-				linked.stepForward(5, true);
+				linked.stepForward(skip, true);
 			else if(targeting.checkInput() == Input1.CHOOSE)
-				linked.stepForward(5, false);
+				linked.stepForward(skip, false);
 		}
 		else
 		{
@@ -81,7 +82,7 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 			if(pathAction != null)
 			{
 				linked.importPath(pathAction);
-				linked.stepForward(5, true);
+				linked.stepForward(skip, true);
 			}
 			if(pathTraverse.esc || pathAction != null)
 			{
@@ -109,7 +110,7 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 					if(pather.getPossiblePaths() == null)
 						pather.calculateInterrupts(linked.targetData);
 					pathTraverse = new PathTraverse(pather.getPossiblePaths(), pather, false, visHUD);
-					node.getParent().getChild("Map").getControl(VisTiledMap.class).lightThese(pathTraverse);
+					//node.getParent().getChild("Map").getControl(VisTiledMap.class).lightThese(pathTraverse);
 				}
 			}
 			else if(linked.playerControl == 3)
@@ -124,13 +125,13 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 				{
 					reactionChooser = null;
 					linked.importReaction(reaction);
-					linked.stepForward(5, false);
+					linked.stepForward(skip, false);
 				}
 			}
 			else if(targeting.checkInput() == Input1.ACCEPT)
-				linked.stepForward(5, true);
+				linked.stepForward(skip, true);
 			else if(targeting.checkInput() == Input1.CHOOSE)
-				linked.stepForward(5, false);
+				linked.stepForward(skip, false);
 		}
 		else
 		{
@@ -138,7 +139,7 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 			if(pathAction != null)
 			{
 				linked.importInterrupt(pathAction.pather, pathAction.action);
-				linked.stepForward(5, false);
+				linked.stepForward(skip, false);
 			}
 			if(pathTraverse.esc || pathAction != null)
 			{
@@ -153,7 +154,7 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 
 	public void stepToPlayerPhase()
 	{
-		linked.stepForward(5, true);
+		linked.stepForward(skip, true);
 	}
 
 	@Override
