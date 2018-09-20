@@ -267,7 +267,7 @@ public class PathTraverse
 			visHUD.updateText(1, "MP", "");
 			visHUD.updateText(1, "Path", "");
 		}
-		visHUD.updateText(1, "Take", !chCheck() && canEnd() ? "Press enter key to take this Path" : "");
+		visHUD.updateText(1, "Take", !chCheck() && canEnd() ? "Press enter key\nto take this Path" : "");
 		visHUD.updateText(1, "Target", object != null ? "Actions targeting object:" :
 				loc != null ? "Actions targeting location:" :
 						turn != null ? "Actions targeting direction:" : "Actions:");
