@@ -57,68 +57,82 @@ public class TurnSchedule extends CommandLink
 
 	public void log(int level, String message)
 	{
-		System.out.println(message);
+		StringBuilder sb = new StringBuilder();
+		for(int i = -1; i < level; i++)
+		{
+			sb.append(' ');
+		}
+		System.out.println(sb.append(message).toString());
 	}
 
-	public void stepForward(boolean skipToPlayerControl)
+	/*public void stepForward(boolean skipToPlayerControl)
 	{
 		//noinspection StatementWithEmptyBody
-		while(stepForwardNoSkip(skipToPlayerControl) || skipToPlayerControl && playerControl <= 0);
+		//while(stepForwardNoSkip(skipToPlayerControl) || skipToPlayerControl && playerControl <= 0);
+	}*/
+
+	public void stepForward(int argh, boolean endPlayerPhase)
+	{
+		while(true)
+		{
+			if(stepForwardNoSkip(endPlayerPhase) >= argh)
+				return;
+		}
 	}
 
-	private boolean stepForwardNoSkip(boolean endPlayerPhase)
+	private int stepForwardNoSkip(boolean endPlayerPhase)
 	{
 		switch(innerPhase)
 		{
 			case SUMMON:
 				if(initFlag)
 				{
-					log(2, "Initiating summon phase, turn " + turnCounter + ", team " + controlledTeams.get(inActionLNum));
+					log(0, "Initiating summon phase, turn " + turnCounter + ", team " + controlledTeams.get(inActionLNum));
 					initFlag = false;
-					return true;
+					return 1;
 				}
 				else
 				{
 					turnSummoner.callEntries(turnCounter, controlledTeams.get(inActionLNum), 0);
 					log(0, "Ending summon phase");
 					setPhase(TurnPhase.DRAW);
-					return true;
+					return 1;
 				}
 			case DRAW:
 				if(initFlag)
 				{
 					int currentTeamCode = controlledTeams.get(inActionLNum);
-					log(2, "Initiating draw phase for team " + currentTeamCode);
+					log(0, "Initiating draw phase for team " + currentTeamCode);
 					currentTeam = new ArrayList(map.team(currentTeamCode));
 					npcControlled = currentTeam.iterator();
 					initFlag = false;
-					return true;
+					return 0;
 				}
 				if(!npcControlled.hasNext())
 				{
 					log(0, "Ending draw phase");
 					setPhase(TurnPhase.ALLYACTION);
-					return true;
+					return 0;
 				}
 				else
 				{
 					currentControlled = npcControlled.next();
-					log(2, currentControlled.name() + " executes draw phase");
-					return currentControlled.getTherathic().drawPhase();
+					log(1, currentControlled.name() + " executes draw phase");
+					return currentControlled.getTherathic().drawPhase() ? 1 : 4;
 				}
 			case ALLYACTION:
 				if(initFlag)
 				{
-					log(1, "Initiating ally phase");
+					log(0, "Initiating ally phase");
 					npcControlled = currentTeam.stream().filter(e -> !e.getTherathic().playerControlled()).iterator();
 					initFlag = false;
-					return true;
+					return 0;
 				}
 				if(!npcControlled.hasNext())
 				{
 					log(0, "Ending ally phase");
 					setPhase(TurnPhase.PLAYERACTION);
-					return true;
+					return 0;
 				}
 				else
 				{
@@ -128,18 +142,18 @@ public class TurnSchedule extends CommandLink
 					if(path != null)
 						importPath(path);
 					else
-						log(2, currentControlled.name() + " skipped action phase");
-					return path != null;
+						log(1, currentControlled.name() + " skipped action phase");
+					return path != null ? 2 : 1;
 				}
 			case PLAYERACTION:
 				if(initFlag)
 				{
-					log(3, "Ready for player control");
+					log(0, "Ready for player control");
 					playerControlled = currentTeam.stream().filter(e -> e.getTherathic().playerControlled()).collect(Collectors.toList());
 					playerControlled.forEach(Pather::resetPossiblePaths);
 					playerControl = 1;
 					initFlag = false;
-					return false;
+					return 5;
 				}
 				else
 				{
@@ -148,17 +162,17 @@ public class TurnSchedule extends CommandLink
 						log(0, "Ending player phase");
 						playerControl = 0;
 						setPhase(TurnPhase.END);
-						return true;
+						return 0;
 					}
-					return false;
+					return 5;
 				}
 			case END:
 				if(initFlag)
 				{
-					log(1, "Initiating end phase");
+					log(0, "Initiating end phase");
 					npcControlled = currentTeam.iterator();
 					initFlag = false;
-					return true;
+					return 0;
 				}
 				if(!npcControlled.hasNext())
 				{
@@ -169,7 +183,7 @@ public class TurnSchedule extends CommandLink
 					if(controlledTeams.get(inActionLNum) == startingTeamCode)
 						turnCounter++;
 					setPhase(TurnPhase.SUMMON);
-					return false;
+					return 0;
 				}
 				else
 				{
@@ -179,8 +193,8 @@ public class TurnSchedule extends CommandLink
 					if(path != null)
 						importPath(path);
 					else
-						log(0, currentControlled.name() + " skipped end phase");
-					return true;
+						log(1, currentControlled.name() + " skipped end phase");
+					return path != null ? 2 : 1;
 				}
 			case EXEC:
 				initFlag = false;
@@ -189,13 +203,13 @@ public class TurnSchedule extends CommandLink
 				else
 				{
 					currentAction = actions.next();
-					log(3, "Exec action " + currentAction.getClass().getSimpleName());
+					log(2, "Exec action " + currentAction.getClass().getSimpleName());
 					if(currentAction.executeStart(currentControlled))
 						return endActionPath(false);
 					else
 					{
 						setPhase(TurnPhase.TARGET);
-						return true;
+						return 0;
 					}
 				}
 			case TARGET:
@@ -203,14 +217,14 @@ public class TurnSchedule extends CommandLink
 				{
 					targets = currentAction.targets(currentControlled).iterator();
 					initFlag = false;
-					return true;
+					return 0;
 				}
 				if(!targets.hasNext())
 				{
 					if(currentAction.executeEnd(currentControlled))
 						return endActionPath(false);
 					innerPhase = TurnPhase.EXEC;
-					return false;
+					return 2;
 				}
 				else
 				{
@@ -218,7 +232,7 @@ public class TurnSchedule extends CommandLink
 					log(3, "Action " + currentAction.getClass().getSimpleName() + " targeting " + targetData.target.name());
 					if(targetData.reactionOptions() != null)
 						setPhase(TurnPhase.ALLYINTERRUPT);
-					return true;
+					return 0;
 				}
 			case ALLYINTERRUPT:
 				if(initFlag)
@@ -226,12 +240,12 @@ public class TurnSchedule extends CommandLink
 					interrupt = targetData.canInterrupt(map);
 					npcInterrupt = interrupt.stream().filter(e -> !e.getTherathic().playerControlled()).iterator();
 					initFlag = false;
-					return true;
+					return 0;
 				}
 				if(!npcInterrupt.hasNext())
 				{
 					setPhase(TurnPhase.PLAYERINTERRUPT);
-					return true;
+					return 0;
 				}
 				else
 				{
@@ -241,8 +255,8 @@ public class TurnSchedule extends CommandLink
 					if(intA != null)
 						importInterrupt(currentInterrupt, intA);
 					else
-						log(0, currentInterrupt.name() + " skipped interrupt phase");
-					return intA != null;
+						log(4, currentInterrupt.name() + " skipped interrupt phase");
+					return intA != null ? 2 : 1;
 				}
 			case PLAYERINTERRUPT:
 				if(initFlag)
@@ -258,23 +272,23 @@ public class TurnSchedule extends CommandLink
 					else
 						playerControl = 2;
 					initFlag = false;
-					return false;
+					return 5;
 				}
 				else
 				{
 					if(endPlayerPhase)
 					{
-						log(0, "Ending player interrupt phase");
+						log(3, "Ending player interrupt phase");
 						if(playerControl == 3)
 							importReaction(reactions.get(0));
 						else
 							importReaction(targetData.target.getTherathic().npcControl().reaction(targetData));
-						return true;
+						return 0;
 					}
-					return false;
+					return 5;
 				}
 		}
-		return false;
+		throw new RuntimeException();
 	}
 
 	private void setPhase(TurnPhase phase)
@@ -296,19 +310,19 @@ public class TurnSchedule extends CommandLink
 		setPhase(TurnPhase.EXEC);
 	}
 
-	private boolean endActionPath(boolean finished)
+	private int endActionPath(boolean finished)
 	{
 		if(finished)
-			log(2, "Exec finished");
+			log(1, "Exec finished");
 		else
-			log(3, "Exec ended prematurely");
+			log(1, "Exec ended prematurely");
 		innerPhase = mainPhase;
 		if(mainPhase == TurnPhase.PLAYERACTION)
 		{
 			initFlag = true;
-			return true;
+			return 0;
 		}
-		return false;
+		return 2;
 	}
 
 	public void importInterrupt(Pather xec, TakeableAction action1)
@@ -336,7 +350,7 @@ public class TurnSchedule extends CommandLink
 		inActionLNum = inMapSave.inActionLNum;
 		setPhase(inMapSave.mainPhase);
 		currentTeam = new ArrayList(map.team(controlledTeams.get(inActionLNum)));
-		stepForward(true);
+		stepForward(5, true);
 	}
 
 	@Override

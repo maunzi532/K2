@@ -51,16 +51,29 @@ public class MeshLager
 		return material;
 	}
 
+	private static Material material(AssetManager assetManager, String name, boolean alpha)
+	{
+		Material material = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
+		material.setTexture("DiffuseMap", assetManager.loadTexture(new TextureKey(name, false)));
+		if(alpha)
+			material.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
+		return material;
+	}
+
 	private static void floor(AssetManager assetManager)
 	{
 		floorMesh = new YSolidPrism(Scale.X_HEX_RADIUS, Scale.X_HEX_RADIUS * 0.9f, Scale.FLOOR_DOWN, 0f, 6);
-		floorMat = material(assetManager, new ColorRGBA(0f, 1f, 0f, 1f));
+		/*floorMat = material(assetManager, new ColorRGBA(0f, 1f, 0f, 1f));
+		floorMat.setBoolean("UseMaterialColors",false);
+		floorMat.setTexture("DiffuseMap", assetManager.loadTexture(new TextureKey("Textures/Floor.png", false)));*/
+		floorMat = material(assetManager, "Textures/Floor.png", false);
 	}
 
 	private static void blocked(AssetManager assetManager)
 	{
 		blockedMesh = new YSolidPrism(Scale.X_HEX_RADIUS, Scale.FLOOR_DOWN, Scale.CELLAR_UP, 6);
 		blockedMat = material(assetManager, new ColorRGBA(65f / 255f, 40f / 255f, 25f / 255f, 1f));
+		//((BauMesh1) blockedMesh).outputTextureMap(256, 256, 16);
 	}
 
 	private static void location(AssetManager assetManager)

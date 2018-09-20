@@ -20,5 +20,6 @@ public class EntryToSummon extends SummonerEntry implements ICommand
 		map.addObject(toSummon);
 		toSummon.map = map;
 		turnSummoner.addCommand(this);
+		turnSchedule.log(1, toSummon.name() + " summoned");
 	}
 }

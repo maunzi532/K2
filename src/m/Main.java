@@ -201,7 +201,7 @@ public class Main extends SimpleApplication
 	}*/
 
 	/*
-	TODO: TurnSchedule fix skipping
+	TODO: TurnSchedule control skipping
 	TODO: Fix Vis doubling
 	TODO: Remove Layers which are too high
 	TODO: AerialMovementItem

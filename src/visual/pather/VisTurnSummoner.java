@@ -19,9 +19,7 @@ public class VisTurnSummoner extends AbstractVis<TurnSummoner>
 	{
 		if(command instanceof EntryToSummon)
 		{
-			EntryToSummon entry = (EntryToSummon) command;
-			linked.map.addObject(entry.toSummon);
-			visFinder.attachAndRegister(entry.toSummon);
+			visFinder.attachAndRegister(((EntryToSummon) command).toSummon);
 		}
 	}
 }

@@ -47,9 +47,9 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 				break;
 			default:
 				if(targeting.checkInput() == Input1.ACCEPT)
-					linked.stepForward(true);
+					linked.stepForward(5, true);
 				if(targeting.checkInput() == Input1.CHOOSE)
-					linked.stepForward(false);
+					linked.stepForward(5, false);
 		}
 		targeting.reset();
 	}
@@ -71,9 +71,9 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 				}
 			}
 			else if(targeting.checkInput() == Input1.ACCEPT)
-				linked.stepForward(true);
+				linked.stepForward(5, true);
 			else if(targeting.checkInput() == Input1.CHOOSE)
-				linked.stepForward(false);
+				linked.stepForward(5, false);
 		}
 		else
 		{
@@ -81,7 +81,7 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 			if(pathAction != null)
 			{
 				linked.importPath(pathAction);
-				linked.stepForward(true);
+				linked.stepForward(5, true);
 			}
 			if(pathTraverse.esc || pathAction != null)
 			{
@@ -124,13 +124,13 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 				{
 					reactionChooser = null;
 					linked.importReaction(reaction);
-					linked.stepForward(false);
+					linked.stepForward(5, false);
 				}
 			}
 			else if(targeting.checkInput() == Input1.ACCEPT)
-				linked.stepForward(true);
+				linked.stepForward(5, true);
 			else if(targeting.checkInput() == Input1.CHOOSE)
-				linked.stepForward(false);
+				linked.stepForward(5, false);
 		}
 		else
 		{
@@ -138,7 +138,7 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 			if(pathAction != null)
 			{
 				linked.importInterrupt(pathAction.pather, pathAction.action);
-				linked.stepForward(false);
+				linked.stepForward(5, false);
 			}
 			if(pathTraverse.esc || pathAction != null)
 			{
@@ -153,7 +153,7 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 
 	public void stepToPlayerPhase()
 	{
-		linked.stepForward(true);
+		linked.stepForward(5, true);
 	}
 
 	@Override
