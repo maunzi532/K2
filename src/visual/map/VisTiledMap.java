@@ -7,6 +7,7 @@ import aer.resource2.resource.*;
 import com.jme3.math.*;
 import com.jme3.renderer.queue.*;
 import com.jme3.scene.*;
+import java.util.*;
 import visual.*;
 import visual.mesh.*;
 import visual.pather.*;
@@ -19,6 +20,8 @@ public class VisTiledMap extends AbstractVis<ITiledMap>
 	private Node lightObjects;
 	private Node locationTargeters;
 	private Node currentLocationTarget;
+	private Node[] rLayers;
+	private MapLayer[][] layers;
 	private CameraHeightState cameraHeight;
 
 	public VisTiledMap(ITiledMap linked, int rLayer, CameraHeightState cameraHeight)
@@ -38,45 +41,30 @@ public class VisTiledMap extends AbstractVis<ITiledMap>
 		node.attachChild(lightDirections);
 		lightObjects = new Node("lightObjects");
 		node.attachChild(lightObjects);
-		int[] bounds = linked.getBounds();
-		if(rLayer >= bounds[3] && rLayer < bounds[7])
-			for(int ix = bounds[0]; ix < bounds[4]; ix++)
-				for(int id = bounds[1]; id < bounds[5]; id++)
-					for(int ih = bounds[2]; ih < bounds[6]; ih++)
-					{
-						HexLocation loc = new HexLocation(ix, id, ih, rLayer);
-						MapTile mapTile = linked.getTile(loc);
-						Node node1 = new Node();
-						switch(mapTile.type)
-						{
-							case FLOOR:
-							{
-								Geometry geom = new Geometry(loc.toString(), MeshLager.floorMesh);
-								geom.setMaterial(MeshLager.floorMat);
-								node1.attachChild(geom);
-								break;
-							}
-							case BLOCKED:
-							{
-								Geometry geom = new Geometry(loc.toString(), MeshLager.blockedMesh);
-								geom.setMaterial(MeshLager.blockedMat);
-								node1.attachChild(geom);
-								break;
-							}
-						}
-						if(node1.getQuantity() > 0)
-						{
-							node1.setUserData("X", ix);
-							node1.setUserData("D", id);
-							node1.setUserData("H", ih);
-							node1.setUserData("R", rLayer);
-							node1.setUserData("Tile", true);
-							node1.setLocalTranslation(conv(new HexLocation(ix, id, ih, rLayer)));
-							node.attachChild(node1);
-						}
-					}
+		createLayers();
 		createLocationTargeters();
 		createCurrentLocationTargeter();
+	}
+
+	public void createLayers()
+	{
+		int[] bounds = linked.getBounds();
+		rLayers = new Node[bounds[7] - bounds[3]];
+		layers = new MapLayer[bounds[7] - bounds[3]][bounds[6] - bounds[2]];
+		for(int ir = bounds[3]; ir < bounds[7]; ir++)
+		{
+			Node nodeR = new Node(String.valueOf(ir));
+			rLayers[ir - bounds[3]] = nodeR;
+			node.attachChild(nodeR);
+			for(int ih = bounds[2]; ih < bounds[6]; ih++)
+			{
+				MapLayer layer = new MapLayer(linked, ir, ih, bounds[0], bounds[4], bounds[1], bounds[5]);
+				layer.create();
+				layer.update(cameraHeight.heightLevel);
+				layers[ir - bounds[3]][ih - bounds[2]] = layer;
+				nodeR.attachChild(layer);
+			}
+		}
 	}
 
 	public void createLocationTargeters()
@@ -234,6 +222,8 @@ public class VisTiledMap extends AbstractVis<ITiledMap>
 		{
 			locationTargeters.setUserData("H", cameraHeight.heightLevel);
 			locationTargeters.setLocalTranslation(conv(new HexLocation(0, 0, cameraHeight.heightLevel, 0)));
+			int[] bounds = linked.getBounds();
+			Arrays.stream(layers[rLayer - bounds[3]]).forEach(e -> e.update(cameraHeight.heightLevel));
 		}
 	}
 

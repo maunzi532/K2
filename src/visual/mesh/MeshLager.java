@@ -11,6 +11,7 @@ public class MeshLager
 	public static Mesh floorMesh;
 	public static Material floorMat;
 	public static Mesh blockedMesh;
+	public static Mesh blockedMeshV;
 	public static Material blockedMat;
 	public static Mesh locationMesh;
 	public static Material locationMat;
@@ -72,6 +73,7 @@ public class MeshLager
 	private static void blocked(AssetManager assetManager)
 	{
 		blockedMesh = new YSolidPrism(Scale.X_HEX_RADIUS, Scale.FLOOR_DOWN, Scale.CELLAR_UP, 6);
+		blockedMeshV = new YSolidPrism(Scale.X_HEX_RADIUS, Scale.FLOOR_DOWN, Scale.CELLAR_UP * 0.2f, 6);
 		blockedMat = material(assetManager, new ColorRGBA(65f / 255f, 40f / 255f, 25f / 255f, 1f));
 		//((BauMesh1) blockedMesh).outputTextureMap(256, 256, 16);
 	}
