@@ -9,9 +9,9 @@ public class Pather extends Relocatable
 	private Therathic therathic;
 	private List<PathAction> possiblePaths;
 
-	public Pather(Identifier id, ITiledMap map, HexLocation loc, HexDirection direction, AirState airState, Therathic therathic)
+	public Pather(Identifier id, HexLocation loc, HexDirection direction, AirState airState, Therathic therathic)
 	{
-		super(id, map, loc, direction, airState, therathic.mountSlotInfo());
+		super(id, loc, direction, airState, therathic.mountSlotInfo());
 		this.therathic = therathic;
 		therathic.linkTo(this);
 	}

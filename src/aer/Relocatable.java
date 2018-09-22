@@ -16,10 +16,9 @@ public class Relocatable extends CommandLink implements Serializable
 	private transient Relocatable[] mountSlots;
 	private MountSlotInfo[] mountSlotInfo;
 
-	public Relocatable(Identifier id, ITiledMap map, HexLocation loc, HexDirection direction, AirState airState, MountSlotInfo... mountSlotInfo)
+	public Relocatable(Identifier id, HexLocation loc, HexDirection direction, AirState airState, MountSlotInfo... mountSlotInfo)
 	{
 		this.id = id;
-		this.map = map;
 		this.rLoc = loc;
 		this.rDirection = direction;
 		this.airState = airState;
@@ -102,7 +101,14 @@ public class Relocatable extends CommandLink implements Serializable
 	{
 		if(mountSlots == null)
 		{
-			mountSlots = map.determineMountSlots(id, mountSlotInfo);
+			if(map != null)
+			{
+				mountSlots = map.determineMountSlots(id, mountSlotInfo);
+			}
+			else
+			{
+				mountSlots = new Relocatable[mountSlotInfo.length];
+			}
 		}
 		return mountSlots;
 	}

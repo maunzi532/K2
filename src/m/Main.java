@@ -8,6 +8,7 @@ import aer.resource3.*;
 import aer.resource3.resource4.*;
 import aer.summoner.*;
 import com.jme3.app.*;
+import com.jme3.app.state.*;
 import com.jme3.input.*;
 import com.jme3.input.controls.*;
 import com.jme3.light.*;
@@ -72,60 +73,62 @@ public class Main extends SimpleApplication
 		rootNode.addLight(al);
 
 
-		//Generate Map
+		//Create Map
 		ITiledMap hexMap = new HexTiledMap("T1", -10, -2, -2, 0, 11, 10, 5, 1);
 		hexMap.setGenerator(new BasicHexMapGen());
-
-		//Create Meshes and Materials
-		MeshLager.init(assetManager);
-
-		CameraHeightState cameraHeightState = new CameraHeightState();
-		stateManager.attach(cameraHeightState);
-		cameraHeightState.setEnabled(true);
-
-		//Create VisTiledMap for HexMap
-		attachWithNode(rootNode, "Map", new VisTiledMap(hexMap, 0, cameraHeightState));
-
-		//Create VisFinder for storing VisRelocatable
-		VisFinder visFinder = new VisFinder();
-		attachWithNode(rootNode, "VisFinder", visFinder);
 
 		//Create TurnSummoner
 		TurnSummoner turnSummoner = new TurnSummoner();
 
-		//Create TX_AP_Transform (Equipable) HexPather
-		Pather pather = new Pather(new Identifier("Mage_10"), hexMap, new HexLocation(2, 1, 3, 0),
+		//Create TurnSchedule
+		TurnSchedule turnSchedule = new TurnSchedule(Collections.singletonList(0), 0, hexMap, turnSummoner);
+
+
+		//TX_AP_Transform (Equipable) HexPather
+		Pather pather = new Pather(new Identifier("Mage_10"), new HexLocation(2, 1, 3, 0),
 				new HexDirection(6), AirState.UP, new TX_AP_Transform(new Equipable(new AttackItem3(), new AttackItem3(), null, null, null)));
 		turnSummoner.entries.add(new EntryToSummon(0, 0, 0, 0, pather));
 
-		//Create TX_AP_2 HexPather
-		Pather pather1 = new Pather(new Identifier("TX_AP_2_11"), hexMap, new HexLocation(4, 1, 0, 0),
+		//TX_AP_2 HexPather
+		Pather pather1 = new Pather(new Identifier("TX_AP_2_11"), new HexLocation(4, 1, 0, 0),
 				new HexDirection(3), AirState.FLOOR, new TX_CP_2());
 		turnSummoner.entries.add(new EntryToSummon(0, 0, 0, 0, pather1));
 
-		//Create TX_AP_Transform (Equipable) HexPather
-		Pather pather2 = new Pather(new Identifier("Equip_12"), hexMap, new HexLocation(2, 3, 0, 0),
+		//TX_AP_Transform (Equipable) HexPather
+		Pather pather2 = new Pather(new Identifier("Equip_12"), new HexLocation(2, 3, 0, 0),
 				new HexDirection(5), AirState.FLOOR, new TX_AP_Transform(new Equipable(new AttackItem3(), null, null, null, null)));
 		turnSummoner.entries.add(new EntryToSummon(0, 1, 0, 0, pather2));
 
-		//Add Path Info HUD
-		VisHUD pathInfoHUD = new PathInfoHUD(guiNode, guiFont, getContext().getSettings());
 
-		//Add VisTurnSummoner for TurnSummoner
+		//Create Meshes and Materials
+		MeshLager.init(assetManager);
+
+		//Add CameraHeightState
+		CameraHeightState cameraHeightState = attach(stateManager, new CameraHeightState());
+
+		//Create VisTiledMap for HexMap
+		VisTiledMap visTiledMap = attachWithNode(rootNode, "Map", new VisTiledMap(hexMap, 0, cameraHeightState));
+
+		//Create VisFinder for storing VisRelocatable
+		VisFinder visFinder = attachWithNode(rootNode, "VisFinder", new VisFinder());
+
+		//Create VisTurnSummoner for TurnSummoner
 		attachWithNode(rootNode, "VisTurnSummoner", new VisTurnSummoner(turnSummoner, visFinder));
 
-		//Add TurnSchedule
-		TurnSchedule turnSchedule = new TurnSchedule(Collections.singletonList(0), 0, hexMap, turnSummoner);
+		//Add Targeting
+		CursorTargeting targeting = attach(stateManager, new CursorTargeting(hexMap));
 
-		//Add Targeting and VisTurnSchedule for TurnSchedule
-		CursorTargeting targeting = new CursorTargeting(hexMap);
-		stateManager.attach(targeting);
+		//Add TargetInfoState
+		attach(stateManager, new TargetInfoState(guiNode, guiFont, getContext().getSettings(), targeting, hexMap));
 
-		stateManager.attach(new TargetInfoState(guiNode, guiFont, getContext().getSettings(), targeting, hexMap));
+		//Create Path Info HUD
+		VisHUD pathInfoHUD = new PathInfoHUD(guiNode, guiFont, getContext().getSettings());
 
-		attachWithNode(rootNode, "VTS", new VisTurnSchedule(turnSchedule, targeting, pathInfoHUD,
-				rootNode.getChild("Map").getControl(VisTiledMap.class)));
-		rootNode.getChild("VTS").getControl(VisTurnSchedule.class).stepToPlayerPhase();
+		//Create VisTurnSchedule for TurnSchedule
+		VisTurnSchedule visTurnSchedule = attachWithNode(rootNode, "VTS", new VisTurnSchedule(turnSchedule, targeting, pathInfoHUD, visTiledMap));
+
+		//Skip to the first player phase
+		visTurnSchedule.stepToPlayerPhase();
 
 		//Test serialization
 		/*InMapSave inMapSave = new InMapSave(turnSchedule);
@@ -136,12 +139,18 @@ public class Main extends SimpleApplication
 		visFinder.reattach(hexMap);*/
 	}
 
-	public static Node attachWithNode(Node attach, String name, Control control)
+	public static <T extends Control> T attachWithNode(Node attach, String name, T control)
 	{
 		Node node = new Node(name);
 		attach.attachChild(node);
 		node.addControl(control);
-		return node;
+		return control;
+	}
+
+	public static <T extends AppState> T attach(AppStateManager stateManager, T appState)
+	{
+		stateManager.attach(appState);
+		return appState;
 	}
 
 	private static byte[] serialize(Serializable m)
@@ -225,7 +234,6 @@ public class Main extends SimpleApplication
 	Read data for TurnSummoner from file
 
 	TODO: HUD improvements
-	Reaction/Interrupt HUD
 	Clickable HUD
 	Choose Path with HUD
 	 */
