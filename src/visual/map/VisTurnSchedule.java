@@ -13,7 +13,7 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 	public PathTraverse pathTraverse;
 	public VisHUD visHUD;
 	public VisTiledMap visTiledMap;
-	public ReactionChooser reactionChooser;
+	public ReactionTraverse reactionTraverse;
 	public int skip = 5;
 
 	public VisTurnSchedule(TurnSchedule linked, Targeting targeting, VisHUD visHUD, VisTiledMap visTiledMap)
@@ -99,56 +99,33 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 
 	private void traverse2()
 	{
-		if(pathTraverse == null)
+		if(reactionTraverse == null)
 		{
-			if(targeting.checkInput() == Input1.TARGET)
-			{
-				Relocatable object = targeting.targetObject();
-				if(object != null && object instanceof Pather)
-				{
-					Pather pather = (Pather) object;
-					if(pather.getPossiblePaths() == null)
-						pather.calculateInterrupts(linked.targetData);
-					pathTraverse = new PathTraverse(pather.getPossiblePaths(), pather, false, visHUD);
-					//node.getParent().getChild("Map").getControl(VisTiledMap.class).lightThese(pathTraverse);
-				}
-			}
-			else if(linked.playerControl == 3)
-			{
-				if(reactionChooser == null)
-				{
-					reactionChooser = new ReactionChooser(linked.reactions);
-					reactionChooser.showChoiceOptions();
-				}
-				Reaction reaction = reactionChooser.exec(targeting.checkInput());
-				if(reaction != null)
-				{
-					reactionChooser = null;
-					linked.importReaction(reaction);
-					linked.stepForward(skip, false);
-				}
-			}
-			else if(targeting.checkInput() == Input1.ACCEPT)
-				linked.stepForward(skip, true);
-			else if(targeting.checkInput() == Input1.CHOOSE)
-				linked.stepForward(skip, false);
+			reactionTraverse = new ReactionTraverse(linked.targetData, linked.playerInterrupt,
+					linked.playerControl == 3, targeting, visHUD);
+			if(reactionTraverse.visualUpdateRequired)
+				visTiledMap.lightThese(reactionTraverse);
 		}
-		else
+		reactionTraverse.exec();
+		if(reactionTraverse.chosen0 != null)
 		{
-			PathAction pathAction = pathTraverse.exec(targeting.checkInput(), targeting.targetTile(), targeting.targetObject(), true);
-			if(pathAction != null)
-			{
-				linked.importInterrupt(pathAction.pather, pathAction.action);
-				linked.stepForward(skip, false);
-			}
-			if(pathTraverse.esc || pathAction != null)
-			{
-				visHUD.changeMode(0);
-				pathTraverse = null;
-				if(reactionChooser == null)
-					reactionChooser = new ReactionChooser(linked.reactions);
-				reactionChooser.showChoiceOptions();
-			}
+			linked.importReaction(reactionTraverse.chosen0);
+			reactionTraverse = null;
+
+		}
+		else if(reactionTraverse.chosen1 != null)
+		{
+			linked.importInterrupt(reactionTraverse.interrupter, reactionTraverse.chosen1);
+			reactionTraverse = null;
+		}
+		else if(reactionTraverse.skip0)
+		{
+			reactionTraverse = null;
+		}
+		if(reactionTraverse == null)
+		{
+			visTiledMap.endLighting();
+			linked.stepForward(skip, true);
 		}
 	}
 

@@ -65,12 +65,6 @@ public class TurnSchedule extends CommandLink
 		System.out.println(sb.append(message).toString());
 	}
 
-	/*public void stepForward(boolean skipToPlayerControl)
-	{
-		//noinspection StatementWithEmptyBody
-		//while(stepForwardNoSkip(skipToPlayerControl) || skipToPlayerControl && playerControl <= 0);
-	}*/
-
 	public void stepForward(int argh, boolean endPlayerPhase)
 	{
 		while(true)
@@ -263,14 +257,23 @@ public class TurnSchedule extends CommandLink
 				{
 					log(3, "Ready for player interrupts");
 					playerInterrupt = interrupt.stream().filter(e -> e.getTherathic().playerControlled()).collect(Collectors.toList());
-					playerInterrupt.forEach(Pather::resetPossiblePaths);
+					playerInterrupt.forEach(e -> e.calculateInterrupts(targetData));
 					if(targetData.target.getTherathic().playerControlled())
 					{
 						playerControl = 3;
 						reactions = targetData.reactionOptions();
 					}
 					else
-						playerControl = 2;
+					{
+						if(playerInterrupt.isEmpty())
+						{
+							log(4, "Player interrupt phase skipped");
+							importReaction(targetData.target.getTherathic().npcControl().reaction(targetData));
+							return 0;
+						}
+						else
+							playerControl = 2;
+					}
 					initFlag = false;
 					return 5;
 				}

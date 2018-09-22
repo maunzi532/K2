@@ -2,6 +2,7 @@ package visual.map;
 
 import aer.*;
 import aer.commands.*;
+import aer.path.*;
 import aer.resource2.resource.*;
 import com.jme3.math.*;
 import com.jme3.renderer.queue.*;
@@ -178,6 +179,44 @@ public class VisTiledMap extends AbstractVis<ITiledMap>
 			geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
 			node1.attachChild(geom1);
 			node1.setLocalTranslation(conv(currentState.dLocation()));
+			lightObjects.attachChild(node1);
+		}
+	}
+
+	public void lightThese(ReactionTraverse reactionTraverse)
+	{
+		lightLocations.detachAllChildren();
+		lightDirections.detachAllChildren();
+		lightObjects.detachAllChildren();
+		for(Pather obj : reactionTraverse.reallyCanInterrupt)
+		{
+			Node node1 = new Node();
+			Geometry geom1 = new Geometry(obj.name(), MeshLager.possibleActionMeshObj);
+			if(obj.equals(reactionTraverse.interrupter))
+				geom1.setMaterial(MeshLager.activeObjMat);
+			else
+				geom1.setMaterial(MeshLager.possibleActionMatObj);
+			geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
+			node1.attachChild(geom1);
+			node1.setLocalTranslation(conv(obj.getLoc()));
+			lightObjects.attachChild(node1);
+		}
+		{
+			Node node1 = new Node();
+			Geometry geom1 = new Geometry("Target", MeshLager.possibleActionMeshObj);
+			geom1.setMaterial(MeshLager.activeOtherMat);
+			geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
+			node1.attachChild(geom1);
+			node1.setLocalTranslation(conv(reactionTraverse.targetData.target.getLoc()));
+			lightObjects.attachChild(node1);
+		}
+		{
+			Node node1 = new Node();
+			Geometry geom1 = new Geometry("Caster", MeshLager.possibleActionMeshObj);
+			geom1.setMaterial(MeshLager.activeOtherMat);
+			geom1.setQueueBucket(RenderQueue.Bucket.Transparent);
+			node1.attachChild(geom1);
+			node1.setLocalTranslation(conv(reactionTraverse.targetData.caster.getLoc()));
 			lightObjects.attachChild(node1);
 		}
 	}
