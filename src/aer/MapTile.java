@@ -23,6 +23,22 @@ public class MapTile
 		outofbounds = false;
 	}
 
+	public int exitingCost(PDirection to, MovementTileType mType)
+	{
+		if(type == MapTileType.FLOOR && to.h == -1)
+			return -1;
+		return 0;
+	}
+
+	public int enteringCost(PDirection from, MovementTileType mType)
+	{
+		if(type == MapTileType.BLOCKED)
+			return -1;
+		if(type == MapTileType.FLOOR && from.h == 1)
+			return -1;
+		return 1;
+	}
+
 	@Override
 	public boolean equals(Object o)
 	{

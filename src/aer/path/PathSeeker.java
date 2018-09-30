@@ -11,6 +11,12 @@ public class PathSeeker
 
 	public PathSeeker(ITiledMap map, HexLocation start, HexLocation end, Function<MapTile, Integer> function)
 	{
+		if(start.r != end.r || start.h != end.h)
+		{
+			directions = null;
+			len = 0;
+			return;
+		}
 		HexDirection direction = HexLocation.direction(start, end);
 		if(direction == null)
 		{

@@ -210,17 +210,16 @@ public class Main extends SimpleApplication
 	}*/
 
 	/*
-	TODO: TurnSchedule control skipping
-	TODO: Fix Vis doubling
-	TODO: Remove Layers which are too high
 	TODO: AerialMovementItem
 	TODO: Scatter Objects on the same Hex
+	TODO: TurnSchedule control skipping
 	TODO: Camera Controls
 	TODO: TurnSummoner other features
 	 */
 
 	/*
 	TODO: Save/Load
+	Remove unused Vis
 	Fade unused Vis
 	Save/Load via UI
 	Save additional Data for Map
@@ -236,5 +235,10 @@ public class Main extends SimpleApplication
 	TODO: HUD improvements
 	Clickable HUD
 	Choose Path with HUD
+
+	TODO: Use PathSeeker
+	PathSeeker with height
+	PathSeeker for attacks
+	Special PathSeeker for airdashes
 	 */
 }
