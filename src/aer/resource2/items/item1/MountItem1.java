@@ -38,6 +38,8 @@ public class MountItem1 implements PatherItem
 				//Mount
 				for(Relocatable m1 : map.objectsAt(res1.dLocation()))
 				{
+					if(m1 instanceof Pather && ((Pather) m1).getTherathic().teamSide() != pather.getTherathic().teamSide())
+						continue;
 					for(int i = 0; i < m1.getMountSlotCount(); i++)
 					{
 						MountSlotInfo mountSlotInfo = m1.getMountSlotInfo(i);

@@ -27,7 +27,7 @@ public class MeshLager
 	public static Material directionArrowMat;
 	public static Material activeArrowMat;
 	public static Mesh objectMesh;
-	public static Material objectMat;
+	public static Material[] objectMat;
 	public static Material pathLocMat;
 
 	public static void init(AssetManager assetManager)
@@ -115,7 +115,10 @@ public class MeshLager
 	private static void object(AssetManager assetManager)
 	{
 		objectMesh = new YSolidPrismX(Scale.X_HEX_RADIUS * 0.5f, 0f, Scale.CELLAR_HEIGHT / 4f, 3);
-		objectMat = material(assetManager, new ColorRGBA(1f, 0f, 0f, 1f));
+		objectMat = new Material[3];
+		objectMat[0] = material(assetManager, new ColorRGBA(0.6f, 0.6f, 0.6f, 1f));
+		objectMat[1] = material(assetManager, new ColorRGBA(0.8f, 0f, 0f, 1f));
+		objectMat[2] = material(assetManager, new ColorRGBA(0f, 0.3f, 0.6f, 1f));
 		pathLocMat = material(assetManager, new ColorRGBA(1f, 0.4f, 0f, 0.7f));
 	}
 }

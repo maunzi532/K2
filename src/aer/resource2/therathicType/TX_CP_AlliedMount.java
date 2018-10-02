@@ -11,8 +11,9 @@ public class TX_CP_AlliedMount extends TX_CP
 	public List<Identifier> whitelist;
 	private transient List<Pather> steering;
 
-	public TX_CP_AlliedMount(Identifier... whitelist)
+	public TX_CP_AlliedMount(int teamSide, Identifier... whitelist)
 	{
+		super(teamSide);
 		npc_control = new UselessNPC();
 		endItem = new FloorMovementItem2(this);
 		items.add(endItem);

@@ -38,7 +38,7 @@ public class FallingItem implements EndPatherItem
 				list.add(new Landing2(costTable, false));
 			if(r0.dAirState().fall == 0 || (currentTile.exitingCost(PDirection.h(r0.dAirState().fall), MovementTileType.FALL) >= 0
 					&& endTile.enteringCost(PDirection.h(r0.dAirState().fall), MovementTileType.FALL) >= 0))
-				list.add(new Fall2(costTable, false, map, r0.dLocation(), r0.dAirState()));
+				list.add(new Fall2(costTable, false, map, r0.dLocation(), r0.dAirState())); //TODO check for fallData
 		}
 		return list;
 	}

@@ -9,6 +9,11 @@ public abstract class TX_CP extends TX_AP implements CostTable
 	protected List<PatherItem> items = new ArrayList<>();
 	protected EndPatherItem endItem;
 
+	public TX_CP(int teamSide)
+	{
+		super(teamSide);
+	}
+
 	@Override
 	public List<PatherItem> activeItems()
 	{

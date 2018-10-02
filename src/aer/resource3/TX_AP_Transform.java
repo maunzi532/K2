@@ -14,8 +14,9 @@ public class TX_AP_Transform extends TX_AP implements CBA
 	private List<Transformation> transforms;
 	public List<AppliedModifier> modifiers;
 
-	public TX_AP_Transform(Transformation transform0)
+	public TX_AP_Transform(Transformation transform0, int teamSide)
 	{
+		super(teamSide);
 		transforms = new ArrayList<>();
 		modifiers = new ArrayList<>();
 		transformInto(transform0);

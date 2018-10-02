@@ -2,6 +2,7 @@ package visual.pather;
 
 import aer.*;
 import aer.commands.*;
+import aer.path.*;
 import com.jme3.scene.*;
 import visual.*;
 import visual.map.*;
@@ -27,13 +28,20 @@ public class VisRelocatable extends AbstractVis<Relocatable>
 		node1.setUserData("ID", id.toString());
 		node1.setUserData("Target", true);
 		Geometry geom = new Geometry(id.toString(), MeshLager.objectMesh);
-		geom.setMaterial(MeshLager.objectMat);
+		geom.setMaterial(MeshLager.objectMat[colorNum(linked)]);
 		//geom.setLocalRotation(new Quaternion().fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_Y));
 		node1.attachChild(geom);
 		node.setLocalTranslation(VisTiledMap.conv(linked.getLoc()));
 		node.setLocalRotation(VisTiledMap.conv(linked.getDirection()));
 		node.attachChild(node1);
 		node.setName(id.toString());
+	}
+
+	private int colorNum(Relocatable relocatable)
+	{
+		if(relocatable instanceof Pather)
+			return ((Pather) relocatable).getTherathic().teamSide() + 1;
+		return 0;
 	}
 
 	public void replaceLink(Relocatable linkedNew)

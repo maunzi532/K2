@@ -16,6 +16,11 @@ public abstract class TX_AP implements Therathic, E_AP_MP
 	protected int reqFall;
 	protected boolean mountUsed;
 
+	public TX_AP(int teamSide)
+	{
+		this.teamSide = teamSide;
+	}
+
 	@Override
 	public void linkTo(Pather pather)
 	{

@@ -8,8 +8,9 @@ import aer.resource2.items.item3.*;
 
 public class TX_CP_2 extends TX_CP
 {
-	public TX_CP_2()
+	public TX_CP_2(int teamSide)
 	{
+		super(teamSide);
 		npc_control = new UselessNPC();
 		endItem = new FloorMovementItem2(this);
 		items.add(endItem);

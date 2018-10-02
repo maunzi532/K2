@@ -62,7 +62,7 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 			if(targeting.checkInput() == Input1.TARGET)
 			{
 				Relocatable object = targeting.targetObject();
-				if(object != null && object instanceof Pather)
+				if(object != null && object instanceof Pather && linked.playerControlled.contains(object))
 				{
 					Pather pather = (Pather) object;
 					if(pather.getPossiblePaths() == null)
