@@ -162,6 +162,30 @@ public class BauMesh1 extends Mesh
 	}
 
 	/**
+	 * Dreht einen Punkt um den entsprechenden Mittelpunkt um direction / edges umdrehungen
+	 *
+	 * @param axis Drehachse (x = 0, y = 1, z = 2)
+	 */
+	protected Vector3f turn(int axis, Vector3f mid1, Vector3f start1, int direction, int edges)
+	{
+		Vector3f start1a = start1.subtract(mid1);
+		float angle = FastMath.TWO_PI * direction / edges;
+		float sin = FastMath.sin(angle);
+		float cos = FastMath.cos(angle);
+		switch(axis)
+		{
+			case 0:
+				return new Vector3f(start1a.x, start1a.y * cos - start1a.z * sin, start1a.z * cos + start1a.y * sin).addLocal(mid1);
+			case 1:
+				return new Vector3f(start1a.x * cos + start1a.z * sin, start1a.y, start1a.z * cos - start1a.x * sin).addLocal(mid1);
+			case 2:
+				return new Vector3f(start1a.x * cos - start1a.y * sin, start1a.y * cos + start1a.x * sin, start1a.z).addLocal(mid1);
+			default:
+				throw new RuntimeException();
+		}
+	}
+
+	/**
 	 * Erstellt ein Vieleck
 	 *
 	 *  _- 0 -_   0----1     0

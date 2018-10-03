@@ -53,12 +53,14 @@ public class MapLayer extends Node
 					}
 					case BLOCKED:
 					{
-						Geometry geomC = new Geometry(loc.toString(), MeshLager.blockedMeshV);
+						/*Geometry geomC = new Geometry(loc.toString(), MeshLager.blockedMeshV);
 						geomC.setMaterial(MeshLager.blockedMat);
 						nodeC.attachChild(geomC);
 						Geometry geomL = new Geometry(loc.toString(), MeshLager.blockedMesh);
 						geomL.setMaterial(MeshLager.blockedMat);
-						nodeL.attachChild(geomL);
+						nodeL.attachChild(geomL);*/
+						nodeC.attachChild(MeshLager.wallGeom(loc.toString(), Math.abs(loc.x % 6), WallType.G1, true));
+						nodeL.attachChild(MeshLager.wallGeom(loc.toString(), Math.abs(loc.x % 6), WallType.G1, false));
 						break;
 					}
 				}

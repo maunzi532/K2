@@ -84,17 +84,17 @@ public class Main extends SimpleApplication
 		TurnSchedule turnSchedule = new TurnSchedule(Arrays.asList(0, 1), 0, hexMap, turnSummoner);
 
 
-		//TX_AP_Transform (Equipable) HexPather
+		//TX_AP_Transform (Equipable) HexPather (Team 0)
 		Pather pather = new Pather(new Identifier("Mage_10"), new HexLocation(2, 1, 3, 0),
 				new HexDirection(6), AirState.UP, new TX_AP_Transform(new Equipable(new AttackItem3(), new AttackItem3(), null, null, null), 0));
 		turnSummoner.entries.add(new EntryToSummon(0, 0, 0, 0, pather));
 
-		//TX_AP_2 HexPather
+		//TX_AP_2 HexPather (Team 0)
 		Pather pather1 = new Pather(new Identifier("TX_AP_2_11"), new HexLocation(4, 1, 0, 0),
 				new HexDirection(3), AirState.FLOOR, new TX_CP_2(0));
 		turnSummoner.entries.add(new EntryToSummon(0, 0, 0, 0, pather1));
 
-		//TX_AP_Transform (Equipable) HexPather
+		//TX_AP_Transform (Equipable) HexPather (Team 1)
 		Pather pather2 = new Pather(new Identifier("Equip_12"), new HexLocation(2, 3, 0, 0),
 				new HexDirection(5), AirState.FLOOR, new TX_AP_Transform(new Equipable(new AttackItem3(), null, null, null, null), 1));
 		turnSummoner.entries.add(new EntryToSummon(0, 1, 0, 0, pather2));
