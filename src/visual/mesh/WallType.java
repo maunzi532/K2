@@ -2,8 +2,10 @@ package visual.mesh;
 
 public enum WallType
 {
-	A1(new int[]{-1, 2, 4, -1, 5, 1}, new int[]{-1, 2, 4, -1, 5, 1}),
-	G1(new int[]{-1, 2, 3, 4, 5, 1}, new int[]{-1, 2, 4, -1, 5, 1});
+	A1(new int[]{0, 0, 1, 0, 0, 1}, new int[]{0, 0, 1, 0, 0, 1}),
+	G1(new int[]{0, 0, 1, 0, 0, 0}, new int[]{0, 0, 1, 0, 0, 1}),
+	A2(new int[]{0, 0, 1, 1, 0, 0}, new int[]{0, 0, 1, 1, 0, 0}),
+	G2(new int[]{0, 0, 1, 1, 0, 0}, new int[]{0, 0, 1, 1, 0, 0});
 
 	WallType(int[] ground, int[] high)
 	{

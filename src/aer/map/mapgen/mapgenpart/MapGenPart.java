@@ -18,7 +18,9 @@ public abstract class MapGenPart implements IHexMapGen
 	@Override
 	public void generate(HexLocation loc)
 	{
-		map.setTile(tile(loc));
+		MapTile tile = tile(loc);
+		if(tile != null)
+			map.setTile(tile);
 	}
 
 	protected abstract MapTile tile(HexLocation loc);

@@ -11,5 +11,5 @@ public class Scale
 	public static final float X_HEX_RADIUS = 4f;
 	public static final float X_HEX_TANGENT = X_HEX_RADIUS * FastMath.sqrt(3f) / 2f;
 	public static final float DZ_HEX_DIFF = X_HEX_RADIUS * 1.5f;
-	public static final float HEX_EDGE_IN = X_HEX_RADIUS * FastMath.sqrt(3f) / 3f;
+	public static final float HEX_EDGE_IN = 0.5f;
 }

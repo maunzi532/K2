@@ -71,8 +71,8 @@ public class BauMesh1 extends Mesh
 			setBuffer(VertexBuffer.Type.TexCoord, 2, texCoordBuffer);
 		}
 		else if(texCoord.size() != 0)
-			throw new RuntimeException("Wenn TexCoord verwendet wird, " +
-					"muss die Liste gleich lang wie die Positionsliste sein");
+			throw new RuntimeException("Wenn TexCoord (" + texCoord.size() + ") verwendet wird, " +
+					"muss die Liste gleich lang wie die Positionsliste (" + positions.size() + ") sein");
 		int[] indexes2 = new int[indexes.size() * 3];
 		for(int i = 0; i < indexes.size(); i++)
 			System.arraycopy(indexes.get(i).data, 0, indexes2, i * 3, 3);
@@ -210,6 +210,23 @@ public class BauMesh1 extends Mesh
 			indexes.add(new Index3(start, start + i + inv1, start + i + 1 - inv1));
 	}
 
+	protected void flatMid(boolean inv, Vector3f mid, Vector3f[] edges)
+	{
+		assert edges.length >= 3;
+		int inv1 = inv ? 1 : 0;
+		int start = positions.size();
+		Vector3f normal = normal(mid, edges[inv1], edges[1 - inv1]);
+		positions.add(mid);
+		normals.add(normal);
+		for(int i = 0; i < edges.length; i++)
+		{
+			positions.add(edges[i]);
+			normals.add(normal);
+		}
+		for(int i = 0; i < edges.length - 1; i++)
+			indexes.add(new Index3(start, start + i + 1 + inv1, start + i + 2 - inv1));
+	}
+
 	/**
 	 * Erstellt ein regelmäßiges Vieleck mit dem ersten Punkt in der Mitte
 	 * normal (die Drehachse) sollte ein Einheitsvektor sein
@@ -301,10 +318,15 @@ public class BauMesh1 extends Mesh
 	 */
 	protected void texCircle(float xm, float ym, float x0, float y0, int edges)
 	{
+		texCircle(xm, ym, x0, y0, edges, 0);
+	}
+
+	protected void texCircle(float xm, float ym, float x0, float y0, int edges, int over)
+	{
 		texCoord.add(new Vector2f(xm, ym));
 		float xd = x0 - xm;
 		float yd = y0 - ym;
-		for(int i = 0; i < edges; i++)
+		for(int i = 0; i < edges + over; i++)
 		{
 			float angle = FastMath.TWO_PI * i / edges;
 			float sin = FastMath.sin(angle);

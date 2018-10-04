@@ -1,6 +1,8 @@
 package m;
 
+import aer.locate.*;
 import aer.map.mapgen.*;
+import aer.map.mapgen.mapgenpart.*;
 import aer.map.maptiles.*;
 
 public class MapGen1
@@ -12,7 +14,9 @@ public class MapGen1
 
 	public static IHexMapGen generator()
 	{
-		return new SplitHexMapGen(3, SplitFillerHexMapGen.get(2, MapTileType.BLOCKED, MapTileType.BLOCKED,
-				MapTileType.FLOOR, MapTileType.AIR, MapTileType.AIR, MapTileType.AIR, MapTileType.AIR));
+		IHexMapGen hwmgp = new HexWallMGP(new HexLocation(5, 5, 0, 0), 3);
+		IHexMapGen sfhmg = SplitFillerHexMapGen.get(2, MapTileType.BLOCKED, MapTileType.BLOCKED,
+				MapTileType.FLOOR, MapTileType.AIR, MapTileType.AIR, MapTileType.AIR, MapTileType.AIR);
+		return new SplitHexMapGen(3, new StackedHexMapGen(hwmgp, sfhmg));
 	}
 }
