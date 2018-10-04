@@ -1,6 +1,7 @@
 package aer.commands;
 
-import aer.*;
+import aer.locate.*;
+import aer.relocatable.*;
 
 public class CMove implements ICommand
 {

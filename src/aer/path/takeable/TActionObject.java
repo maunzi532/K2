@@ -1,6 +1,6 @@
 package aer.path.takeable;
 
-import aer.*;
+import aer.relocatable.*;
 
 public interface TActionObject extends TakeableAction
 {

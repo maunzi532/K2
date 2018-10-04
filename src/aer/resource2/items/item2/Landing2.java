@@ -1,8 +1,9 @@
 package aer.resource2.items.item2;
 
-import aer.*;
 import aer.commands.*;
-import aer.path.*;
+import aer.locate.*;
+import aer.path.pather.*;
+import aer.path.schedule.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
 import aer.resource2.interfaces.*;

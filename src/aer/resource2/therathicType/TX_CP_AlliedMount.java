@@ -1,8 +1,8 @@
 package aer.resource2.therathicType;
 
-import aer.*;
-import aer.path.*;
+import aer.path.pather.*;
 import aer.path.team.*;
+import aer.relocatable.*;
 import aer.resource2.items.item2.*;
 import java.util.*;
 

@@ -1,8 +1,10 @@
 package m;
 
-import aer.*;
-import aer.mapgen.*;
-import aer.path.*;
+import aer.locate.*;
+import aer.map.*;
+import aer.path.pather.*;
+import aer.path.schedule.*;
+import aer.relocatable.*;
 import aer.resource2.therathicType.*;
 import aer.resource3.*;
 import aer.resource3.resource4.*;
@@ -74,8 +76,9 @@ public class Main extends SimpleApplication
 
 
 		//Create Map
-		ITiledMap hexMap = new HexTiledMap("T1", -10, -2, -2, 0, 11, 10, 5, 1);
-		hexMap.setGenerator(new BasicHexMapGen());
+		ITiledMap hexMap = new HexTiledMap("T1", MapGen1.getMapBounds());
+		//hexMap.setGenerator(new BasicHexMapGen());
+		hexMap.setGenerator(MapGen1.generator());
 
 		//Create TurnSummoner
 		TurnSummoner turnSummoner = new TurnSummoner();

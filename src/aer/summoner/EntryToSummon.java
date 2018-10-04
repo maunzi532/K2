@@ -1,8 +1,9 @@
 package aer.summoner;
 
-import aer.*;
 import aer.commands.*;
-import aer.path.*;
+import aer.map.*;
+import aer.path.schedule.*;
+import aer.relocatable.*;
 
 public class EntryToSummon extends SummonerEntry implements ICommand
 {

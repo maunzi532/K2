@@ -1,9 +1,11 @@
 package aer.resource3.resource4;
 
-import aer.*;
-import aer.path.*;
+import aer.locate.*;
+import aer.map.*;
+import aer.path.pather.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
+import aer.relocatable.*;
 import aer.resource2.resource.*;
 import aer.resource3.*;
 import java.util.*;

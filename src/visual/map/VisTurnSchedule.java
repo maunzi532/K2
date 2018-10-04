@@ -1,8 +1,9 @@
 package visual.map;
 
-import aer.*;
 import aer.commands.*;
-import aer.path.*;
+import aer.path.pather.*;
+import aer.path.schedule.*;
+import aer.relocatable.*;
 import visual.*;
 import visual.hud.*;
 import visual.pather.*;

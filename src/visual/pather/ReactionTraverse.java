@@ -1,8 +1,9 @@
 package visual.pather;
 
-import aer.*;
-import aer.path.*;
+import aer.path.pather.*;
+import aer.path.schedule.*;
 import aer.path.takeable.*;
+import aer.relocatable.*;
 import aer.resource2.resource.*;
 import java.util.*;
 import java.util.stream.*;

@@ -1,6 +1,7 @@
 package visual.pather;
 
-import aer.*;
+import aer.map.*;
+import aer.relocatable.*;
 import com.jme3.renderer.*;
 import com.jme3.scene.*;
 import com.jme3.scene.control.*;

@@ -1,7 +1,8 @@
 package aer.resource3;
 
-import aer.*;
-import aer.path.*;
+import aer.path.pather.*;
+import aer.path.schedule.*;
+import aer.relocatable.*;
 import aer.resource3.resource4.*;
 import java.io.*;
 import java.util.*;

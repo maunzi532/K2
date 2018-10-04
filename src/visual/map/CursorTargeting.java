@@ -1,6 +1,8 @@
 package visual.map;
 
-import aer.*;
+import aer.locate.*;
+import aer.map.*;
+import aer.relocatable.*;
 import com.jme3.app.*;
 import com.jme3.app.state.*;
 import com.jme3.collision.*;

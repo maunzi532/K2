@@ -1,6 +1,6 @@
 package aer.resource3.resource4;
 
-import aer.path.*;
+import aer.path.schedule.*;
 import aer.path.team.*;
 import java.util.*;
 

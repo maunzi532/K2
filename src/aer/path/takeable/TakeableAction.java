@@ -1,6 +1,7 @@
 package aer.path.takeable;
 
-import aer.path.*;
+import aer.path.pather.*;
+import aer.path.schedule.*;
 import java.util.*;
 
 public interface TakeableAction

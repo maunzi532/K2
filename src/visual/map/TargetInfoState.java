@@ -1,8 +1,10 @@
 package visual.map;
 
-import aer.*;
-import aer.path.*;
+import aer.map.*;
+import aer.map.maptiles.*;
+import aer.path.pather.*;
 import aer.path.team.*;
+import aer.relocatable.*;
 import aer.resource2.resource.*;
 import aer.resource3.*;
 import aer.resource3.resource4.*;

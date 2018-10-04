@@ -1,6 +1,8 @@
 package visual.map;
 
-import aer.*;
+import aer.locate.*;
+import aer.map.*;
+import aer.map.maptiles.*;
 import com.jme3.scene.*;
 import visual.mesh.*;
 
@@ -39,7 +41,13 @@ public class MapLayer extends Node
 				MapTile mapTile = map.getTile(loc);
 				Node nodeC = new Node();
 				Node nodeL = new Node();
-				switch(mapTile.type)
+				if(mapTile instanceof WallTile)
+				{
+					WallTile wallTile = (WallTile) mapTile;
+					nodeC.attachChild(MeshLager.wallGeom(loc.toString(), wallTile.direction, wallTile.wallType, true));
+					nodeL.attachChild(MeshLager.wallGeom(loc.toString(), wallTile.direction, wallTile.wallType, false));
+				}
+				else switch(mapTile.type)
 				{
 					case FLOOR:
 					{
@@ -53,14 +61,12 @@ public class MapLayer extends Node
 					}
 					case BLOCKED:
 					{
-						/*Geometry geomC = new Geometry(loc.toString(), MeshLager.blockedMeshV);
+						Geometry geomC = new Geometry(loc.toString(), MeshLager.blockedMeshV);
 						geomC.setMaterial(MeshLager.blockedMat);
 						nodeC.attachChild(geomC);
 						Geometry geomL = new Geometry(loc.toString(), MeshLager.blockedMesh);
 						geomL.setMaterial(MeshLager.blockedMat);
-						nodeL.attachChild(geomL);*/
-						nodeC.attachChild(MeshLager.wallGeom(loc.toString(), Math.abs(loc.x % 6), WallType.G1, true));
-						nodeL.attachChild(MeshLager.wallGeom(loc.toString(), Math.abs(loc.x % 6), WallType.G1, false));
+						nodeL.attachChild(geomL);
 						break;
 					}
 				}

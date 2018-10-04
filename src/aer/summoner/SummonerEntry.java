@@ -1,7 +1,7 @@
 package aer.summoner;
 
-import aer.*;
-import aer.path.*;
+import aer.map.*;
+import aer.path.schedule.*;
 
 public abstract class SummonerEntry
 {

@@ -1,6 +1,7 @@
 package aer.resource2.resource;
 
-import aer.*;
+import aer.locate.*;
+import aer.relocatable.*;
 
 public interface R_Relocatable
 {

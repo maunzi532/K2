@@ -1,7 +1,9 @@
 package aer.resource2.items.item2;
 
-import aer.*;
-import aer.path.*;
+import aer.locate.*;
+import aer.map.*;
+import aer.map.maptiles.*;
+import aer.path.pather.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
 import aer.resource2.interfaces.*;

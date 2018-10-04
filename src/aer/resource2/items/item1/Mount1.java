@@ -1,10 +1,11 @@
 package aer.resource2.items.item1;
 
-import aer.*;
 import aer.commands.*;
-import aer.path.*;
+import aer.locate.*;
+import aer.path.pather.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
+import aer.relocatable.*;
 import aer.resource2.interfaces.*;
 import aer.resource2.therathicType.*;
 

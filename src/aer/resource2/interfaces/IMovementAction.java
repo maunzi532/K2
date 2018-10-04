@@ -1,6 +1,6 @@
 package aer.resource2.interfaces;
 
-import aer.*;
+import aer.locate.*;
 import java.util.*;
 
 public interface IMovementAction extends IAirStateAction

@@ -1,8 +1,9 @@
 package aer.resource2.resource;
 
-import aer.*;
-import aer.path.*;
+import aer.locate.*;
+import aer.path.pather.*;
 import aer.path.takeable.*;
+import aer.relocatable.*;
 import aer.resource2.interfaces.*;
 import java.util.*;
 

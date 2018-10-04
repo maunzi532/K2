@@ -1,6 +1,6 @@
 package aer.commands;
 
-import aer.*;
+import aer.relocatable.*;
 
 public class CDismount implements ICommand
 {

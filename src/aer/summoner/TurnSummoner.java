@@ -1,8 +1,8 @@
 package aer.summoner;
 
-import aer.*;
 import aer.commands.*;
-import aer.path.*;
+import aer.map.*;
+import aer.path.schedule.*;
 import java.util.*;
 
 public class TurnSummoner extends CommandLink

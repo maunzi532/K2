@@ -1,7 +1,8 @@
 package visual.pather;
 
-import aer.*;
 import aer.commands.*;
+import aer.locate.*;
+import aer.relocatable.*;
 import com.jme3.math.*;
 import com.jme3.renderer.*;
 import com.jme3.scene.*;

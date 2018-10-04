@@ -1,6 +1,6 @@
 package aer.resource2.interfaces;
 
-import aer.*;
+import aer.relocatable.*;
 
 public interface IMountAction extends IAirStateAction
 {

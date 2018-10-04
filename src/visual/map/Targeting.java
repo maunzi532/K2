@@ -1,6 +1,7 @@
 package visual.map;
 
-import aer.*;
+import aer.locate.*;
+import aer.relocatable.*;
 
 public interface Targeting
 {

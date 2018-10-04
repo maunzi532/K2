@@ -1,8 +1,9 @@
 package aer.path.team;
 
-import aer.*;
-import aer.path.*;
+import aer.path.pather.*;
+import aer.path.schedule.*;
 import aer.path.takeable.*;
+import aer.relocatable.*;
 import java.io.*;
 import java.util.*;
 import java.util.stream.*;

@@ -1,8 +1,10 @@
 package visual.map;
 
-import aer.*;
 import aer.commands.*;
-import aer.path.*;
+import aer.locate.*;
+import aer.map.*;
+import aer.path.pather.*;
+import aer.relocatable.*;
 import aer.resource2.resource.*;
 import com.jme3.math.*;
 import com.jme3.renderer.queue.*;
@@ -254,7 +256,7 @@ public class VisTiledMap extends AbstractVis<ITiledMap>
 
 	public static Vector3f conv(HexLocation loc)
 	{
-		return new Vector3f(loc.x * Scale.X_HEX_HALF * 2 + loc.d * Scale.X_HEX_HALF,
+		return new Vector3f(loc.x * Scale.X_HEX_TANGENT * 2 + loc.d * Scale.X_HEX_TANGENT,
 				loc.h * Scale.CELLAR_HEIGHT, loc.d * Scale.DZ_HEX_DIFF);
 	}
 
