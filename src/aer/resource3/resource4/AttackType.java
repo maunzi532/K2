@@ -4,21 +4,44 @@ import aer.resource3.*;
 
 public interface AttackType
 {
+	String name();
 	int baseDamage();
 	int attackMultiplier();
 	int attackMultiplierR0();
 	int attackMultiplierR1();
 	int baseAccuracy();
-	int baseCrit();
+	default int baseCrit()
+	{
+		return 0;
+	}
 	int attackStatType0();
-	int attackStatType1();
+	default int attackStatType1()
+	{
+		return 2;
+	}
 	int targetResType();
-	Modifier appliesModifier();
-	boolean canRetaliate();
+	default Modifier appliesModifier()
+	{
+		return null;
+	}
+	default boolean canRetaliate()
+	{
+		return true;
+	}
 	int cost();
-	int mCost();
+	default int mCost()
+	{
+		return 1;
+	}
 	int retaliateCost();
-	int minRange();
+	default int minRange()
+	{
+		return 0;
+	}
 	int maxRange();
-	boolean noTurningRequired();
+	int maxRRange();
+	default boolean noTurningRequired()
+	{
+		return false;
+	}
 }

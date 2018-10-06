@@ -4,12 +4,16 @@ import aer.resource2.interfaces.*;
 
 public interface E_AP_MP
 {
+	int getAP();
+
 	default boolean useAP(IAPAction action, Use use)
 	{
 		return useAP(action.cost(), use);
 	}
 
 	boolean useAP(int amount, Use use);
+
+	int getMP();
 
 	default boolean useMP(IDirectionAction action, Use use)
 	{

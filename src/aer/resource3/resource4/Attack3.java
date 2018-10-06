@@ -65,17 +65,14 @@ public class Attack3 extends BaseTargeting3
 		switch(chosen.code)
 		{
 			case 0: //Nothing
-				target3.takeAttack(xec1, item, attackType, distance, false, false, null);
+				target3.takeAttack(xec1, item, attackType, distance, false, false);
 				break;
 			case 1: //Retaliate
-				target3.takeAttack(xec1, item, attackType, distance, false, false, null);
-				xec3.takeAttack(target1, (StatItem) chosen.data[0], (AttackType) chosen.data[1], distance, true, false, null);
+				target3.takeAttack(xec1, item, attackType, distance, false, false);
+				xec3.takeAttack(target1, (StatItem) chosen.data[0], (AttackType) chosen.data[1], distance, true, false);
 				break;
 			case 2: //Dodge
-				target3.takeAttack(xec1, item, attackType, distance, false, true, null);
-				break;
-			case 3: //Block
-				target3.takeAttack(xec1, item, attackType, distance, false, false, (StatItem) chosen.data[2]);
+				target3.takeAttack(xec1, item, attackType, distance, false, true);
 				break;
 		}
 		return false;

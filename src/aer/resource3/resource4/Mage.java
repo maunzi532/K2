@@ -65,9 +65,39 @@ public class Mage extends Transformation
 
 	@Override
 	public void takeAttack(Therathic attackedBy, StatItem item, AttackType attackType, int distance, boolean retaliated,
-			boolean dodge, StatItem blockWith)
+			boolean dodge)
 	{
 
+	}
+
+	@Override
+	public int statAttack(int num)
+	{
+		return 1;
+	}
+
+	@Override
+	public int statArmor(int num)
+	{
+		return 2;
+	}
+
+	@Override
+	public int statResist(int num)
+	{
+		return 1;
+	}
+
+	@Override
+	public int statAvoid()
+	{
+		return 2;
+	}
+
+	@Override
+	public int statFocus()
+	{
+		return 2;
 	}
 
 }

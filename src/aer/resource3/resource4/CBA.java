@@ -6,16 +6,19 @@ import java.util.*;
 
 public interface CBA
 {
-	/*int health;
-	int healthCurrent;
-	int regenTime;
-	int regenCurrent;
-	int lives;
-	int livesCurrent;*/
-
 	boolean canBeAttacked();
 
 	List<Reaction> reactions(Therathic attackedBy, StatItem item, AttackType attackType, int distance);
 
-	void takeAttack(Therathic attackedBy, StatItem item, AttackType attackType, int distance, boolean retaliated, boolean dodge, StatItem blockWith);
+	void takeAttack(Therathic attackedBy, StatItem item, AttackType attackType, int distance, boolean retaliated, boolean dodge);
+
+	int statAttack(int num);
+
+	int statArmor(int num);
+
+	int statResist(int num);
+
+	int statAvoid();
+
+	int statFocus();
 }

@@ -176,8 +176,38 @@ public class TX_AP_Transform extends TX_AP implements CBA
 
 	@Override
 	public void takeAttack(Therathic attackedBy, StatItem item, AttackType attackType,
-			int distance, boolean retaliated, boolean dodge, StatItem blockWith)
+			int distance, boolean retaliated, boolean dodge)
 	{
-		currentTransform().takeAttack(attackedBy, item, attackType, distance, retaliated, dodge, blockWith);
+		currentTransform().takeAttack(attackedBy, item, attackType, distance, retaliated, dodge);
+	}
+
+	@Override
+	public int statAttack(int num)
+	{
+		return currentTransform().statAttack(num);
+	}
+
+	@Override
+	public int statArmor(int num)
+	{
+		return currentTransform().statArmor(num);
+	}
+
+	@Override
+	public int statResist(int num)
+	{
+		return currentTransform().statResist(num);
+	}
+
+	@Override
+	public int statAvoid()
+	{
+		return currentTransform().statAvoid();
+	}
+
+	@Override
+	public int statFocus()
+	{
+		return currentTransform().statFocus();
 	}
 }

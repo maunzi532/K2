@@ -142,25 +142,80 @@ public class Equipable extends Transformation
 		{
 			for(AttackType attackType1 : statItem1.attackTypes())
 			{
-				reactions.add(new Reaction("Retaliate with item", 1, attackType1.retaliateCost(), true, statItem1, attackType1));
+				reactions.add(new Reaction("Retaliate with item", 1, attackType1.retaliateCost(),
+						attackType1.retaliateCost() <= main.getAP(), statItem1, attackType1));
 			}
 		}
-		reactions.add(new Reaction("Dodge", 2, 10, true));
-		for(StatItem statItem1 : statItems())
-		{
-			if(statItem1.canBlock())
-			{
-				reactions.add(new Reaction("Block with item", 3, statItem1.blockCost(), true, statItem1));
-			}
-		}
+		reactions.add(new Reaction("Dodge", 2, 10, 10 <= main.getAP()));
 		return reactions;
 	}
 
 	@Override
 	public void takeAttack(Therathic attackedBy, StatItem item, AttackType attackType,
-			int distance, boolean retaliated, boolean dodge, StatItem blockWith)
+			int distance, boolean retaliated, boolean dodge)
 	{
-		reduceHealth(30);
+		if(attackedBy instanceof CBA)
+		{
+			CBA cba = (CBA) attackedBy;
+			AttackCalc attackCalc = new AttackCalc(cba, item, attackType, this, distance, retaliated, dodge);
+			System.out.println(attackCalc.toString());
+			int rng0 = AttackCalc.RANDOM.nextInt(100);
+			int rng1 = AttackCalc.RANDOM.nextInt(100);
+			int dmg;
+			if(rng0 < attackCalc.hitrate0)
+			{
+				System.out.println("Hit");
+				dmg = attackCalc.baseDamage;
+			}
+			else if(rng0 < attackCalc.hitrate1)
+			{
+				System.out.println("Scratch");
+				dmg = attackCalc.halfDamage;
+			}
+			else
+			{
+				System.out.println("Dodged");
+				return;
+			}
+			if(rng1 < attackCalc.critrate)
+			{
+				System.out.println("Crit");
+				dmg = dmg * (100 + attackCalc.critMultiplier) / 100;
+			}
+			reduceHealth(dmg);
+		}
+		else
+			throw new RuntimeException("Attacked by non-CBA: " + attackedBy.pather().name());
+	}
+
+	@Override
+	public int statAttack(int num)
+	{
+		return 2;
+	}
+
+	@Override
+	public int statArmor(int num)
+	{
+		return 2;
+	}
+
+	@Override
+	public int statResist(int num)
+	{
+		return 2;
+	}
+
+	@Override
+	public int statAvoid()
+	{
+		return 2;
+	}
+
+	@Override
+	public int statFocus()
+	{
+		return 2;
 	}
 
 	public int maxHealth()

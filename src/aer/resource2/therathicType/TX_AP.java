@@ -86,6 +86,12 @@ public abstract class TX_AP implements Therathic, E_AP_MP
 	}
 
 	@Override
+	public int getAP()
+	{
+		return actionPoints;
+	}
+
+	@Override
 	public boolean useAP(int amount, Use use)
 	{
 		if(use == Use.DRAIN)
@@ -97,6 +103,12 @@ public abstract class TX_AP implements Therathic, E_AP_MP
 		if(ok && use == Use.REAL)
 			actionPoints -= amount;
 		return ok;
+	}
+
+	@Override
+	public int getMP()
+	{
+		return movePoints;
 	}
 
 	@Override
