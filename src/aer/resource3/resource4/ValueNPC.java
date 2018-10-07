@@ -1,10 +1,11 @@
-package aer.path.team;
+package aer.resource3.resource4;
 
 import aer.path.pather.*;
 import aer.path.schedule.*;
 import aer.path.takeable.*;
+import aer.path.team.*;
 
-public class UselessNPC implements NPC_Control
+public class ValueNPC implements NPC_Control
 {
 	@Override
 	public PathAction path(Pather xec)
@@ -21,7 +22,7 @@ public class UselessNPC implements NPC_Control
 	@Override
 	public Reaction reaction(TargetData targetData)
 	{
-		return targetData.reactionOptions().get(0);
+		return null;
 	}
 
 	@Override

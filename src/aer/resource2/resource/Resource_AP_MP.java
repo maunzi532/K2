@@ -28,6 +28,7 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 			HexDirection direction, AirState airState,
 			int requiredFall, HexLocation location, Relocatable mountedTo, int mountedToSlot, boolean mountedThisTurn)
 	{
+		end = false;
 		this.actionPoints = actionPoints;
 		this.movePoints = movePoints;
 		this.requiresExtraAP = requiresExtraAP;
@@ -40,7 +41,6 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 		this.mountedTo = mountedTo;
 		this.mountedToSlot = mountedToSlot;
 		this.mountedThisTurn = mountedThisTurn;
-		end = false;
 		error = actionPoints < 0 || movePoints < 0;
 	}
 

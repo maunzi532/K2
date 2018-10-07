@@ -137,16 +137,16 @@ public class Equipable extends Transformation
 	public List<Reaction> reactions(Therathic attackedBy, StatItem item, AttackType attackType, int distance)
 	{
 		List<Reaction> reactions = new ArrayList<>();
-		reactions.add(new Reaction("Nothing", 0, 0, true));
+		reactions.add(new Reaction("Nothing", 0, 0, true, 0));
 		for(StatItem statItem1 : statItems())
 		{
 			for(AttackType attackType1 : statItem1.attackTypes())
 			{
 				reactions.add(new Reaction("Retaliate with item", 1, attackType1.retaliateCost(),
-						attackType1.retaliateCost() <= main.getAP(), statItem1, attackType1));
+						attackType1.retaliateCost() <= main.getAP(), 2, statItem1, attackType1));
 			}
 		}
-		reactions.add(new Reaction("Dodge", 2, 10, 10 <= main.getAP()));
+		reactions.add(new Reaction("Dodge", 2, 10, 10 <= main.getAP(), 1));
 		return reactions;
 	}
 

@@ -12,4 +12,6 @@ public interface NPC_Control extends Serializable
 	TakeableAction interrupt(Pather xec, TargetData targetData);
 
 	Reaction reaction(TargetData targetData);
+
+	AIValue aiValue();
 }

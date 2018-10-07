@@ -135,6 +135,12 @@ public class TX_AP_Transform extends TX_AP implements CBA
 	}
 
 	@Override
+	public AIValue aiValue()
+	{
+		return null;
+	}
+
+	@Override
 	public boolean drawPhase()
 	{
 		super.drawPhase();

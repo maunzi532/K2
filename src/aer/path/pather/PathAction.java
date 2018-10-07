@@ -9,22 +9,25 @@ public class PathAction
 	public final TakeableAction action;
 	public final PathAction previous;
 	public final ActionResource deducted;
+	public final AIValue aiValue;
 	public final ArrayList<PathAction> next = new ArrayList<>();
 
-	public PathAction(Pather pather, ActionResource resource, TakeableAction action, PathAction previous)
+	public PathAction(Pather pather, ActionResource resource, AIValue aiValuePrev, TakeableAction action, PathAction previous)
 	{
 		this.pather = pather;
 		this.action = action;
 		this.previous = previous;
 		deducted = resource.deduct(action);
+		aiValue = aiValuePrev == null ? null : aiValuePrev.update(deducted, action);
 	}
 
-	public PathAction(Pather pather, ActionResource resource, TakeableAction action)
+	public PathAction(Pather pather, ActionResource resource, AIValue aiValuePrev, TakeableAction action)
 	{
 		this.pather = pather;
 		this.action = action;
 		this.previous = null;
 		deducted = resource.deduct(action);
+		aiValue = aiValuePrev == null ? null : aiValuePrev.update(deducted, action);
 	}
 
 	public static void pathToList(PathAction pathAction, List<TakeableAction> actions1)

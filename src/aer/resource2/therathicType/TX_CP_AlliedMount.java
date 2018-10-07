@@ -27,6 +27,12 @@ public class TX_CP_AlliedMount extends TX_CP
 	}
 
 	@Override
+	public AIValue aiValue()
+	{
+		return null;
+	}
+
+	@Override
 	public void mountSlotUpdateInfo()
 	{
 		steering = new ArrayList<>();

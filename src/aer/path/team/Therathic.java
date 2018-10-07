@@ -32,6 +32,8 @@ public interface Therathic extends Serializable
 
 	ActionResource actionResource();
 
+	AIValue aiValue();
+
 	boolean drawPhase();
 
 	PathAction endPhase();
@@ -47,7 +49,7 @@ public interface Therathic extends Serializable
 	default List<PathAction> possibleActivePaths()
 	{
 		ArrayList<PathAction> possiblePaths = new ArrayList<>();
-		PathAction start = new PathAction(pather(), actionResource(), startAction());
+		PathAction start = new PathAction(pather(), actionResource(), aiValue(), startAction());
 		if(!start.deducted.okay())
 			return possiblePaths;
 		possiblePaths.add(start);
@@ -62,7 +64,7 @@ public interface Therathic extends Serializable
 			for(PatherItem item : activeItems())
 			{
 				currentPath.next.addAll(item.takeableActions(currentPath).stream()
-						.map(action -> new PathAction(pather(), currentPath.deducted, action, currentPath))
+						.map(action -> new PathAction(pather(), currentPath.deducted, currentPath.aiValue, action, currentPath))
 						.filter(path -> path.deducted.okay()).collect(Collectors.toList()));
 			}
 			possiblePaths.addAll(currentPath.next);
@@ -78,7 +80,7 @@ public interface Therathic extends Serializable
 		{
 			item.interrupts(targetData).stream().filter(e -> actionResource.deduct(e).okay()).forEach(takeableActions::add);
 		}
-		return takeableActions.stream().map(e -> new PathAction(pather(), actionResource(), e)).collect(Collectors.toList());
+		return takeableActions.stream().map(e -> new PathAction(pather(), actionResource(), aiValue(), e)).collect(Collectors.toList());
 	}
 
 	default PathAction endPath()
@@ -94,9 +96,9 @@ public interface Therathic extends Serializable
 				if(endAction != null)
 				{
 					if(pathAction == null)
-						pathAction = new PathAction(pather(), actionResource, endAction);
+						pathAction = new PathAction(pather(), actionResource, null, endAction);
 					else
-						pathAction = new PathAction(pather(), actionResource, endAction, pathAction);
+						pathAction = new PathAction(pather(), actionResource, null, endAction, pathAction);
 					actionResource = pathAction.deducted;
 				}
 				else

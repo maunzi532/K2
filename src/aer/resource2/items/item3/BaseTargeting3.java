@@ -81,8 +81,8 @@ public class BaseTargeting3 implements TActionObject, ITargetedAction, IAPAction
 	@Override
 	public List<Reaction> targetOptions(Therathic xec1, Therathic target1, E_AP_MP target2)
 	{
-		return Arrays.asList(new Reaction("Wugu0", 0, 0, true),
-				new Reaction("Wugu1", 1, 0, true));
+		return Arrays.asList(new Reaction("Wugu0", 0, 0, true, 0),
+				new Reaction("Wugu1", 1, 0, true, 1));
 	}
 
 	@Override
