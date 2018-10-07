@@ -15,14 +15,24 @@ public class TX_AP_Transform extends TX_AP implements CBA
 {
 	private List<Transformation> transforms;
 	public List<AppliedModifier> modifiers;
+	private boolean playerControlled;
 
-	public TX_AP_Transform(Transformation transform0, int teamSide)
+	public TX_AP_Transform(Transformation transform0, int teamSide, NPC_Control npc)
 	{
 		super(teamSide);
 		transforms = new ArrayList<>();
 		modifiers = new ArrayList<>();
 		transformInto(transform0);
-		npc_control = new UselessNPC();
+		if(npc == null)
+		{
+			playerControlled = true;
+			npc_control = new UselessNPC();
+		}
+		else
+		{
+			playerControlled = false;
+			npc_control = npc;
+		}
 	}
 
 	public Transformation currentTransform()
@@ -137,7 +147,7 @@ public class TX_AP_Transform extends TX_AP implements CBA
 	@Override
 	public AIValue aiValue()
 	{
-		return null;
+		return npc_control.aiValue(pather, actionResource());
 	}
 
 	@Override
@@ -165,7 +175,7 @@ public class TX_AP_Transform extends TX_AP implements CBA
 	@Override
 	public boolean playerControlled()
 	{
-		return true;
+		return playerControlled;
 	}
 
 	@Override

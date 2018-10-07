@@ -196,6 +196,12 @@ public class Resource_AP_MP implements ActionResource, R_AP_MP, R_Relocatable, R
 	}
 
 	@Override
+	public int dMountedToSlot()
+	{
+		return mountedToSlot;
+	}
+
+	@Override
 	public boolean dMTTUsed()
 	{
 		return mountedThisTurn;

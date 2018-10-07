@@ -13,6 +13,8 @@ public interface R_Relocatable
 
 	Relocatable dMount();
 
+	int dMountedToSlot();
+
 	boolean dMTTUsed();
 
 	boolean dEnd();

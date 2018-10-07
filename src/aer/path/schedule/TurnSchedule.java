@@ -344,7 +344,10 @@ public class TurnSchedule extends CommandLink
 		if(targetData.exec(reaction))
 			endActionPath(false);
 		else
+		{
 			innerPhase = TurnPhase.TARGET;
+			initFlag = false;
+		}
 	}
 
 	public void restore(InMapSave inMapSave)

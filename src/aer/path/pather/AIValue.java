@@ -4,5 +4,5 @@ import aer.path.takeable.*;
 
 public interface AIValue extends Comparable<AIValue>
 {
-	AIValue update(ActionResource resource, TakeableAction action);
+	AIValue update(Pather pather, ActionResource resource, TakeableAction action);
 }

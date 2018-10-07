@@ -25,7 +25,7 @@ public class UselessNPC implements NPC_Control
 	}
 
 	@Override
-	public AIValue aiValue()
+	public AIValue aiValue(Pather pather, ActionResource resource)
 	{
 		return null;
 	}

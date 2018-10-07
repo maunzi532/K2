@@ -13,5 +13,5 @@ public interface NPC_Control extends Serializable
 
 	Reaction reaction(TargetData targetData);
 
-	AIValue aiValue();
+	AIValue aiValue(Pather pather, ActionResource resource);
 }

@@ -18,7 +18,7 @@ public class PathAction
 		this.action = action;
 		this.previous = previous;
 		deducted = resource.deduct(action);
-		aiValue = aiValuePrev == null ? null : aiValuePrev.update(deducted, action);
+		aiValue = aiValuePrev == null ? null : aiValuePrev.update(pather, deducted, action);
 	}
 
 	public PathAction(Pather pather, ActionResource resource, AIValue aiValuePrev, TakeableAction action)
@@ -27,7 +27,7 @@ public class PathAction
 		this.action = action;
 		this.previous = null;
 		deducted = resource.deduct(action);
-		aiValue = aiValuePrev == null ? null : aiValuePrev.update(deducted, action);
+		aiValue = aiValuePrev == null ? null : aiValuePrev.update(pather, deducted, action);
 	}
 
 	public static void pathToList(PathAction pathAction, List<TakeableAction> actions1)

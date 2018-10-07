@@ -47,8 +47,11 @@ public interface StatItem extends PatherItem
 				if(res2.dActionPoints() >= attackType.cost() && res2.dMovementPoints() >= attackType.mCost())
 					for(HexLocation l0 : res1.dLocation().rangeLoc(attackType.minRange(), attackType.maxRange()))
 						for(Relocatable m1 : map.objectsAt(l0))
-							list.add(new Attack3(costTable, pather.getLoc(), pather.getDirection(), m1, attackType,
-									this, therathic, HexLocation.xdzDifference(pather.getLoc(), l0)));
+							if(m1 instanceof Pather && ((Pather) m1).getTherathic() instanceof CBA
+									&& ((CBA) ((Pather) m1).getTherathic()).canBeAttacked()
+									&& ((Pather) m1).getTherathic().teamSide() != therathic.teamSide())
+								list.add(new Attack3(costTable, pather.getLoc(), pather.getDirection(), m1, attackType,
+										this, therathic, HexLocation.xdzDifference(pather.getLoc(), l0)));
 		}
 		return list;
 	}
