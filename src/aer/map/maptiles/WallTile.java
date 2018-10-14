@@ -3,7 +3,6 @@ package aer.map.maptiles;
 import aer.locate.*;
 import aer.locate.pathseeker.*;
 import aer.map.*;
-import visual.mesh.*;
 
 public class WallTile extends MapTile
 {

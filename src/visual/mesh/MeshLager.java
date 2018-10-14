@@ -1,5 +1,6 @@
 package visual.mesh;
 
+import aer.map.maptiles.*;
 import com.jme3.asset.*;
 import com.jme3.material.*;
 import com.jme3.math.*;
@@ -83,8 +84,8 @@ public class MeshLager
 	{
 		blockedMesh = new YSolidPrism(Scale.X_HEX_RADIUS, Scale.FLOOR_DOWN, Scale.CELLAR_UP, 6);
 		blockedMeshV = new YSolidPrism(Scale.X_HEX_RADIUS, Scale.FLOOR_DOWN, Scale.LOW_WALL, 6);
-		/*blockedMesh = new Wall(1, WallType.G1, false);
-		blockedMeshV = new Wall(1, WallType.G1, true);*/
+		/*blockedMesh = new Wall(1, WallType.GROUND_IN, false);
+		blockedMeshV = new Wall(1, WallType.GROUND_IN, true);*/
 		blockedMat = material(new ColorRGBA(65f / 255f, 40f / 255f, 25f / 255f, 1f));
 		//((BauMesh1) blockedMesh).outputTextureMap(256, 256, 16);
 	}
@@ -133,10 +134,10 @@ public class MeshLager
 		pathLocMat = material(new ColorRGBA(1f, 0.4f, 0f, 0.7f));
 	}
 
-	public static Geometry wallGeom(String n, int direction, WallType wallType, boolean low)
+	public static Geometry wallGeom(String n, int direction, WallType wallType, boolean low, boolean wall)
 	{
-		Mesh mesh = readyMesh("Wall_" + direction + "_" + wallType + "_" + (low ? "L" : "H"),
-				() -> new Wall(direction, wallType, low));
+		Mesh mesh = readyMesh("Wall_" + direction + "_" + wallType + "_" + (low ? "L" : "H") + (wall ? "W" : "FLOOR"),
+				() -> new Wall(direction, wallType, low, wall));
 		Material material = readyMaterial("Wall",
 				() -> /*material(new ColorRGBA(65f / 255f, 40f / 255f, 25f / 255f, 1f))*/material("Textures/Wall.png", false));
 		return geometry(n, mesh, material);

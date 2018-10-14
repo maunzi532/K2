@@ -44,8 +44,14 @@ public class MapLayer extends Node
 				if(mapTile instanceof WallTile)
 				{
 					WallTile wallTile = (WallTile) mapTile;
-					nodeC.attachChild(MeshLager.wallGeom(loc.toString(), wallTile.direction, wallTile.wallType, true));
-					nodeL.attachChild(MeshLager.wallGeom(loc.toString(), wallTile.direction, wallTile.wallType, false));
+					nodeC.attachChild(MeshLager.wallGeom(loc.toString(), wallTile.direction, wallTile.wallType, true, true));
+					nodeL.attachChild(MeshLager.wallGeom(loc.toString(), wallTile.direction, wallTile.wallType, false, true));
+				}
+				else if(mapTile instanceof WFloorTile)
+				{
+					WFloorTile wFloorTile = (WFloorTile) mapTile;
+					nodeC.attachChild(MeshLager.wallGeom(loc.toString(), wFloorTile.direction, wFloorTile.wallType, false, false));
+					nodeL.attachChild(MeshLager.wallGeom(loc.toString(), wFloorTile.direction, wFloorTile.wallType, false, false));
 				}
 				else switch(mapTile.type)
 				{

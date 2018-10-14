@@ -14,9 +14,10 @@ public class MapGen1
 
 	public static IHexMapGen generator()
 	{
-		IHexMapGen hwmgp = new HexWallMGP(new HexLocation(5, 5, 0, 0), 3);
+		IHexMapGen hwmgp = new HexWallMGP(new HexLocation(5, 5, 0, 0), 3, true);
+		IHexMapGen hwmgp1 = new HexWallMGP(new HexLocation(5, 5, 1, 0), 3, false);
 		IHexMapGen sfhmg = SplitFillerHexMapGen.get(2, MapTileType.BLOCKED, MapTileType.BLOCKED,
 				MapTileType.FLOOR, MapTileType.AIR, MapTileType.AIR, MapTileType.AIR, MapTileType.AIR);
-		return new SplitHexMapGen(3, new StackedHexMapGen(hwmgp, sfhmg));
+		return new SplitHexMapGen(3, new StackedHexMapGen(hwmgp, hwmgp1, sfhmg));
 	}
 }
