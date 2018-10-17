@@ -84,8 +84,8 @@ public class MeshLager
 	{
 		blockedMesh = new YSolidPrism(Scale.X_HEX_RADIUS, Scale.FLOOR_DOWN, Scale.CELLAR_UP, 6);
 		blockedMeshV = new YSolidPrism(Scale.X_HEX_RADIUS, Scale.FLOOR_DOWN, Scale.LOW_WALL, 6);
-		/*blockedMesh = new Wall(1, WallType.GROUND_IN, false);
-		blockedMeshV = new Wall(1, WallType.GROUND_IN, true);*/
+		/*blockedMesh = new Wall(1, WallType.IN, false);
+		blockedMeshV = new Wall(1, WallType.IN, true);*/
 		blockedMat = material(new ColorRGBA(65f / 255f, 40f / 255f, 25f / 255f, 1f));
 		//((BauMesh1) blockedMesh).outputTextureMap(256, 256, 16);
 	}

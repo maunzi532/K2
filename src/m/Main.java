@@ -88,8 +88,10 @@ public class Main extends SimpleApplication
 
 
 		//TX_AP_Transform (Equipable) HexPather (Team 0)
-		Pather pather = new Pather(new Identifier("Mage_10"), new HexLocation(2, 1, 3, 0),
-				new HexDirection(6), AirState.UP, new TX_AP_Transform(new Equipable(new Agro(), new Agro(), null, null, null), 0, null));
+		/*Pather pather = new Pather(new Identifier("Mage_10"), new HexLocation(4, 3, 3, 0),
+				new HexDirection(6), AirState.UP, new TX_AP_Transform(new Equipable(new Agro(), new Agro(), null, null, null), 0, null));*/
+		Pather pather = new Pather(new Identifier("Mage_10"), new HexLocation(2, 1, 0, 0),
+				new HexDirection(6), AirState.FLOOR, new TX_AP_Transform(new Equipable(new Agro(), new Agro(), null, null, null), 0, null));
 		turnSummoner.entries.add(new EntryToSummon(0, 0, 0, 0, pather));
 
 		//TX_AP_2 HexPather (Team 0)

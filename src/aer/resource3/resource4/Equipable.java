@@ -159,30 +159,9 @@ public class Equipable extends Transformation
 			CBA cba = (CBA) attackedBy;
 			AttackCalc attackCalc = new AttackCalc(cba, item, attackType, this, distance, retaliated, dodge);
 			System.out.println(attackCalc.toString());
-			int rng0 = AttackCalc.RANDOM.nextInt(100);
-			int rng1 = AttackCalc.RANDOM.nextInt(100);
-			int dmg;
-			if(rng0 < attackCalc.hitrate0)
-			{
-				System.out.println("Hit");
-				dmg = attackCalc.baseDamage;
-			}
-			else if(rng0 < attackCalc.hitrate1)
-			{
-				System.out.println("Scratch");
-				dmg = attackCalc.halfDamage;
-			}
-			else
-			{
-				System.out.println("Dodged");
-				return;
-			}
-			if(rng1 < attackCalc.critrate)
-			{
-				System.out.println("Crit");
-				dmg = dmg * (100 + attackCalc.critMultiplier) / 100;
-			}
-			reduceHealth(dmg);
+			int dmg = attackCalc.dmg();
+			if(dmg >= 0)
+				reduceHealth(dmg);
 		}
 		else
 			throw new RuntimeException("Attacked by non-CBA: " + attackedBy.pather().name());

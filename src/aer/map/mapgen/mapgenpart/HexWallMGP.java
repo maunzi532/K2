@@ -7,13 +7,13 @@ public class HexWallMGP extends MapGenPart
 {
 	private final HexLocation mid;
 	private final int radius;
-	private final boolean ground;
+	private final HWMGPType type;
 
-	public HexWallMGP(HexLocation mid, int radius, boolean ground)
+	public HexWallMGP(HexLocation mid, int radius, HWMGPType type)
 	{
 		this.mid = mid;
 		this.radius = radius;
-		this.ground = ground;
+		this.type = type;
 	}
 
 	@Override
@@ -26,14 +26,24 @@ public class HexWallMGP extends MapGenPart
 				HexDirection direction = HexLocation.direction(mid, loc);
 				if(direction == null)
 					throw new RuntimeException();
-				if(direction.primary())
-					return new WallTile(map, loc, 5 - (direction.r / 2), ground ? WallType.GROUND_EDGE : WallType.AIR_EDGE);
+				if(type.ceiling)
+				{
+					if(direction.primary())
+						return new WFloorTile(map, loc, 5 - (direction.r / 2), type.corner);
+					else
+						return new WFloorTile(map, loc, 5 - (direction.r / 2), type.edge);
+				}
 				else
-					return new WallTile(map, loc, 5 - (direction.r / 2), ground ? WallType.GROUND : WallType.GROUND_IN);
+				{
+					if(direction.primary())
+						return new WallTile(map, loc, 5 - (direction.r / 2), type.corner);
+					else
+						return new WallTile(map, loc, 5 - (direction.r / 2), type.edge);
+				}
 			}
 			else if(HexLocation.xdzDifference(mid, loc) < radius)
 			{
-				return new WFloorTile(map, loc, 0, WallType.FLOOR);
+				return new WFloorTile(map, loc, 0, type.mid);
 			}
 		}
 		return null;

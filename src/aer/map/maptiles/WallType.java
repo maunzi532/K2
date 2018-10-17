@@ -3,10 +3,10 @@ package aer.map.maptiles;
 public enum WallType
 {
 	AIR(new int[]{0, 0, 1, 0, 0, 1}, new int[]{0, 0, 1, 0, 0, 1}),
-	GROUND_IN(new int[]{0, 0, 1, 0, 0, 0}, new int[]{0, 0, 1, 0, 0, 1}),
+	IN(new int[]{0, 0, 1, 0, 0, 0}, new int[]{0, 0, 1, 0, 0, 1}),
 	GROUND(new int[]{0, 0, 0, 0, 0, 0}, new int[]{0, 0, 1, 0, 0, 1}),
-	AIR_EDGE(new int[]{0, 0, 1, 1, 0, 0}, new int[]{0, 0, 1, 1, 0, 0}),
-	GROUND_EDGE(new int[]{0, 0, 0, 0, 0, 0}, new int[]{0, 0, 1, 1, 0, 0}),
+	AIR_CORNER(new int[]{0, 0, 1, 1, 0, 0}, new int[]{0, 0, 1, 1, 0, 0}),
+	GROUND_CORNER(new int[]{0, 0, 0, 0, 0, 0}, new int[]{0, 0, 1, 1, 0, 0}),
 	FLOOR(new int[]{0, 0, 0, 0, 0, 0}, null);
 
 	WallType(int[] ground, int[] high)

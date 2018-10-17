@@ -49,6 +49,34 @@ public class AttackCalc
 		critMultiplier = 100;
 	}
 
+	public int dmg()
+	{
+		int rng0 = RANDOM.nextInt(100);
+		int rng1 = RANDOM.nextInt(100);
+		int dmg;
+		if(rng0 < hitrate0)
+		{
+			System.out.println("Hit");
+			dmg = baseDamage;
+		}
+		else if(rng0 < hitrate1)
+		{
+			System.out.println("Scratch");
+			dmg = halfDamage;
+		}
+		else
+		{
+			System.out.println("Dodged");
+			return -1;
+		}
+		if(rng1 < critrate)
+		{
+			System.out.println("Crit");
+			dmg = dmg * (100 + critMultiplier) / 100;
+		}
+		return dmg;
+	}
+
 	@Override
 	public String toString()
 	{
