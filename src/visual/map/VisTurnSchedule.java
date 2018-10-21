@@ -63,12 +63,9 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 			if(targeting.checkInput() == Input1.TARGET)
 			{
 				Relocatable object = targeting.targetObject();
-				if(object != null && object instanceof Pather && linked.playerControlled.contains(object))
+				if(object instanceof Pather && linked.playerControlled.contains(object))
 				{
-					Pather pather = (Pather) object;
-					if(pather.getPossiblePaths() == null)
-						pather.calculateActionPaths();
-					pathTraverse = new PathTraverse(pather.getPossiblePaths(), pather, true, visHUD);
+					pathTraverse = new PathTraverse((Pather) object, visHUD);
 					visTiledMap.lightThese(pathTraverse);
 				}
 			}
@@ -104,15 +101,13 @@ public class VisTurnSchedule extends AbstractVis<TurnSchedule>
 		{
 			reactionTraverse = new ReactionTraverse(linked.targetData, linked.playerInterrupt,
 					linked.playerControl == 3, targeting, visHUD);
-			if(reactionTraverse.visualUpdateRequired)
-				visTiledMap.lightThese(reactionTraverse);
+			visTiledMap.lightThese(reactionTraverse);
 		}
 		reactionTraverse.exec();
 		if(reactionTraverse.chosen0 != null)
 		{
 			linked.importReaction(reactionTraverse.chosen0);
 			reactionTraverse = null;
-
 		}
 		else if(reactionTraverse.chosen1 != null)
 		{

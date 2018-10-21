@@ -13,7 +13,7 @@ public class ValueNPC implements NPC_Control
 	public PathAction path(Pather xec)
 	{
 		ValueValue current = (ValueValue) aiValue(xec, xec.getTherathic().actionResource());
-		return xec.getPossiblePaths().stream().filter(e -> e.aiValue.compareTo(current) > 0)
+		return xec.getPossibleActionPaths().stream().filter(e -> e.aiValue.compareTo(current) > 0)
 				.max(Comparator.comparing(e -> e.aiValue)).orElse(null);
 	}
 
@@ -21,7 +21,7 @@ public class ValueNPC implements NPC_Control
 	public TakeableAction interrupt(Pather xec, TargetData targetData)
 	{
 		ValueValue current = (ValueValue) aiValue(xec, xec.getTherathic().actionResource());
-		return xec.getPossiblePaths().stream().filter(e -> e.aiValue.compareTo(current) > 0)
+		return xec.getPossibleInterrupts(targetData).stream().filter(e -> e.aiValue.compareTo(current) > 0)
 				.max(Comparator.comparing(e -> e.aiValue)).map(e -> e.action).orElse(null);
 	}
 

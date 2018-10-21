@@ -9,7 +9,10 @@ import java.util.*;
 public class Pather extends Relocatable
 {
 	private Therathic therathic;
-	private List<PathAction> possiblePaths;
+
+	private List<PathAction> possibleActionPaths;
+	private List<PathAction> possibleInterrupts;
+	private PathAction endPath;
 
 	public Pather(Identifier id, HexLocation loc, HexDirection direction, AirState airState, Therathic therathic)
 	{
@@ -23,29 +26,32 @@ public class Pather extends Relocatable
 		return therathic;
 	}
 
-	public List<PathAction> getPossiblePaths()
+	public List<PathAction> getPossibleActionPaths()
 	{
-		return possiblePaths;
+		if(possibleActionPaths == null)
+			possibleActionPaths = therathic.possibleActivePaths();
+		return possibleActionPaths;
+	}
+
+	public List<PathAction> getPossibleInterrupts(TargetData targetData)
+	{
+		if(possibleInterrupts == null)
+			possibleInterrupts = therathic.possibleInterrupts(targetData);
+		return possibleInterrupts;
+	}
+
+	public PathAction getEndPath()
+	{
+		if(endPath == null)
+			endPath = therathic.endPath();
+		return endPath;
 	}
 
 	public void resetPossiblePaths()
 	{
-		possiblePaths = null;
-	}
-
-	public void calculateActionPaths()
-	{
-		possiblePaths = therathic.possibleActivePaths();
-	}
-
-	public void calculateInterrupts(TargetData targetData)
-	{
-		possiblePaths = therathic.possibleInterrupts(targetData);
-	}
-
-	public void calculateEndPath()
-	{
-		possiblePaths = Collections.singletonList(therathic.endPath());
+		possibleActionPaths = null;
+		possibleInterrupts = null;
+		endPath = null;
 	}
 
 	@Override

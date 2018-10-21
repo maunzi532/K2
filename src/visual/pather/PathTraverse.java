@@ -12,34 +12,31 @@ import visual.map.*;
 
 public class PathTraverse
 {
-	public VisHUD visHUD;
-	public final List<PathAction> possibleActions;
+	private VisHUD visHUD;
+	private final List<PathAction> possibleActions;
 	public PathAction currentAction;
 	public Pather pather;
-	public R_Relocatable res1;
+	private R_Relocatable res1;
 	public HexDirection turn;
 	public HexLocation loc;
 	public Relocatable object;
-	public int choiceNum;
-	public List choiceOptions;
+	private int choiceNum;
+	private List choiceOptions;
 	public boolean esc = false;
 	public boolean visualUpdateRequired = false;
 
-	public PathTraverse(List<PathAction> possibleActions, Pather pather, boolean initial, VisHUD visHUD)
+	public PathTraverse(Pather pather, VisHUD visHUD)
 	{
 		this.visHUD = visHUD;
-		this.possibleActions = possibleActions;
 		this.pather = pather;
-		if(initial)
-			setCurrentAction(possibleActions.get(0));
-		else
-			setCurrentAction(null);
+		possibleActions = pather.getPossibleActionPaths();
+		setCurrentAction(possibleActions.get(0));
 	}
 
-	public void setCurrentAction(PathAction currentAction)
+	private void setCurrentAction(PathAction currentAction)
 	{
 		this.currentAction = currentAction;
-		if(currentAction != null && currentAction.deducted instanceof R_Relocatable)
+		if(currentAction.deducted instanceof R_Relocatable)
 			res1 = (R_Relocatable) currentAction.deducted;
 		updateChoiceOptions();
 	}
@@ -69,7 +66,7 @@ public class PathTraverse
 				}
 				break;
 			case CHOOSE:
-				if(choiceNum >= 0 && choiceOptions != null && choiceOptions.size() > choiceNum)
+				if(choiceNum >= 0 && choiceOptions.size() > choiceNum)
 				{
 					chReset();
 					pathIn((TakeableAction) choiceOptions.get(choiceNum));
@@ -93,18 +90,14 @@ public class PathTraverse
 			case ACCEPT:
 				if(!chCheck() && canEnd())
 				{
-					/*System.out.println("Chosen path:");
-					System.out.print(steps(currentAction));*/
 					return currentAction;
 				}
-				else if(choiceNum >= 0 && choiceOptions != null && choiceOptions.size() > choiceNum)
+				else if(choiceNum >= 0 && choiceOptions.size() > choiceNum)
 				{
 					chReset();
 					pathIn((TakeableAction) choiceOptions.get(choiceNum));
 					if(canEnd())
 					{
-						/*System.out.println("Chosen path:");
-						System.out.print(steps(currentAction));*/
 						return currentAction;
 					}
 				}
@@ -122,12 +115,10 @@ public class PathTraverse
 				}
 				else
 				{
-					//System.out.println("Exiting");
 					esc = true;
 				}
 				break;
 			case ESCAPE:
-				//System.out.println("Exiting");
 				esc = true;
 				break;
 			case MINUSD:
@@ -175,12 +166,7 @@ public class PathTraverse
 	public void updateChoiceOptions()
 	{
 		if(object != null)
-		{
-			/*System.out.println(object.id);
-			if(!objects().keySet().isEmpty())
-				System.out.println(objects().keySet().iterator().next().id);*/
 			choiceOptions = objects().get(object);
-		}
 		else if(loc != null)
 			choiceOptions = locations().get(loc);
 		else if(turn != null)
@@ -239,23 +225,6 @@ public class PathTraverse
 
 	private void showChoiceOptions()
 	{
-		/*System.out.print(steps(currentAction));
-		if(!chCheck() && canEnd())
-			System.out.println("> enter key to take this path");
-		System.out.println(object != null ? "Actions targeting object:" :
-				loc != null ? "Actions targeting location:" :
-						turn != null ? "Actions targeting direction:" :
-								"Actions:");
-		if(choiceOptions.isEmpty())
-			System.out.println("None");
-		else
-		{
-			StringBuilder sb = new StringBuilder();
-			for(int i = 0; i < choiceOptions.size(); i++)
-				sb.append(i == choiceNum ? "> " : "| ").append(choiceOptions.get(i).getClass().getSimpleName()).append("\n");
-			System.out.print(sb.toString());
-		}*/
-
 		if(currentAction != null && currentAction.deducted instanceof Resource_AP_MP)
 		{
 			visHUD.updateText(1, "AP", String.valueOf(((Resource_AP_MP) currentAction.deducted).dActionPoints()));
@@ -284,10 +253,8 @@ public class PathTraverse
 		visHUD.changeMode(1);
 	}
 
-	public static String steps(PathAction pathAction)
+	private static String steps(PathAction pathAction)
 	{
-		if(pathAction == null)
-			return "";
 		List<TakeableAction> actions = new ArrayList<>();
 		PathAction.pathToList(pathAction, actions);
 		StringBuilder sb = new StringBuilder();

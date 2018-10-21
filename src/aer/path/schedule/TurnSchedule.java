@@ -132,7 +132,7 @@ public class TurnSchedule extends CommandLink
 				else
 				{
 					currentControlled = npcControlled.next();
-					currentControlled.calculateActionPaths();
+					//currentControlled.calculateActionPaths();
 					PathAction path = currentControlled.getTherathic().npcControl().path(currentControlled);
 					if(path != null)
 						importPath(path);
@@ -245,7 +245,7 @@ public class TurnSchedule extends CommandLink
 				else
 				{
 					currentInterrupt = npcInterrupt.next();
-					currentInterrupt.calculateInterrupts(targetData);
+					//currentInterrupt.calculateInterrupts(targetData);
 					TakeableAction intA = currentInterrupt.getTherathic().npcControl().interrupt(currentInterrupt, targetData);
 					if(intA != null)
 						importInterrupt(currentInterrupt, intA);
@@ -258,7 +258,7 @@ public class TurnSchedule extends CommandLink
 				{
 					log(3, "Ready for player interrupts");
 					playerInterrupt = interrupt.stream().filter(e -> e.getTherathic().playerControlled()).collect(Collectors.toList());
-					playerInterrupt.forEach(e -> e.calculateInterrupts(targetData));
+					//playerInterrupt.forEach(e -> e.calculateInterrupts(targetData));
 					if(targetData.target.getTherathic().playerControlled())
 					{
 						playerControl = 3;

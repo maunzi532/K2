@@ -35,7 +35,7 @@ public class ReactionTraverse
 		this.playerChoosesReaction = playerChoosesReaction;
 		this.targeting = targeting;
 		this.visHUD = visHUD;
-		reallyCanInterrupt = canInterrupt.stream().filter(e -> !e.getPossiblePaths().isEmpty()).collect(Collectors.toList());
+		reallyCanInterrupt = canInterrupt.stream().filter(e -> !e.getPossibleInterrupts(targetData).isEmpty()).collect(Collectors.toList());
 		if(playerChoosesReaction)
 		{
 			reactionOptions = targetData.reactionOptions();
@@ -60,7 +60,7 @@ public class ReactionTraverse
 				{
 					interrupter = (Pather) t0;
 					cursor = 0;
-					limit = interrupter.getPossiblePaths().size();
+					limit = interrupter.getPossibleInterrupts(targetData).size();
 					showChoiceOptions();
 				}
 				break;
@@ -70,7 +70,7 @@ public class ReactionTraverse
 				{
 					if(cursor < limit)
 					{
-						chosen1 = interrupter.getPossiblePaths().get(cursor).action;
+						chosen1 = interrupter.getPossibleInterrupts(targetData).get(cursor).action;
 						visHUD.changeMode(0);
 					}
 				}
@@ -114,9 +114,9 @@ public class ReactionTraverse
 	{
 		if(interrupter != null)
 		{
-			if(cursor < limit && interrupter.getPossiblePaths().get(cursor).deducted instanceof Resource_AP_MP)
+			if(cursor < limit && interrupter.getPossibleInterrupts(targetData).get(cursor).deducted instanceof Resource_AP_MP)
 			{
-				PathAction action = interrupter.getPossiblePaths().get(cursor);
+				PathAction action = interrupter.getPossibleInterrupts(targetData).get(cursor);
 				visHUD.updateText(1, "AP", String.valueOf(((Resource_AP_MP) action.deducted).dActionPoints()));
 				visHUD.updateText(1, "MP", String.valueOf(((Resource_AP_MP) action.deducted).dMovementPoints()));
 				visHUD.updateText(1, "Path", ""/*steps(currentAction)*/);
@@ -130,8 +130,8 @@ public class ReactionTraverse
 				visHUD.updateText(1, "Take", "No available Interrupts");
 			}
 			StringBuilder sb = new StringBuilder();
-			for(int i = 0; i < interrupter.getPossiblePaths().size(); i++)
-				sb.append(i == cursor ? "> " : "| ").append(interrupter.getPossiblePaths().get(i).getClass().getSimpleName()).append("\n");
+			for(int i = 0; i < interrupter.getPossibleInterrupts(targetData).size(); i++)
+				sb.append(i == cursor ? "> " : "| ").append(interrupter.getPossibleInterrupts(targetData).get(i).getClass().getSimpleName()).append("\n");
 			visHUD.updateText(1, "Options", sb.toString());
 
 		}
