@@ -5,7 +5,6 @@ import aer.path.pather.*;
 import aer.path.schedule.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
-import aer.relocatable.mount.*;
 import aer.resource2.items.*;
 import aer.resource2.therathicType.*;
 import aer.resource3.resource4.*;
@@ -112,12 +111,6 @@ public class TX_AP_Transform extends TX_AP implements CBA
 	{
 		super.linkTo(pather);
 		pather.updateMType(currentTransform().mType(), currentTransform().transformKeepMounted(), new AC());
-	}
-
-	@Override
-	public MType mType()
-	{
-		return currentTransform().mType();
 	}
 
 	@Override

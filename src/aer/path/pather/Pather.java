@@ -4,6 +4,7 @@ import aer.locate.*;
 import aer.path.schedule.*;
 import aer.path.team.*;
 import aer.relocatable.*;
+import aer.relocatable.mount.*;
 import java.util.*;
 
 public class Pather extends Relocatable
@@ -13,9 +14,10 @@ public class Pather extends Relocatable
 	private List<PathAction> possibleActionPaths;
 	private List<PathAction> possibleInterrupts;
 
-	public Pather(Identifier id, HexLocation loc, HexDirection direction, AirState airState, Therathic therathic)
+	public Pather(Identifier id, HexLocation loc, HexDirection direction, AirState airState,
+			Therathic therathic, MType mType)
 	{
-		super(id, loc, direction, airState, therathic.mType());
+		super(id, loc, direction, airState, mType);
 		this.therathic = therathic;
 		therathic.linkTo(this);
 	}

@@ -16,6 +16,8 @@ public class Mage extends Transformation
 
 	public Mage()
 	{
+		super();
+		mType = new MTypeObject(0);
 		movementItem = new FloorMovementItem2(this);
 	}
 
@@ -43,12 +45,6 @@ public class Mage extends Transformation
 	public List<EndPatherItem> endItems()
 	{
 		return Collections.singletonList(movementItem);
-	}
-
-	@Override
-	public MType mType()
-	{
-		return new MTypeObject();
 	}
 
 	@Override

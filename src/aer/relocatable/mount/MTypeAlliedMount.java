@@ -5,49 +5,18 @@ import aer.resource2.therathicType.*;
 
 public class MTypeAlliedMount extends MType
 {
-	private TX_CP_AlliedMount tx_cp;
-	private int weight;
+	private TX_CP_AlliedMount tx;
+
+	public MTypeAlliedMount(Relocatable main, MountSlotInfo[] info, int weight, int cMin, int cMax, int slowEffect,
+			int energyReduction0, int energyReduction1)
+	{
+		super(main, info, weight, cMin, cMax, slowEffect, energyReduction0, energyReduction1);
+	}
 
 	@Override
 	public boolean canTransport(Relocatable target)
 	{
 		return false;
-	}
-
-	@Override
-	public int weight()
-	{
-		return weight;
-	}
-
-	@Override
-	public int cMin()
-	{
-		return 0;
-	}
-
-	@Override
-	public int cMax()
-	{
-		return 0;
-	}
-
-	@Override
-	public int slowEffect()
-	{
-		return 0;
-	}
-
-	@Override
-	public int energyReduction0()
-	{
-		return 0;
-	}
-
-	@Override
-	public int energyReduction1()
-	{
-		return 0;
 	}
 
 	@Override
@@ -65,6 +34,6 @@ public class MTypeAlliedMount extends MType
 	@Override
 	public void update()
 	{
-		tx_cp.mountSlotUpdateInfo();
+		tx.mountSlotUpdateInfo();
 	}
 }

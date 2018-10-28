@@ -2,7 +2,6 @@ package aer.resource2.therathicType;
 
 import aer.path.pather.*;
 import aer.path.team.*;
-import aer.relocatable.mount.*;
 import aer.resource2.items.item1.*;
 import aer.resource2.items.item2.*;
 import aer.resource2.items.item3.*;
@@ -17,12 +16,6 @@ public class TX_CP_2 extends TX_CP
 		items.add(endItem);
 		items.add(new MountItem1(this));
 		items.add(new TargetingItem3(this));
-	}
-
-	@Override
-	public MType mType()
-	{
-		return new MTypeObject();
 	}
 
 	@Override

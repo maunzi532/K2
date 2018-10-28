@@ -5,6 +5,7 @@ import aer.map.*;
 import aer.path.pather.*;
 import aer.path.schedule.*;
 import aer.relocatable.*;
+import aer.relocatable.mount.*;
 import aer.resource2.therathicType.*;
 import aer.resource3.*;
 import aer.resource3.resource4.*;
@@ -91,17 +92,17 @@ public class Main extends SimpleApplication
 		/*Pather pather = new Pather(new Identifier("Mage_10"), new HexLocation(4, 3, 3, 0),
 				new HexDirection(6), AirState.UP, new TX_AP_Transform(new Equipable(new Agro(), new Agro(), null, null, null), 0, null));*/
 		Pather pather = new Pather(new Identifier("Mage_10"), new HexLocation(2, 1, 0, 0),
-				new HexDirection(6), AirState.FLOOR, new TX_AP_Transform(new Equipable(new Agro(), new Agro(), null, null, null), 0, null));
+				new HexDirection(6), AirState.FLOOR, new TX_AP_Transform(new Equipable(new Agro(), new Agro(), null, null, null), 0, null), new MTypeObject(0));
 		turnSummoner.entries.add(new EntryToSummon(0, 0, 0, 0, pather));
 
 		//TX_AP_2 HexPather (Team 0)
 		Pather pather1 = new Pather(new Identifier("TX_AP_2_11"), new HexLocation(4, 1, 0, 0),
-				new HexDirection(3), AirState.FLOOR, new TX_CP_2(0));
+				new HexDirection(3), AirState.FLOOR, new TX_CP_2(0), new MTypeObject(0));
 		turnSummoner.entries.add(new EntryToSummon(0, 0, 0, 0, pather1));
 
 		//TX_AP_Transform (Equipable) HexPather (Team 1)
 		Pather pather2 = new Pather(new Identifier("Equip_12"), new HexLocation(2, 3, 0, 0),
-				new HexDirection(5), AirState.FLOOR, new TX_AP_Transform(new Equipable(new Agro(), null, null, null, null), 1, new ValueNPC()));
+				new HexDirection(5), AirState.FLOOR, new TX_AP_Transform(new Equipable(new Agro(), null, null, null, null), 1, new ValueNPC()), new MTypeObject(0));
 		turnSummoner.entries.add(new EntryToSummon(0, 0, 0, 0, pather2));
 
 

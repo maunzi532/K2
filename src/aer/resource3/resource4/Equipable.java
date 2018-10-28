@@ -25,6 +25,7 @@ public class Equipable extends Transformation
 
 	public Equipable(StatItem... items)
 	{
+		mType = new MTypeObject(0);
 		movementItem = new FloorMovementItem2(this);
 		health = maxHealth();
 		active = true;
@@ -83,12 +84,6 @@ public class Equipable extends Transformation
 	public List<EndPatherItem> endItems()
 	{
 		return Collections.singletonList(movementItem);
-	}
-
-	@Override
-	public MType mType()
-	{
-		return new MTypeObject();//TODO
 	}
 
 	public List<StatItem> statItems()

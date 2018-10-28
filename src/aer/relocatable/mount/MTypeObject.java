@@ -4,48 +4,16 @@ import aer.relocatable.*;
 
 public class MTypeObject extends MType
 {
-	private int weight;
+	public MTypeObject(int weight)
+	{
+		super(null, new MountSlotInfo[0], weight, 0, 0,
+				0, 0, 0);
+	}
 
 	@Override
 	public boolean canTransport(Relocatable target)
 	{
 		return false;
-	}
-
-	@Override
-	public int weight()
-	{
-		return weight;
-	}
-
-	@Override
-	public int cMin()
-	{
-		return 0;
-	}
-
-	@Override
-	public int cMax()
-	{
-		return 0;
-	}
-
-	@Override
-	public int slowEffect()
-	{
-		return 0;
-	}
-
-	@Override
-	public int energyReduction0()
-	{
-		return 0;
-	}
-
-	@Override
-	public int energyReduction1()
-	{
-		return 0;
 	}
 
 	@Override
@@ -58,11 +26,5 @@ public class MTypeObject extends MType
 	public boolean energyLink()
 	{
 		return false;
-	}
-
-	@Override
-	public void update()
-	{
-
 	}
 }

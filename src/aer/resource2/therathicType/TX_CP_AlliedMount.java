@@ -3,7 +3,6 @@ package aer.resource2.therathicType;
 import aer.path.pather.*;
 import aer.path.team.*;
 import aer.relocatable.*;
-import aer.relocatable.mount.*;
 import aer.resource2.items.item2.*;
 import java.util.*;
 
@@ -19,12 +18,6 @@ public class TX_CP_AlliedMount extends TX_CP
 		endItem = new FloorMovementItem2(this);
 		items.add(endItem);
 		this.whitelist = Arrays.asList(whitelist);
-	}
-
-	@Override
-	public MType mType()
-	{
-		return new MTypeObject();//TODO
 	}
 
 	@Override

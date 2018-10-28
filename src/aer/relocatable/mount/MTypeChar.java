@@ -5,49 +5,18 @@ import aer.resource3.*;
 
 public class MTypeChar extends MType
 {
-	private TX_AP_Transform tx_ap;
-	private int weight;
+	private TX_AP_Transform tx;
+
+	public MTypeChar(Relocatable main, MountSlotInfo[] info, int weight, int cMin, int cMax, int slowEffect,
+			int energyReduction0, int energyReduction1)
+	{
+		super(main, info, weight, cMin, cMax, slowEffect, energyReduction0, energyReduction1);
+	}
 
 	@Override
 	public boolean canTransport(Relocatable target)
 	{
 		return false;
-	}
-
-	@Override
-	public int weight()
-	{
-		return weight;
-	}
-
-	@Override
-	public int cMin()
-	{
-		return 0;
-	}
-
-	@Override
-	public int cMax()
-	{
-		return 0;
-	}
-
-	@Override
-	public int slowEffect()
-	{
-		return 0;
-	}
-
-	@Override
-	public int energyReduction0()
-	{
-		return 0;
-	}
-
-	@Override
-	public int energyReduction1()
-	{
-		return 0;
 	}
 
 	@Override
@@ -61,7 +30,4 @@ public class MTypeChar extends MType
 	{
 		return false;
 	}
-
-	@Override
-	public void update(){}
 }

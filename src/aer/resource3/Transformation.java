@@ -12,6 +12,7 @@ public abstract class Transformation implements Serializable, CBA, CostTable
 	public TX_AP_Transform main;
 	public Map<TStat, Integer> stats;
 	public List<AppliedModifier> modifiers;
+	public MType mType;
 
 	public Transformation()
 	{
@@ -59,7 +60,7 @@ public abstract class Transformation implements Serializable, CBA, CostTable
 
 	public MType mType()
 	{
-		return new MTypeObject();
+		return mType;
 	}
 
 	public boolean transformKeepMounted()

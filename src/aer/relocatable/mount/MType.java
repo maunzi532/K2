@@ -4,8 +4,27 @@ import aer.relocatable.*;
 
 public abstract class MType
 {
-	private Relocatable main;
-	private MountSlotInfo[] info = new MountSlotInfo[0];
+	protected Relocatable main;
+	protected MountSlotInfo[] info;
+	protected int weight;
+	protected int cMin;
+	protected int cMax;
+	protected int slowEffect;
+	protected int energyReduction0;
+	protected int energyReduction1;
+
+	public MType(Relocatable main, MountSlotInfo[] info, int weight, int cMin, int cMax, int slowEffect,
+			int energyReduction0, int energyReduction1)
+	{
+		this.main = main;
+		this.info = info;
+		this.weight = weight;
+		this.cMin = cMin;
+		this.cMax = cMax;
+		this.slowEffect = slowEffect;
+		this.energyReduction0 = energyReduction0;
+		this.energyReduction1 = energyReduction1;
+	}
 
 	public Relocatable main()
 	{
@@ -24,21 +43,39 @@ public abstract class MType
 
 	public abstract boolean canTransport(Relocatable target);
 
-	public abstract int weight();
+	public int weight()
+	{
+		return weight;
+	}
 
-	public abstract int cMin();
+	public int cMin()
+	{
+		return cMin;
+	}
 
-	public abstract int cMax();
+	public int cMax()
+	{
+		return cMax;
+	}
 
-	public abstract int slowEffect();
+	public int slowEffect()
+	{
+		return slowEffect;
+	}
 
-	public abstract int energyReduction0();
+	public int energyReduction0()
+	{
+		return energyReduction0;
+	}
 
-	public abstract int energyReduction1();
+	public int energyReduction1()
+	{
+		return energyReduction1;
+	}
 
 	public abstract boolean moveLink();
 
 	public abstract boolean energyLink();
 
-	public abstract void update();
+	public void update(){}
 }
