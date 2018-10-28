@@ -12,11 +12,10 @@ public class Pather extends Relocatable
 
 	private List<PathAction> possibleActionPaths;
 	private List<PathAction> possibleInterrupts;
-	private PathAction endPath;
 
 	public Pather(Identifier id, HexLocation loc, HexDirection direction, AirState airState, Therathic therathic)
 	{
-		super(id, loc, direction, airState, therathic.mountSlotInfo());
+		super(id, loc, direction, airState, therathic.mType());
 		this.therathic = therathic;
 		therathic.linkTo(this);
 	}
@@ -42,22 +41,13 @@ public class Pather extends Relocatable
 
 	public PathAction getEndPath()
 	{
-		if(endPath == null)
-			endPath = therathic.endPath();
-		return endPath;
+		return therathic.endPath();
 	}
 
 	public void resetPossiblePaths()
 	{
 		possibleActionPaths = null;
 		possibleInterrupts = null;
-		endPath = null;
-	}
-
-	@Override
-	public void mountSlotUpdateInfo()
-	{
-		therathic.mountSlotUpdateInfo();
 	}
 
 	@Override

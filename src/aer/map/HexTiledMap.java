@@ -145,9 +145,9 @@ public class HexTiledMap extends CommandLink implements ITiledMap
 	}
 
 	@Override
-	public Relocatable[] determineMountSlots(Identifier id, MountSlotInfo[] info)
+	public Relocatable[] determineMountSlots(Identifier id, int len)
 	{
-		Relocatable[] mountSlots = new Relocatable[info.length];
+		Relocatable[] mountSlots = new Relocatable[len];
 		objects.stream().filter(e -> id.equals(e.getMountedToID())).forEach(e -> mountSlots[e.getMountedToSlot()] = e);
 		return mountSlots;
 	}

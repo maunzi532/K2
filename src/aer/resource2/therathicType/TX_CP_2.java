@@ -2,7 +2,7 @@ package aer.resource2.therathicType;
 
 import aer.path.pather.*;
 import aer.path.team.*;
-import aer.relocatable.*;
+import aer.relocatable.mount.*;
 import aer.resource2.items.item1.*;
 import aer.resource2.items.item2.*;
 import aer.resource2.items.item3.*;
@@ -20,9 +20,9 @@ public class TX_CP_2 extends TX_CP
 	}
 
 	@Override
-	public MountSlotInfo[] mountSlotInfo()
+	public MType mType()
 	{
-		return new MountSlotInfo[0];
+		return new MTypeObject();
 	}
 
 	@Override

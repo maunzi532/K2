@@ -3,7 +3,7 @@ package aer.path.team;
 import aer.path.pather.*;
 import aer.path.schedule.*;
 import aer.path.takeable.*;
-import aer.relocatable.*;
+import aer.relocatable.mount.*;
 import java.io.*;
 import java.util.*;
 import java.util.stream.*;
@@ -14,7 +14,7 @@ public interface Therathic extends Serializable
 
 	Pather pather();
 
-	MountSlotInfo[] mountSlotInfo();
+	MType mType();
 
 	List<PatherItem> activeItems();
 
@@ -41,8 +41,6 @@ public interface Therathic extends Serializable
 	int teamSide();
 
 	boolean playerControlled();
-
-	default void mountSlotUpdateInfo(){}
 
 	NPC_Control npcControl();
 

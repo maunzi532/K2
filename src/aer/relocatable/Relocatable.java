@@ -3,6 +3,7 @@ package aer.relocatable;
 import aer.commands.*;
 import aer.locate.*;
 import aer.map.*;
+import aer.relocatable.mount.*;
 import java.io.*;
 
 public class Relocatable extends CommandLink implements Serializable
@@ -16,15 +17,15 @@ public class Relocatable extends CommandLink implements Serializable
 	private transient Relocatable mountedTo;
 	private int mountedToSlot;
 	private transient Relocatable[] mountSlots;
-	private MountSlotInfo[] mountSlotInfo;
+	private MType mType;
 
-	public Relocatable(Identifier id, HexLocation loc, HexDirection direction, AirState airState, MountSlotInfo... mountSlotInfo)
+	public Relocatable(Identifier id, HexLocation loc, HexDirection direction, AirState airState, MType mType)
 	{
 		this.id = id;
 		this.rLoc = loc;
 		this.rDirection = direction;
 		this.airState = airState;
-		this.mountSlotInfo = mountSlotInfo;
+		this.mType = mType;
 	}
 
 	public HexLocation getLoc()
@@ -96,7 +97,7 @@ public class Relocatable extends CommandLink implements Serializable
 
 	public int getMountSlotCount()
 	{
-		return mountSlotInfo.length;
+		return mType.seats();
 	}
 
 	private Relocatable[] getMountSlots()
@@ -105,11 +106,11 @@ public class Relocatable extends CommandLink implements Serializable
 		{
 			if(map != null)
 			{
-				mountSlots = map.determineMountSlots(id, mountSlotInfo);
+				mountSlots = map.determineMountSlots(id, mType.seats());
 			}
 			else
 			{
-				mountSlots = new Relocatable[mountSlotInfo.length];
+				mountSlots = new Relocatable[mType.seats()];
 			}
 		}
 		return mountSlots;
@@ -123,17 +124,22 @@ public class Relocatable extends CommandLink implements Serializable
 	public void setMountSlotAt(int slot, Relocatable m)
 	{
 		getMountSlots()[slot] = m;
-		mountSlotUpdateInfo();
+		mType.update();
 	}
 
 	public MountSlotInfo getMountSlotInfo(int slot)
 	{
-		return mountSlotInfo[slot];
+		return mType.info()[slot];
 	}
 
 	public MountSlotInfo[] getMountSlotInfo()
 	{
-		return mountSlotInfo;
+		return mType.info();
+	}
+
+	public MType getMType()
+	{
+		return mType;
 	}
 
 	public void setMountedTo(Identifier newMountedToID, int slot, AC ac)
@@ -152,10 +158,10 @@ public class Relocatable extends CommandLink implements Serializable
 	{
 		if(mountedToID != null)
 		{
-			getMountedTo().setMountSlotAt(mountedToSlot, null);
 			rLoc = getLoc();
 			rDirection = getDirection();
 			setAirState(toState, null);
+			getMountedTo().setMountSlotAt(mountedToSlot, null);
 			if(ac != null)
 				CDismount.issueCommand(this);
 			mountedToID = null;
@@ -167,14 +173,14 @@ public class Relocatable extends CommandLink implements Serializable
 			setAirState(toState, null);
 	}
 
-	public void updateMountSlots(MountSlotInfo[] newInfo, boolean keep, AC ac)
+	public void updateMType(MType newType, boolean keep, AC ac)
 	{
-		Relocatable[] newSlots = new Relocatable[newInfo.length];
+		Relocatable[] newSlots = new Relocatable[newType.seats()];
 		for(int i = 0; i < getMountSlotCount(); i++)
 		{
 			if(getMountSlotAt(i) != null)
 			{
-				if(keep && i < newSlots.length && (newInfo[i].allowRotating || getMountSlotAt(i).getDirection().r == 0))
+				if(keep && i < newSlots.length && (newType.info()[i].allowRotating || getMountSlotAt(i).getDirection().r == 0))
 				{
 					newSlots[i] = getMountSlotAt(i);
 				}
@@ -184,12 +190,10 @@ public class Relocatable extends CommandLink implements Serializable
 				}
 			}
 		}
-		mountSlotInfo = newInfo;
+		mType = newType;
 		mountSlots = newSlots;
-		mountSlotUpdateInfo();
+		mType.update();
 	}
-
-	public void mountSlotUpdateInfo(){}
 
 	@Override
 	public String name()

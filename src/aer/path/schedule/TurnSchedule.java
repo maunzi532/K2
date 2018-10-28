@@ -183,8 +183,7 @@ public class TurnSchedule extends CommandLink
 				else
 				{
 					currentControlled = npcControlled.next();
-					//currentControlled.calculateEndPath();
-					PathAction path = currentControlled.getTherathic().endPhase();
+					PathAction path = currentControlled.getEndPath();
 					if(path != null)
 						importPath(path);
 					else

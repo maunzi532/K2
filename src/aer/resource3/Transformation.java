@@ -2,7 +2,7 @@ package aer.resource3;
 
 import aer.path.pather.*;
 import aer.path.schedule.*;
-import aer.relocatable.*;
+import aer.relocatable.mount.*;
 import aer.resource3.resource4.*;
 import java.io.*;
 import java.util.*;
@@ -57,9 +57,9 @@ public abstract class Transformation implements Serializable, CBA, CostTable
 
 	public abstract List<EndPatherItem> endItems();
 
-	public MountSlotInfo[] mountSlotInfo()
+	public MType mType()
 	{
-		return new MountSlotInfo[0];
+		return new MTypeObject();
 	}
 
 	public boolean transformKeepMounted()

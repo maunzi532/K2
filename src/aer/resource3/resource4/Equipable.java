@@ -3,7 +3,7 @@ package aer.resource3.resource4;
 import aer.path.pather.*;
 import aer.path.schedule.*;
 import aer.path.team.*;
-import aer.relocatable.*;
+import aer.relocatable.mount.*;
 import aer.resource2.items.item2.*;
 import aer.resource3.*;
 import java.util.*;
@@ -86,9 +86,9 @@ public class Equipable extends Transformation
 	}
 
 	@Override
-	public MountSlotInfo[] mountSlotInfo()
+	public MType mType()
 	{
-		return new MountSlotInfo[]{MountSlotInfo.NORMAL};
+		return new MTypeObject();//TODO
 	}
 
 	public List<StatItem> statItems()

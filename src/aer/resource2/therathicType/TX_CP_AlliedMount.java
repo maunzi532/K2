@@ -3,6 +3,7 @@ package aer.resource2.therathicType;
 import aer.path.pather.*;
 import aer.path.team.*;
 import aer.relocatable.*;
+import aer.relocatable.mount.*;
 import aer.resource2.items.item2.*;
 import java.util.*;
 
@@ -21,9 +22,9 @@ public class TX_CP_AlliedMount extends TX_CP
 	}
 
 	@Override
-	public MountSlotInfo[] mountSlotInfo()
+	public MType mType()
 	{
-		return new MountSlotInfo[]{MountSlotInfo.DRIVER, MountSlotInfo.NORMAL};
+		return new MTypeObject();//TODO
 	}
 
 	@Override
@@ -32,7 +33,6 @@ public class TX_CP_AlliedMount extends TX_CP
 		return null;
 	}
 
-	@Override
 	public void mountSlotUpdateInfo()
 	{
 		steering = new ArrayList<>();

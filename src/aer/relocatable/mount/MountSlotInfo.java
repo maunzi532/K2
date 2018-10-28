@@ -1,4 +1,4 @@
-package aer.relocatable;
+package aer.relocatable.mount;
 
 public enum MountSlotInfo
 {

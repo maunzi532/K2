@@ -28,7 +28,7 @@ public interface ITiledMap extends ICommandLink
 
 	Relocatable objectBySID(String id);
 
-	Relocatable[] determineMountSlots(Identifier id, MountSlotInfo[] info);
+	Relocatable[] determineMountSlots(Identifier id, int len);
 
 	void addObject(Relocatable object);
 

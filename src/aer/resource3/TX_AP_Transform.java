@@ -5,7 +5,7 @@ import aer.path.pather.*;
 import aer.path.schedule.*;
 import aer.path.takeable.*;
 import aer.path.team.*;
-import aer.relocatable.*;
+import aer.relocatable.mount.*;
 import aer.resource2.items.*;
 import aer.resource2.therathicType.*;
 import aer.resource3.resource4.*;
@@ -57,7 +57,7 @@ public class TX_AP_Transform extends TX_AP implements CBA
 		transforms.add(transformation);
 		transformation.main = this;
 		if(pather != null)
-			pather.updateMountSlots(transformation.mountSlotInfo(), transformation.transformKeepMounted(), new AC());
+			pather.updateMType(transformation.mType(), transformation.transformKeepMounted(), new AC());
 	}
 
 	public void endTransformation(Transformation transformation)
@@ -111,13 +111,13 @@ public class TX_AP_Transform extends TX_AP implements CBA
 	public void linkTo(Pather pather)
 	{
 		super.linkTo(pather);
-		pather.updateMountSlots(currentTransform().mountSlotInfo(), currentTransform().transformKeepMounted(), new AC());
+		pather.updateMType(currentTransform().mType(), currentTransform().transformKeepMounted(), new AC());
 	}
 
 	@Override
-	public MountSlotInfo[] mountSlotInfo()
+	public MType mType()
 	{
-		return currentTransform().mountSlotInfo();
+		return currentTransform().mType();
 	}
 
 	@Override

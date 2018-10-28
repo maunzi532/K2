@@ -6,6 +6,7 @@ import aer.map.maptiles.*;
 import aer.path.pather.*;
 import aer.path.takeable.*;
 import aer.relocatable.*;
+import aer.relocatable.mount.*;
 import aer.resource2.resource.*;
 import java.util.*;
 
