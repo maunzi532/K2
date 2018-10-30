@@ -63,7 +63,7 @@ public class ToSummonBuilder
 	{
 		assert id != null;
 		if(mType == null)
-			mType = new MTypeObject(0);
+			mType = new MTypeObject();
 		Relocatable relocatable;
 		if(therathic != null)
 		{
@@ -73,6 +73,7 @@ public class ToSummonBuilder
 		{
 			relocatable = new Relocatable(id, loc, direction, airState, mType);
 		}
+		mType.setMain(relocatable);
 		return new EntryToSummon(trigger, offset, team, phase, relocatable);
 	}
 }

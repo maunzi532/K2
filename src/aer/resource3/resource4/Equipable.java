@@ -23,9 +23,9 @@ public class Equipable extends Transformation
 	public boolean active;
 	public int lives;
 
-	public Equipable(StatItem... items)
+	public Equipable(MType mType, StatItem... items)
 	{
-		mType = new MTypeObject(0);
+		this.mType = mType;
 		movementItem = new FloorMovementItem2(this);
 		health = maxHealth();
 		active = true;

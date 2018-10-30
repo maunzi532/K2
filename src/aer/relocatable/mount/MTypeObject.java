@@ -4,9 +4,15 @@ import aer.relocatable.*;
 
 public class MTypeObject extends MType
 {
+	public MTypeObject()
+	{
+		super(new MountSlotInfo[0], 0, 0, 0,
+				0, 0, 0);
+	}
+
 	public MTypeObject(int weight)
 	{
-		super(null, new MountSlotInfo[0], weight, 0, 0,
+		super(new MountSlotInfo[0], weight, 0, 0,
 				0, 0, 0);
 	}
 

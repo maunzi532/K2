@@ -13,10 +13,9 @@ public abstract class MType
 	protected int energyReduction0;
 	protected int energyReduction1;
 
-	public MType(Relocatable main, MountSlotInfo[] info, int weight, int cMin, int cMax, int slowEffect,
+	public MType(MountSlotInfo[] info, int weight, int cMin, int cMax, int slowEffect,
 			int energyReduction0, int energyReduction1)
 	{
-		this.main = main;
 		this.info = info;
 		this.weight = weight;
 		this.cMin = cMin;
@@ -26,9 +25,9 @@ public abstract class MType
 		this.energyReduction1 = energyReduction1;
 	}
 
-	public Relocatable main()
+	public void setMain(Relocatable main)
 	{
-		return main;
+		this.main = main;
 	}
 
 	public MountSlotInfo[] info()
@@ -76,6 +75,11 @@ public abstract class MType
 	public abstract boolean moveLink();
 
 	public abstract boolean energyLink();
+
+	public boolean actionsBlocked()
+	{
+		return false;
+	}
 
 	public void update(){}
 }

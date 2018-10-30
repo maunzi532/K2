@@ -17,7 +17,7 @@ public class Mage extends Transformation
 	public Mage()
 	{
 		super();
-		mType = new MTypeObject(0);
+		mType = new MTypeObject();
 		movementItem = new FloorMovementItem2(this);
 	}
 

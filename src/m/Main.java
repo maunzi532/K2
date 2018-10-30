@@ -92,13 +92,13 @@ public class Main extends SimpleApplication
 		/*Pather pather = new Pather(new Identifier("Mage_10"), new HexLocation(4, 3, 3, 0),
 				new HexDirection(6), AirState.UP, new TX_AP_Transform(new Equipable(new Agro(), new Agro(), null, null, null), 0, null));*/
 		Pather pather = new Pather(new Identifier("Mage_10"), new HexLocation(2, 1, 0, 0),
-				new HexDirection(6), AirState.FLOOR, new MTypeObject(0),
-				new TX_AP_Transform(new Equipable(new Agro(), new Agro(), null, null, null), 0, null));
+				new HexDirection(6), AirState.FLOOR, new MTypeObject(),
+				new TX_AP_Transform(new Equipable(new MTypeObject(), new Agro(), new Agro(), null, null, null), 0, null));
 		turnSummoner.entries.add(new EntryToSummon(0, 0, 0, 0, pather));
 
 		//TX_AP_2 HexPather (Team 0)
 		Pather pather1 = new Pather(new Identifier("TX_AP_2_11"), new HexLocation(4, 1, 0, 0),
-				new HexDirection(3), AirState.FLOOR, new MTypeObject(0), new TX_CP_2(0));
+				new HexDirection(3), AirState.FLOOR, new MTypeObject(), new TX_CP_2(0));
 		turnSummoner.entries.add(new EntryToSummon(0, 0, 0, 0, pather1));
 
 		//TX_AP_Transform (Equipable) HexPather (Team 1)
@@ -108,8 +108,8 @@ public class Main extends SimpleApplication
 		turnSummoner.entries.add(new EntryToSummon(0, 0, 0, 0, pather2));*/
 		turnSummoner.entries.add(new ToSummonBuilder().setIdentifier(new Identifier("Equip_12"))
 				.setPosition(new HexLocation(2, 3, 0, 0), new HexDirection(5), AirState.FLOOR)
-				.setMType(new MTypeObject(0))
-				.setTherathic(new TX_AP_Transform(new Equipable(new Agro(), null, null, null, null), 1, new ValueNPC())).build());
+				.setMType(new MTypeObject())
+				.setTherathic(new TX_AP_Transform(new Equipable(new MTypeObject(), new Agro(), null, null, null, null), 1, new ValueNPC())).build());
 
 
 		//Create Meshes and Materials
