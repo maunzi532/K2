@@ -15,7 +15,7 @@ public class Pather extends Relocatable
 	private List<PathAction> possibleInterrupts;
 
 	public Pather(Identifier id, HexLocation loc, HexDirection direction, AirState airState,
-			Therathic therathic, MType mType)
+			MType mType, Therathic therathic)
 	{
 		super(id, loc, direction, airState, mType);
 		this.therathic = therathic;
