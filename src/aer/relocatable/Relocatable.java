@@ -100,7 +100,7 @@ public class Relocatable extends CommandLink implements Serializable
 		return mType.seats();
 	}
 
-	private Relocatable[] getMountSlots()
+	public Relocatable[] getMountSlots()
 	{
 		if(mountSlots == null)
 		{
@@ -191,6 +191,7 @@ public class Relocatable extends CommandLink implements Serializable
 			}
 		}
 		mType = newType;
+		mType.setMain(this);
 		mountSlots = newSlots;
 		mType.update();
 	}

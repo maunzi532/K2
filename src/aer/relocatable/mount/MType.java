@@ -1,6 +1,7 @@
 package aer.relocatable.mount;
 
 import aer.relocatable.*;
+import java.util.*;
 
 public abstract class MType
 {
@@ -55,6 +56,11 @@ public abstract class MType
 	public int cMax()
 	{
 		return cMax;
+	}
+
+	public int cCurrent()
+	{
+		return Arrays.stream(main.getMountSlots()).mapToInt(e -> e.getMType().weight()).sum();
 	}
 
 	public int slowEffect()

@@ -1,19 +1,16 @@
 package aer.relocatable.mount;
 
 import aer.path.pather.*;
-import aer.path.team.*;
 import aer.relocatable.*;
 import aer.resource3.*;
 
 public class MTypeChar extends MType
 {
 	private TX_AP_Transform tx;
-	private int maxW;
 
-	public MTypeChar(MountSlotInfo[] info, int weight, int cMin, int cMax, int slowEffect, int maxW)
+	public MTypeChar(MountSlotInfo info, int weight, int cMin, int cMax, int slowEffect, int energyReduction0)
 	{
-		super(info, weight, cMin, cMax, slowEffect, 30, 0);
-		this.maxW = maxW;
+		super(new MountSlotInfo[]{info}, weight, cMin, cMax, slowEffect, energyReduction0, 0);
 	}
 
 	@Override
@@ -29,13 +26,11 @@ public class MTypeChar extends MType
 	@Override
 	public boolean canTransport(Relocatable target)
 	{
-		if(target instanceof Pather)
-		{
-			Therathic t0 = ((Pather) target).getTherathic();
-			if(t0.teamSide() != tx.teamSide())
-				return false;
-		}
-		return target.getMType().weight() <= maxW;
+		if(main.getMountSlotAt(0) != null)
+			return false;
+		if(target instanceof Pather && ((Pather) target).getTherathic().teamSide() != tx.teamSide())
+			return false;
+		return target.getMType().weight() <= cMax;
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package aer.relocatable.mount;
 
 import aer.path.pather.*;
-import aer.path.team.*;
 import aer.relocatable.*;
 import aer.resource2.therathicType.*;
 
@@ -30,12 +29,10 @@ public class MTypeAlliedMount extends MType
 	@Override
 	public boolean canTransport(Relocatable target)
 	{
-		if(target instanceof Pather)
-		{
-			Therathic t0 = ((Pather) target).getTherathic();
-			if(t0.teamSide() != tx.teamSide())
-				return false;
-		}
+		if(target.getMType().weight() + cCurrent() > cMax)
+			return false;
+		if(target instanceof Pather && ((Pather) target).getTherathic().teamSide() != tx.teamSide())
+			return false;
 		return target.getMType().weight() <= maxW;
 	}
 
