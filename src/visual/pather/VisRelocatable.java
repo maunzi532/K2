@@ -27,7 +27,7 @@ public class VisRelocatable extends AbstractVis<Relocatable>
 		Node node1 = new Node();
 		node1.setUserData("ID", id.toString());
 		node1.setUserData("Target", true);
-		Geometry geom = new Geometry(id.toString(), MeshLager.objectMesh);
+		Geometry geom = new Geometry(id.toString(), MeshLager.objectMesh1);
 		geom.setMaterial(MeshLager.objectMat[colorNum(linked)]);
 		//geom.setLocalRotation(new Quaternion().fromAngleAxis(FastMath.HALF_PI, Vector3f.UNIT_Y));
 		node1.attachChild(geom);
