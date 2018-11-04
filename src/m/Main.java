@@ -97,7 +97,8 @@ public class Main extends SimpleApplication
 		turnSummoner.entries.add(new EntryToSummon(0, 0, 0, 0, pather));*/
 		turnSummoner.entries.add(new ToSummonBuilder().setIdentifier(new Identifier("Mage_10"))
 				.setPosition(new HexLocation(2, 1, 0, 0), new HexDirection(6), AirState.FLOOR)
-				.setTherathic(new TX_AP_Transform(new Equipable(new MTypeChar(MountSlotInfo.NORMAL, 3, 0, 4, 0, 30),
+				.setTherathic(new TX_AP_Transform(new Equipable(
+						new MTypeChar(MountSlotInfo.NORMAL, 3, 0, 4, 1, 20),
 						new Agro(), null, null, null, null), 0, null)).build());
 
 		//TX_AP_2 HexPather (Team 0)
@@ -115,9 +116,14 @@ public class Main extends SimpleApplication
 		turnSummoner.entries.add(new EntryToSummon(0, 0, 0, 0, pather2));*/
 		turnSummoner.entries.add(new ToSummonBuilder().setIdentifier(new Identifier("Equip_12"))
 				.setPosition(new HexLocation(2, 3, 0, 0), new HexDirection(5), AirState.FLOOR)
-				.setMType(new MTypeObject())
 				.setTherathic(new TX_AP_Transform(new Equipable(new MTypeObject(),
 						new Agro(), null, null, null, null), 1, new ValueNPC())).build());
+
+		turnSummoner.entries.add(new ToSummonBuilder().setIdentifier(new Identifier("Horse_13"))
+				.setPosition(new HexLocation(1, 3, 0, 0), new HexDirection(2), AirState.FLOOR)
+				.setMType(new MTypeAlliedMount(new MountSlotInfo[]{MountSlotInfo.DRIVER, MountSlotInfo.NORMAL},
+						6, 5, 9, 2, 20, 5))
+				.setTherathic(new TX_CP_AlliedMount(0, new Identifier("Mage_10"))).build());
 
 
 		//Create Meshes and Materials

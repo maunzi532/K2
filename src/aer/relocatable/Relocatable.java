@@ -147,9 +147,9 @@ public class Relocatable extends CommandLink implements Serializable
 		dismount(AirState.MOUNT, ac);
 		mountedToID = newMountedToID;
 		mountedToSlot = slot;
-		getMountedTo().setMountSlotAt(mountedToSlot, this);
 		setLoc(rLoc, null);
 		setDirection(rDirection, null);
+		getMountedTo().setMountSlotAt(mountedToSlot, this);
 		if(ac != null)
 			CMount.issueCommand(this);
 	}

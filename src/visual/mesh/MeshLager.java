@@ -128,12 +128,12 @@ public class MeshLager
 	private static void object()
 	{
 		objectMesh = new YSolidPrismX(Scale.X_HEX_RADIUS * 0.5f, 0f, Scale.CELLAR_HEIGHT / 4f, 3);
-		float hu = Scale.CELLAR_HEIGHT / 24f;
+		float hu = Scale.CELLAR_HEIGHT / 36f;
 		float lu = Scale.X_HEX_RADIUS / 10f;
 		float wu = Scale.X_HEX_RADIUS / 8f;
-		objectMesh1 = new HorseMesh(hu * 2f, hu * 4f, lu * -5f, lu * 5f, wu * 2f,
-				wu, lu * 4f, lu * 7f, hu * 3f, hu * 7f, hu * 5f,
-				lu * 8f, hu * 4f, lu * 9f, hu * 5f);
+		objectMesh1 = new HorseMesh(hu * 3f, hu * 6f, lu * -5f, lu * 5f, wu * 2f,
+				wu, lu * 4f, lu * 7f, hu * 5f, hu * 10f, hu * 8f,
+				lu * 8f, hu * 7f, lu * 9f, hu * 8f);
 		objectMat = new Material[3];
 		objectMat[0] = material(new ColorRGBA(0.6f, 0.6f, 0.6f, 1f));
 		objectMat[1] = material(new ColorRGBA(0.8f, 0f, 0f, 1f));

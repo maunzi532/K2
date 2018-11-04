@@ -60,7 +60,7 @@ public abstract class MType
 
 	public int cCurrent()
 	{
-		return Arrays.stream(main.getMountSlots()).mapToInt(e -> e.getMType().weight()).sum();
+		return Arrays.stream(main.getMountSlots()).mapToInt(e -> e == null ? 0 : e.getMType().weight()).sum();
 	}
 
 	public int slowEffect()

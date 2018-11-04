@@ -4,6 +4,7 @@ import aer.path.pather.*;
 import aer.path.schedule.*;
 import aer.path.team.*;
 import aer.relocatable.mount.*;
+import aer.resource2.items.item1.*;
 import aer.resource2.items.item2.*;
 import aer.resource3.*;
 import java.util.*;
@@ -11,6 +12,7 @@ import java.util.*;
 public class Equipable extends Transformation
 {
 	public EndPatherItem movementItem;
+	public PatherItem mountItem;
 	public StatItem lhItem;
 	public StatItem rhItem;
 	public StatItem dhItem;
@@ -27,6 +29,7 @@ public class Equipable extends Transformation
 	{
 		this.mType = mType;
 		movementItem = new FloorMovementItem2(this);
+		mountItem = new MountItem1(this);
 		health = maxHealth();
 		active = true;
 		lives = maxLives();
@@ -45,6 +48,7 @@ public class Equipable extends Transformation
 	protected void addItems(ArrayList<PatherItem> items)
 	{
 		items.add(movementItem);
+		items.add(mountItem);
 		if(dhItem != null)
 			items.add(dhItem);
 		else
