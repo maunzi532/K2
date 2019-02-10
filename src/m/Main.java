@@ -87,38 +87,27 @@ public class Main extends SimpleApplication
 		TurnSchedule turnSchedule = new TurnSchedule(Arrays.asList(0, 1), 0, hexMap, turnSummoner);
 
 
-		//TX_AP_Transform (Equipable) HexPather (Team 0)
+		//TX_AP_Transform - Equipable (Team 0)
 		/*Pather pather = new Pather(new Identifier("Mage_10"), new HexLocation(4, 3, 3, 0),
 				new HexDirection(6), AirState.UP, new TX_AP_Transform(new Equipable(new Agro(), new Agro(), null, null, null), 0, null));*/
-		/*Pather pather = new Pather(new Identifier("Mage_10"), new HexLocation(2, 1, 0, 0),
-				new HexDirection(6), AirState.FLOOR, new MTypeObject(),
-				new TX_AP_Transform(new Equipable(new MTypeChar(MountSlotInfo.NORMAL, 3, 0, 4, 0, 30),
-						new Agro(), new Agro(), null, null, null), 0, null));
-		turnSummoner.entries.add(new EntryToSummon(0, 0, 0, 0, pather));*/
 		turnSummoner.entries.add(new ToSummonBuilder().setIdentifier(new Identifier("Mage_10"))
 				.setPosition(new HexLocation(2, 1, 0, 0), new HexDirection(6), AirState.FLOOR)
 				.setTherathic(new TX_AP_Transform(new Equipable(
 						new MTypeChar(MountSlotInfo.NORMAL, 3, 0, 4, 1, 20),
 						new Agro(), null, null, null, null), 0, null)).build());
 
-		//TX_AP_2 HexPather (Team 0)
-		/*Pather pather1 = new Pather(new Identifier("TX_AP_2_11"), new HexLocation(4, 1, 0, 0),
-				new HexDirection(3), AirState.FLOOR, new MTypeObject(), new TX_CP_2(0));
-		turnSummoner.entries.add(new EntryToSummon(0, 0, 0, 0, pather1));*/
+		//TX_CP_2 (Team 0)
 		turnSummoner.entries.add(new ToSummonBuilder().setIdentifier(new Identifier("TX_AP_2_11"))
 				.setPosition(new HexLocation(4, 1, 0, 0), new HexDirection(3), AirState.FLOOR)
 				.setTherathic(new TX_CP_2(0)).build());
 
-		//TX_AP_Transform (Equipable) HexPather (Team 1)
-		/*Pather pather2 = new Pather(new Identifier("Equip_12"), new HexLocation(2, 3, 0, 0),
-				new HexDirection(5), AirState.FLOOR, new MTypeObject(0),
-				new TX_AP_Transform(new Equipable(new Agro(), null, null, null, null), 1, new ValueNPC()));
-		turnSummoner.entries.add(new EntryToSummon(0, 0, 0, 0, pather2));*/
+		//TX_AP_Transform - Equipable (Team 1)
 		turnSummoner.entries.add(new ToSummonBuilder().setIdentifier(new Identifier("Equip_12"))
 				.setPosition(new HexLocation(2, 3, 0, 0), new HexDirection(5), AirState.FLOOR)
 				.setTherathic(new TX_AP_Transform(new Equipable(new MTypeObject(),
 						new Agro(), null, null, null, null), 1, new ValueNPC())).build());
 
+		//TX_CP_AlliedMount (steerable by Mage_10)
 		turnSummoner.entries.add(new ToSummonBuilder().setIdentifier(new Identifier("Horse_13"))
 				.setPosition(new HexLocation(1, 3, 0, 0), new HexDirection(2), AirState.FLOOR)
 				.setMType(new MTypeAlliedMount(new MountSlotInfo[]{MountSlotInfo.DRIVER, MountSlotInfo.NORMAL},

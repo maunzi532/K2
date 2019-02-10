@@ -146,7 +146,7 @@ public class MeshLager
 		Mesh mesh = readyMesh("Wall_" + direction + "_" + wallType + "_" + (low ? "L" : "H") + (wall ? "W" : "FLOOR"),
 				() -> new Wall(direction, wallType, low, wall));
 		Material material = readyMaterial("Wall",
-				() -> /*material(new ColorRGBA(65f / 255f, 40f / 255f, 25f / 255f, 1f))*/material("Textures/Wall.png", false));
+				() -> /*material(new ColorRGBA(65f / 255f, 40f / 255f, 25f / 255f, 1f))*/material("Textures/Wall3.png", false));
 		return geometry(n, mesh, material);
 	}
 
